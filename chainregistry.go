@@ -49,6 +49,9 @@ const (
 
 	// litecoinChain is Litecoin's testnet chain.
 	litecoinChain
+
+	// bitgoldChain is Bitgold's testnet chain.
+	bitgoldChain
 )
 
 // String returns a string representation of the target chainCode.
@@ -58,6 +61,8 @@ func (c chainCode) String() string {
 		return "bitcoin"
 	case litecoinChain:
 		return "litecoin"
+	case bitgoldChain:
+		return "bitgold"
 	default:
 		return "kekcoin"
 	}
@@ -97,6 +102,9 @@ func newChainControlFromConfig(cfg *config, chanDB *channeldb.DB,
 	if registeredChains.PrimaryChain() == litecoinChain {
 		homeChainConfig = cfg.Litecoin
 	}
+	else if registeredChains.PrimaryChain() == bitgoldChain {
+		homeChainConfig = cfg.Bitgold
+	}
 	ltndLog.Infof("Primary chain is set to: %v",
 		registeredChains.PrimaryChain())
 
@@ -122,6 +130,16 @@ func newChainControlFromConfig(cfg *config, chanDB *channeldb.DB,
 		}
 		cc.feeEstimator = lnwallet.StaticFeeEstimator{
 			FeeRate: 100,
+		}
+	case bitgoldChain:
+		cc.routingPolicy = htlcswitch.ForwardingPolicy{
+			MinHTLC:       cfg.Bitgold.MinHTLC,
+			BaseFee:       cfg.Bitgold.BaseFee,
+			FeeRate:       cfg.Bitgold.FeeRate,
+			TimeLockDelta: cfg.Bitgold.TimeLockDelta,
+		}
+		cc.feeEstimator = lnwallet.StaticFeeEstimator{
+			FeeRate: 50,
 		}
 	default:
 		return nil, nil, fmt.Errorf("Default routing policy for "+
@@ -421,6 +439,9 @@ func newChainControlFromConfig(cfg *config, chanDB *channeldb.DB,
 				return nil, nil, err
 			}
 		}
+	case "bitgoldd":
+		// TODO(shelven)
+		cc = nil
 	default:
 		return nil, nil, fmt.Errorf("unknown node type: %s",
 			homeChainConfig.Node)
@@ -487,6 +508,9 @@ func newChainControlFromConfig(cfg *config, chanDB *channeldb.DB,
 			_, err = btcdConn.GetRawTransaction(&firstTxHash)
 		case "bitcoind":
 			_, err = bitcoindConn.GetRawTransactionVerbose(&firstTxHash)
+		case "bitgoldd":
+			// TODO(shelven)
+			_, err = nil, nil
 		}
 		if err != nil {
 			// If the node doesn't have the txindex set, then we'll

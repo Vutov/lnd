@@ -83,13 +83,15 @@ var (
 	defaultLtcdRPCCertFile = filepath.Join(ltcdHomeDir, "rpc.cert")
 
 	bitcoindHomeDir = btcutil.AppDataDir("bitcoin", false)
+
+	bitgolddHomeDir = btcutil.AppDataDir("bitgold-", false)
 )
 
 type chainConfig struct {
 	Active   bool   `long:"active" description:"If the chain should be active or not."`
 	ChainDir string `long:"chaindir" description:"The directory to store the chain's data within."`
 
-	Node string `long:"node" description:"The blockchain interface to use." choice:"btcd" choice:"bitcoind" choice:"neutrino"`
+	Node string `long:"node" description:"The blockchain interface to use." choice:"btcd" choice:"bitcoind" choice:"bitgoldd" choice:"neutrino"`
 
 	TestNet3 bool `long:"testnet" description:"Use the test network"`
 	SimNet   bool `long:"simnet" description:"Use the simulation test network"`
@@ -120,6 +122,13 @@ type btcdConfig struct {
 }
 
 type bitcoindConfig struct {
+	RPCHost string `long:"rpchost" description:"The daemon's rpc listening address. If a port is omitted, then the default port for the selected chain parameters will be used."`
+	RPCUser string `long:"rpcuser" description:"Username for RPC connections"`
+	RPCPass string `long:"rpcpass" default-mask:"-" description:"Password for RPC connections"`
+	ZMQPath string `long:"zmqpath" description:"The path to the ZMQ socket providing at least raw blocks. Raw transactions can be handled as well."`
+}
+
+type bitgolddConfig struct {
 	RPCHost string `long:"rpchost" description:"The daemon's rpc listening address. If a port is omitted, then the default port for the selected chain parameters will be used."`
 	RPCUser string `long:"rpcuser" description:"Username for RPC connections"`
 	RPCPass string `long:"rpcpass" default-mask:"-" description:"Password for RPC connections"`
@@ -180,6 +189,9 @@ type config struct {
 	Litecoin *chainConfig `group:"Litecoin" namespace:"litecoin"`
 	LtcdMode *btcdConfig  `group:"ltcd" namespace:"ltcd"`
 
+	Bitgold      *chainConfig    `group:"Bitgold" namespace:"bitgold"`
+	BitgolddMode *bitgolddConfig `group:"bitgoldd" namespace:"bitgoldd"`
+
 	Autopilot *autoPilotConfig `group:"autopilot" namespace:"autopilot"`
 
 	Tor *torConfig `group:"Tor" namespace:"tor"`
@@ -239,6 +251,16 @@ func loadConfig() (*config, error) {
 			RPCHost: defaultRPCHost,
 			RPCCert: defaultLtcdRPCCertFile,
 		},
+		Bitgold: &chainConfig{
+			MinHTLC:       defaultBitcoinMinHTLCMSat,
+			BaseFee:       defaultBitcoinBaseFeeMSat,
+			FeeRate:       defaultBitcoinFeeRate,
+			TimeLockDelta: defaultBitcoinTimeLockDelta,
+			Node:          "bitgoldd",
+		}
+		BitgolddMode: &bitgolddConfig{
+			RPCHost: defaultRPCHost,
+		}
 		MaxPendingChannels: defaultMaxPendingChannels,
 		NoEncryptWallet:    defaultNoEncryptWallet,
 		Autopilot: &autoPilotConfig{
@@ -357,6 +379,10 @@ func loadConfig() (*config, error) {
 		return nil, fmt.Errorf("%s: either bitcoin.active or "+
 			"litecoin.active must be set to 1 (true)", funcName)
 
+	// TODO(shelven): the case whether only Bitgold is Active should be taken into account
+	case cfg.Bitgold.Active:
+		return nil, fmt.Errorf("%s: Bitgold not implemented", funcName)
+
 	case cfg.Litecoin.Active:
 		if cfg.Litecoin.SimNet {
 			str := "%s: simnet mode for litecoin not currently supported"
@@ -447,6 +473,9 @@ func loadConfig() (*config, error) {
 					"credentials for bitcoind: %v", err)
 				return nil, err
 			}
+		case "bitgoldd":
+			// TODO(shelven)
+			return nil, nil
 		case "neutrino":
 			// No need to get RPC parameters.
 		}
@@ -753,6 +782,13 @@ func parseRPCParams(cConfig *chainConfig, nodeConfig interface{}, net chainCode,
 		case "bitcoind":
 			return fmt.Errorf("bitcoind mode doesn't work with Litecoin yet")
 		}
+	case bitgoldChain:
+		switch cConfig.Node {
+		case "bitgoldd":
+			daemonName = "bitgoldd"
+			homeDir = bitgolddHomeDir
+			confFile = "bitgold"
+		}
 	}
 
 	fmt.Println("Attempting automatic RPC configuration to " + daemonName)
@@ -777,6 +813,9 @@ func parseRPCParams(cConfig *chainConfig, nodeConfig interface{}, net chainCode,
 				err)
 		}
 		nConf.RPCUser, nConf.RPCPass, nConf.ZMQPath = rpcUser, rpcPass, zmqPath
+	case "bitgoldd":
+		nConf := nodeConfig.(*bitgolddConfig)
+		// TODO(shelven)
 	}
 
 	fmt.Printf("Automatically obtained %v's RPC credentials\n", daemonName)
