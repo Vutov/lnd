@@ -101,8 +101,7 @@ func newChainControlFromConfig(cfg *config, chanDB *channeldb.DB,
 	homeChainConfig := cfg.Bitcoin
 	if registeredChains.PrimaryChain() == litecoinChain {
 		homeChainConfig = cfg.Litecoin
-	}
-	else if registeredChains.PrimaryChain() == bitgoldChain {
+	} else if registeredChains.PrimaryChain() == bitgoldChain {
 		homeChainConfig = cfg.Bitgold
 	}
 	ltndLog.Infof("Primary chain is set to: %v",
@@ -439,7 +438,7 @@ func newChainControlFromConfig(cfg *config, chanDB *channeldb.DB,
 				return nil, nil, err
 			}
 		}
-	case "bitgoldd":
+	case "bgoldd":
 		// TODO(shelven)
 		cc = nil
 	default:
@@ -508,9 +507,8 @@ func newChainControlFromConfig(cfg *config, chanDB *channeldb.DB,
 			_, err = btcdConn.GetRawTransaction(&firstTxHash)
 		case "bitcoind":
 			_, err = bitcoindConn.GetRawTransactionVerbose(&firstTxHash)
-		case "bitgoldd":
+		case "bgoldd":
 			// TODO(shelven)
-			_, err = nil, nil
 		}
 		if err != nil {
 			// If the node doesn't have the txindex set, then we'll

@@ -61,6 +61,12 @@ const (
 	defaultLitecoinFeeRate       = 1
 	defaultLitecoinTimeLockDelta = 576
 
+	// for now, it is the same as the Bitcoin's
+	defaultBitgoldMinHTLCMSat   = 1000
+	defaultBitgoldBaseFeeMSat   = 1000
+	defaultBitgoldFeeRate       = 1
+	defaultBitgoldTimeLockDelta = 144
+
 	defaultAlias = ""
 	defaultColor = "#3399FF"
 )
@@ -84,14 +90,14 @@ var (
 
 	bitcoindHomeDir = btcutil.AppDataDir("bitcoin", false)
 
-	bitgolddHomeDir = btcutil.AppDataDir("bitgold-", false)
+	bgolddHomeDir = btcutil.AppDataDir("bitgold", false)
 )
 
 type chainConfig struct {
 	Active   bool   `long:"active" description:"If the chain should be active or not."`
 	ChainDir string `long:"chaindir" description:"The directory to store the chain's data within."`
 
-	Node string `long:"node" description:"The blockchain interface to use." choice:"btcd" choice:"bitcoind" choice:"bitgoldd" choice:"neutrino"`
+	Node string `long:"node" description:"The blockchain interface to use." choice:"btcd" choice:"bitcoind" choice:"bgoldd" choice:"neutrino"`
 
 	TestNet3 bool `long:"testnet" description:"Use the test network"`
 	SimNet   bool `long:"simnet" description:"Use the simulation test network"`
@@ -128,7 +134,7 @@ type bitcoindConfig struct {
 	ZMQPath string `long:"zmqpath" description:"The path to the ZMQ socket providing at least raw blocks. Raw transactions can be handled as well."`
 }
 
-type bitgolddConfig struct {
+type bgolddConfig struct {
 	RPCHost string `long:"rpchost" description:"The daemon's rpc listening address. If a port is omitted, then the default port for the selected chain parameters will be used."`
 	RPCUser string `long:"rpcuser" description:"Username for RPC connections"`
 	RPCPass string `long:"rpcpass" default-mask:"-" description:"Password for RPC connections"`
@@ -189,8 +195,8 @@ type config struct {
 	Litecoin *chainConfig `group:"Litecoin" namespace:"litecoin"`
 	LtcdMode *btcdConfig  `group:"ltcd" namespace:"ltcd"`
 
-	Bitgold      *chainConfig    `group:"Bitgold" namespace:"bitgold"`
-	BitgolddMode *bitgolddConfig `group:"bitgoldd" namespace:"bitgoldd"`
+	Bitgold      *chainConfig  `group:"Bitgold" namespace:"bitgold"`
+	BitgolddMode *bgolddConfig `group:"bgoldd" namespace:"bgoldd"`
 
 	Autopilot *autoPilotConfig `group:"autopilot" namespace:"autopilot"`
 
@@ -252,15 +258,15 @@ func loadConfig() (*config, error) {
 			RPCCert: defaultLtcdRPCCertFile,
 		},
 		Bitgold: &chainConfig{
-			MinHTLC:       defaultBitcoinMinHTLCMSat,
-			BaseFee:       defaultBitcoinBaseFeeMSat,
-			FeeRate:       defaultBitcoinFeeRate,
-			TimeLockDelta: defaultBitcoinTimeLockDelta,
-			Node:          "bitgoldd",
-		}
-		BitgolddMode: &bitgolddConfig{
+			MinHTLC:       defaultBitgoldMinHTLCMSat,
+			BaseFee:       defaultBitgoldBaseFeeMSat,
+			FeeRate:       defaultBitgoldFeeRate,
+			TimeLockDelta: defaultBitgoldTimeLockDelta,
+			Node:          "bgoldd",
+		},
+		BitgolddMode: &bgolddConfig{
 			RPCHost: defaultRPCHost,
-		}
+		},
 		MaxPendingChannels: defaultMaxPendingChannels,
 		NoEncryptWallet:    defaultNoEncryptWallet,
 		Autopilot: &autoPilotConfig{
@@ -368,20 +374,71 @@ func loadConfig() (*config, error) {
 
 	switch {
 	// At this moment, multiple active chains are not supported.
-	case cfg.Litecoin.Active && cfg.Bitcoin.Active:
-		str := "%s: Currently both Bitcoin and Litecoin cannot be " +
+	case (cfg.Litecoin.Active && cfg.Bitcoin.Active) || (cfg.Litecoin.Active && cfg.Bitgold.Active) || (cfg.Bitcoin.Active && cfg.Bitgold.Active):
+		str := "%s: Currently multiple coins cannot be " +
 			"active together"
 		return nil, fmt.Errorf(str, funcName)
 
-	// Either Bitcoin must be active, or Litecoin must be active.
+	// One of Bitcoin, Litecoin and Bitgold should be active
 	// Otherwise, we don't know which chain we're on.
-	case !cfg.Bitcoin.Active && !cfg.Litecoin.Active:
-		return nil, fmt.Errorf("%s: either bitcoin.active or "+
-			"litecoin.active must be set to 1 (true)", funcName)
+	case !cfg.Bitcoin.Active && !cfg.Litecoin.Active && !cfg.Bitgold.Active:
+		return nil, fmt.Errorf("%s: one of bitcoin.active, "+
+			"litecoin.active or bitgold.active must be set to 1 (true)", funcName)
 
-	// TODO(shelven): the case whether only Bitgold is Active should be taken into account
 	case cfg.Bitgold.Active:
-		return nil, fmt.Errorf("%s: Bitgold not implemented", funcName)
+		// Multiple networks can't be selected simultaneously.  Count
+		// number of network flags passed; assign active network params
+		// while we're at it.
+		numNets := 0
+		var bitgoldParams bitgoldNetParams
+		if cfg.Bitgold.TestNet3 {
+			numNets++
+			bitgoldParams = bitgoldTestNetParams
+		}
+		if cfg.Bitgold.RegTest {
+			numNets++
+			bitgoldParams = bitgoldRegTestNetParams
+		}
+		if numNets > 1 {
+			str := "%s: The bitgold testnet and regnet params can't be " +
+				"used together -- choose one of them"
+			err := fmt.Errorf(str, funcName)
+			return nil, err
+		}
+
+		if cfg.Bitgold.TimeLockDelta < minTimeLockDelta {
+			return nil, fmt.Errorf("timelockdelta must be at least %v",
+				minTimeLockDelta)
+		}
+
+		if cfg.Bitgold.Node != "bgoldd" {
+			str := "%s: only bgoldd (`bgoldd`) mode supported for bitgold at this time"
+			return nil, fmt.Errorf(str, funcName)
+		}
+
+		// The bitgold chain is the current active chain. However
+		// throughout the codebase we required chaincfg.Params. So as a
+		// temporary hack, we'll mutate the default net params for
+		// bitcoin with the bitgold specific information.
+		paramCopy := bitcoinTestNetParams
+		applyBitgoldParams(&paramCopy, &bitgoldParams)
+		activeNetParams = paramCopy
+
+		err := parseRPCParams(cfg.Bitgold, cfg.BitgolddMode, bitgoldChain,
+			funcName)
+		if err != nil {
+			err := fmt.Errorf("unable to load RPC credentials for "+
+				"bgoldd: %v", err)
+			return nil, err
+		}
+
+		cfg.Bitgold.ChainDir = filepath.Join(cfg.DataDir,
+			defaultChainSubDirname,
+			bitgoldChain.String())
+
+		// Finally we'll register the bitgold chain as our current
+		// primary chain.
+		registeredChains.RegisterPrimaryChain(bitgoldChain)
 
 	case cfg.Litecoin.Active:
 		if cfg.Litecoin.SimNet {
@@ -473,9 +530,6 @@ func loadConfig() (*config, error) {
 					"credentials for bitcoind: %v", err)
 				return nil, err
 			}
-		case "bitgoldd":
-			// TODO(shelven)
-			return nil, nil
 		case "neutrino":
 			// No need to get RPC parameters.
 		}
@@ -784,9 +838,9 @@ func parseRPCParams(cConfig *chainConfig, nodeConfig interface{}, net chainCode,
 		}
 	case bitgoldChain:
 		switch cConfig.Node {
-		case "bitgoldd":
-			daemonName = "bitgoldd"
-			homeDir = bitgolddHomeDir
+		case "bgoldd":
+			daemonName = "bgoldd"
+			homeDir = bgolddHomeDir
 			confFile = "bitgold"
 		}
 	}
@@ -813,9 +867,15 @@ func parseRPCParams(cConfig *chainConfig, nodeConfig interface{}, net chainCode,
 				err)
 		}
 		nConf.RPCUser, nConf.RPCPass, nConf.ZMQPath = rpcUser, rpcPass, zmqPath
-	case "bitgoldd":
-		nConf := nodeConfig.(*bitgolddConfig)
-		// TODO(shelven)
+	case "bgoldd":
+		nConf := nodeConfig.(*bgolddConfig)
+		rpcUser, rpcPass, zmqPath, err := extractBgolddRPCParams(confFile)
+		if err != nil {
+			return fmt.Errorf("unable to extract RPC credentials:"+
+				" %v, cannot start w/o RPC connection",
+				err)
+		}
+		nConf.RPCUser, nConf.RPCPass, nConf.ZMQPath = rpcUser, rpcPass, zmqPath
 	}
 
 	fmt.Printf("Automatically obtained %v's RPC credentials\n", daemonName)
@@ -904,6 +964,103 @@ func extractBitcoindRPCParams(bitcoindConfigPath string) (string, string, string
 	// Next, we'll try to find an auth cookie. We need to detect the chain
 	// by seeing if one is specified in the configuration file.
 	dataDir := path.Dir(bitcoindConfigPath)
+	dataDirRE, err := regexp.Compile(`(?m)^\s*datadir=([^\s]+)`)
+	if err != nil {
+		return "", "", "", err
+	}
+	dataDirSubmatches := dataDirRE.FindSubmatch(configContents)
+	if dataDirSubmatches != nil {
+		dataDir = string(dataDirSubmatches[1])
+	}
+
+	chainDir := "/"
+	netRE, err := regexp.Compile(`(?m)^\s*(testnet|regtest)=[\d]+`)
+	if err != nil {
+		return "", "", "", err
+	}
+	netSubmatches := netRE.FindSubmatch(configContents)
+	if netSubmatches != nil {
+		switch string(netSubmatches[1]) {
+		case "testnet":
+			chainDir = "/testnet3/"
+		case "regtest":
+			chainDir = "/regtest/"
+		}
+	}
+
+	cookie, err := ioutil.ReadFile(dataDir + chainDir + ".cookie")
+	if err == nil {
+		splitCookie := strings.Split(string(cookie), ":")
+		if len(splitCookie) == 2 {
+			return splitCookie[0], splitCookie[1],
+				string(zmqPathSubmatches[1]), nil
+		}
+	}
+
+	// We didn't find a cookie, so we attempt to locate the RPC user using
+	// a regular expression. If we  don't have a match for our regular
+	// expression then we'll exit with an error.
+	rpcUserRegexp, err := regexp.Compile(`(?m)^\s*rpcuser=([^\s]+)`)
+	if err != nil {
+		return "", "", "", err
+	}
+	userSubmatches := rpcUserRegexp.FindSubmatch(configContents)
+	if userSubmatches == nil {
+		return "", "", "", fmt.Errorf("unable to find rpcuser in config")
+	}
+
+	// Similarly, we'll use another regular expression to find the set
+	// rpcpass (if any). If we can't find the pass, then we'll exit with an
+	// error.
+	rpcPassRegexp, err := regexp.Compile(`(?m)^\s*rpcpassword=([^\s]+)`)
+	if err != nil {
+		return "", "", "", err
+	}
+	passSubmatches := rpcPassRegexp.FindSubmatch(configContents)
+	if passSubmatches == nil {
+		return "", "", "", fmt.Errorf("unable to find rpcpassword in config")
+	}
+
+	return string(userSubmatches[1]), string(passSubmatches[1]),
+		string(zmqPathSubmatches[1]), nil
+}
+
+// extractBgolddRPCParams attempts to extract the RPC credentials for an
+// existing bitcoind node instance. The passed path is expected to be the
+// location of bitcoind's bitcoin.conf on the target system. The routine looks
+// for a cookie first, optionally following the datadir configuration option in
+// the bitcoin.conf. If it doesn't find one, it looks for rpcuser/rpcpassword.
+func extractBgolddRPCParams(bgolddConfigPath string) (string, string, string, error) {
+
+	// First, we'll open up the bgoldd configuration file found at the
+	// target destination.
+	bgolddConfigFile, err := os.Open(bgolddConfigPath)
+	if err != nil {
+		return "", "", "", err
+	}
+	defer bgolddConfigFile.Close()
+
+	// With the file open extract the contents of the configuration file so
+	// we can attempt to locate the RPC credentials.
+	configContents, err := ioutil.ReadAll(bgolddConfigFile)
+	if err != nil {
+		return "", "", "", err
+	}
+
+	// First, we look for the ZMQ path for raw blocks. If raw transactions
+	// are sent over this interface, we can also get unconfirmed txs.
+	zmqPathRE, err := regexp.Compile(`(?m)^\s*zmqpubrawblock=([^\s]+)`)
+	if err != nil {
+		return "", "", "", err
+	}
+	zmqPathSubmatches := zmqPathRE.FindSubmatch(configContents)
+	if len(zmqPathSubmatches) < 2 {
+		return "", "", "", fmt.Errorf("unable to find zmqpubrawblock in config")
+	}
+
+	// Next, we'll try to find an auth cookie. We need to detect the chain
+	// by seeing if one is specified in the configuration file.
+	dataDir := path.Dir(bgolddConfigPath)
 	dataDirRE, err := regexp.Compile(`(?m)^\s*datadir=([^\s]+)`)
 	if err != nil {
 		return "", "", "", err

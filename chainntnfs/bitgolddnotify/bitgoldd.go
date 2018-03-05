@@ -1,4 +1,4 @@
-package bitgolddnotify
+package bgolddnotify
 
 import (
 	"errors"
@@ -21,7 +21,7 @@ const (
 
 	// notifierType uniquely identifies this concrete implementation of the
 	// ChainNotifier interface.
-	notifierType = "bitgoldd"
+	notifierType = "bgoldd"
 
 	// reorgSafetyLimit is assumed maximum depth of a chain reorganization.
 	// After this many confirmation, transaction confirmation info will be
@@ -44,7 +44,7 @@ type chainUpdate struct {
 	blockHeight int32
 }
 
-// txUpdate encapsulates a transaction related notification sent from bitgoldd
+// txUpdate encapsulates a transaction related notification sent from bgoldd
 // to the registered RPC client. This struct is used as an element within an
 // unbounded queue in order to avoid blocking the main rpc dispatch rule.
 type txUpdate struct {
@@ -55,7 +55,7 @@ type txUpdate struct {
 // TODO(roasbeef): generalize struct below:
 //  * move chans to config, allow outside callers to handle send conditions
 
-// BitgolddNotifier implements the ChainNotifier interface using a bitgoldd
+// BitgolddNotifier implements the ChainNotifier interface using a bgoldd
 // chain client. Multiple concurrent clients are supported. All notifications
 // are achieved via non-blocking sends on client channels.
 type BitgolddNotifier struct {
@@ -89,7 +89,7 @@ type BitgolddNotifier struct {
 var _ chainntnfs.ChainNotifier = (*BitgolddNotifier)(nil)
 
 // New returns a new BitgolddNotifier instance. This function assumes the
-// bitgoldd node  detailed in the passed configuration is already running, and
+// bgoldd node  detailed in the passed configuration is already running, and
 // willing to accept RPC requests and new zmq clients.
 func New(config *rpcclient.ConnConfig, zmqConnect string,
 	params chaincfg.Params) (*BitgolddNotifier, error) {
@@ -104,7 +104,7 @@ func New(config *rpcclient.ConnConfig, zmqConnect string,
 		quit: make(chan struct{}),
 	}
 
-	// Disable connecting to bitgoldd within the rpcclient.New method. We
+	// Disable connecting to bgoldd within the rpcclient.New method. We
 	// defer establishing the connection to our .Start() method.
 	config.DisableConnectOnNew = true
 	config.DisableAutoReconnect = false
@@ -118,7 +118,7 @@ func New(config *rpcclient.ConnConfig, zmqConnect string,
 	return notifier, nil
 }
 
-// Start connects to the running bitgoldd node over websockets, registers for
+// Start connects to the running bgoldd node over websockets, registers for
 // block notifications, and finally launches all related helper goroutines.
 func (b *BitgolddNotifier) Start() error {
 	// Already started?
@@ -126,7 +126,7 @@ func (b *BitgolddNotifier) Start() error {
 		return nil
 	}
 
-	// Connect to bitgoldd, and register for notifications on connected,
+	// Connect to bgoldd, and register for notifications on connected,
 	// and disconnected blocks.
 	if err := b.chainConn.Start(); err != nil {
 		return err
@@ -160,7 +160,7 @@ func (b *BitgolddNotifier) Stop() error {
 		return nil
 	}
 
-	// Shutdown the rpc client, this gracefully disconnects from bitgoldd,
+	// Shutdown the rpc client, this gracefully disconnects from bgoldd,
 	// and cleans up all related resources.
 	b.chainConn.Stop()
 
@@ -535,7 +535,7 @@ func (b *BitgolddNotifier) RegisterSpendNtfn(outpoint *wire.OutPoint,
 				return nil, err
 			}
 
-			// Rewind the rescan, since the btcwallet bitgoldd
+			// Rewind the rescan, since the btcwallet bgoldd
 			// back-end doesn't support that.
 			blockHeight, err := b.chainConn.GetBlockHeight(blockhash)
 			if err != nil {
