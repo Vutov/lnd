@@ -1,4 +1,4 @@
-package: github.com/lightningnetwork/lnd
+package: github.com/shelvenzhou/lnd
 import:
 - package: github.com/boltdb/bolt
   version: ^1.2.1

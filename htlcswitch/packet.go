@@ -1,7 +1,7 @@
 package htlcswitch
 
 import (
-	"github.com/lightningnetwork/lnd/lnwire"
+	"github.com/shelvenzhou/lnd/lnwire"
 )
 
 // htlcPacket is a wrapper around htlc lnwire update, which adds additional

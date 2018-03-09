@@ -9,7 +9,7 @@ import (
 
 	"github.com/boltdb/bolt"
 
-	"github.com/lightningnetwork/lnd/macaroons"
+	"github.com/shelvenzhou/lnd/macaroons"
 
 	"github.com/roasbeef/btcwallet/snacl"
 )

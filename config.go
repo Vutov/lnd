@@ -18,9 +18,9 @@ import (
 	"time"
 
 	flags "github.com/jessevdk/go-flags"
-	"github.com/lightningnetwork/lnd/brontide"
-	"github.com/lightningnetwork/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/torsvc"
+	"github.com/shelvenzhou/lnd/brontide"
+	"github.com/shelvenzhou/lnd/lnwire"
+	"github.com/shelvenzhou/lnd/torsvc"
 	"github.com/roasbeef/btcd/btcec"
 	"github.com/roasbeef/btcutil"
 )

@@ -3,7 +3,7 @@ package bgolddnotify
 import (
 	"fmt"
 
-	"github.com/lightningnetwork/lnd/chainntnfs"
+	"github.com/shelvenzhou/lnd/chainntnfs"
 	"github.com/roasbeef/btcd/chaincfg"
 	"github.com/roasbeef/btcd/rpcclient"
 )
