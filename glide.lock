@@ -1,5 +1,5 @@
-hash: 79b6fe6d221aed7c07e8297109e6dd1245a80b134857fac5dcf4399e8a331c1d
-updated: 2018-03-02T14:49:11.326678+08:00
+hash: 59bde3a320bf151de25eb3b29cf9fc62e80466ad11e31e1ba09bb846133e1dc5
+updated: 2018-03-08T15:47:22.105964+08:00
 imports:
 - name: github.com/aead/chacha20
   version: d31a916ded42d1640b9d89a26f8abd53cc96790c
@@ -60,7 +60,7 @@ imports:
 - name: github.com/howeyc/gopass
   version: bf9dde6d0d2c004a008c27aaee91170c786f6db8
 - name: github.com/jessevdk/go-flags
-  version: f88afde2fa19a30cf50ba4b05b3d13bc6bae3079
+  version: 1679536dcc895411a9f5848d9a0250be7856448c
 - name: github.com/jrick/logrotate
   version: a93b200c26cbae3bb09dd0dc2c7c7fe1468a034a
   subpackages:
@@ -139,11 +139,14 @@ imports:
 - name: github.com/rogpeppe/fastuuid
   version: 6724a57986aff9bff1a1770e9347036def7c89f6
 - name: github.com/shelvenzhou/btgd
-  version: 34f22bdf06e6199b9e9976b65e0ecd47dd71c888
+  version: bc6c83eb764731b94f2d947efcc53831b9a2918c
   subpackages:
   - chaincfg
-  - chaincfg/chainhash
   - wire
+- name: github.com/shelvenzhou/btgwallet
+  version: 4accf4d1360bde113b4b37573bedd269f8f6c7bc
+  subpackages:
+  - chain
 - name: github.com/tv42/zbase32
   version: 501572607d0273fc75b3b261fa4904d63f6ffa0e
 - name: github.com/urfave/cli

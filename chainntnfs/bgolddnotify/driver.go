@@ -1,4 +1,4 @@
-package bitcoindnotify
+package bgolddnotify
 
 import (
 	"fmt"

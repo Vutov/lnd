@@ -81,3 +81,4 @@ import:
 - package: gopkg.in/errgo.v1
 - package: github.com/miekg/dns
 - package: github.com/shelvenzhou/btgd
+- package: github.com/shelvenzhou/btgwallet

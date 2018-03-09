@@ -14,6 +14,7 @@ import (
 
 	"github.com/lightninglabs/neutrino"
 	"github.com/lightningnetwork/lnd/chainntnfs"
+	"github.com/lightningnetwork/lnd/chainntnfs/bgolddnotify"
 	"github.com/lightningnetwork/lnd/chainntnfs/bitcoindnotify"
 	"github.com/lightningnetwork/lnd/chainntnfs/btcdnotify"
 	"github.com/lightningnetwork/lnd/chainntnfs/neutrinonotify"
@@ -27,6 +28,7 @@ import (
 	"github.com/roasbeef/btcutil"
 	"github.com/roasbeef/btcwallet/chain"
 	"github.com/roasbeef/btcwallet/walletdb"
+	btgChain "github.com/shelvenzhou/btgwallet/chain"
 )
 
 // defaultChannelConstraints is the default set of channel constraints that are
@@ -158,6 +160,7 @@ func newChainControlFromConfig(cfg *config, chanDB *channeldb.DB,
 		cleanUp      func()
 		btcdConn     *chain.RPCClient
 		bitcoindConn *chain.BitcoindClient
+		bgolddConn   *btgChain.BgolddClient
 	)
 
 	// If spv mode is active, then we'll be using a distinct set of
@@ -439,8 +442,99 @@ func newChainControlFromConfig(cfg *config, chanDB *channeldb.DB,
 			}
 		}
 	case "bgoldd":
-		// TODO(shelven)
-		cc = nil
+		// Otherwise, we'll be speaking directly via RPC and ZMQ to a
+		// bgoldd node. If the specified host for the btcd/ltcd RPC
+		// server already has a port specified, then we use that
+		// directly. Otherwise, we assume the default port according to
+		// the selected chain parameters.
+		var bgolddHost string
+		if strings.Contains(cfg.BgolddMode.RPCHost, ":") {
+			bgolddHost = cfg.BgolddMode.RPCHost
+		} else {
+			// The RPC ports specified in chainparams.go assume
+			// btgd, which picks a different port so that btgwallet
+			// can use the same RPC port as bgoldd. We convert
+			// this back to the btgwallet/bgoldd port.
+			rpcPort, err := strconv.Atoi(activeNetParams.rpcPort)
+			if err != nil {
+				return nil, nil, err
+			}
+			rpcPort -= 2
+			bgolddHost = fmt.Sprintf("%v:%d",
+				cfg.BgolddMode.RPCHost, rpcPort)
+			if cfg.Bitgold.RegTest {
+				conn, err := net.Dial("tcp", bgolddHost)
+				if err != nil || conn == nil {
+					rpcPort = 18338
+					bgolddHost = fmt.Sprintf("%v:%d",
+						cfg.BgolddMode.RPCHost,
+						rpcPort)
+				} else {
+					conn.Close()
+				}
+			}
+		}
+
+		bgolddUser := cfg.BgolddMode.RPCUser
+		bgolddPass := cfg.BgolddMode.RPCPass
+		rpcConfig := &rpcclient.ConnConfig{
+			Host:                 bgolddHost,
+			User:                 bgolddUser,
+			Pass:                 bgolddPass,
+			DisableConnectOnNew:  true,
+			DisableAutoReconnect: false,
+			DisableTLS:           true,
+			HTTPPostMode:         true,
+		}
+		cc.chainNotifier, err = bgolddnotify.New(rpcConfig,
+			cfg.BgolddMode.ZMQPath, *activeNetParams.Params)
+		if err != nil {
+			return nil, nil, err
+		}
+
+		// Next, we'll create an instance of the bgoldd chain view to
+		// be used within the routing layer.
+		cc.chainView, err = chainview.NewBgolddFilteredChainView(
+			*rpcConfig, cfg.BgolddMode.ZMQPath,
+			*activeNetParams.Params)
+		if err != nil {
+			srvrLog.Errorf("unable to create chain view: %v", err)
+			return nil, nil, err
+		}
+
+		// Create a special rpc+ZMQ client for bgoldd which will be
+		// used by the wallet for notifications, calls, etc.
+		bgolddConn, err = btgChain.NewBgolddClient(
+			activeNetParams.Params, bgolddHost, bgolddUser,
+			bgolddPass, cfg.BgolddMode.ZMQPath,
+			time.Millisecond*100)
+		if err != nil {
+			return nil, nil, err
+		}
+
+		walletConfig.ChainSource = bgolddConn
+
+		// If we're not in regtest mode, then we'll attempt to use a
+		// proper fee estimator for testnet.
+		if !cfg.Bitgold.RegTest {
+			ltndLog.Infof("Initializing bgoldd backed fee estimator")
+
+			// Finally, we'll re-initialize the fee estimator, as
+			// if we're using bgoldd as a backend, then we can
+			// use live fee estimates, rather than a statically
+			// coded value.
+			fallBackFeeRate := btcutil.Amount(25)
+			// TODO(shelven): there is no need to change this now
+			cc.feeEstimator, err = lnwallet.NewBitcoindFeeEstimator(
+				*rpcConfig, fallBackFeeRate,
+			)
+			if err != nil {
+				return nil, nil, err
+			}
+			if err := cc.feeEstimator.Start(); err != nil {
+				return nil, nil, err
+			}
+		}
 	default:
 		return nil, nil, fmt.Errorf("unknown node type: %s",
 			homeChainConfig.Node)
@@ -508,7 +602,7 @@ func newChainControlFromConfig(cfg *config, chanDB *channeldb.DB,
 		case "bitcoind":
 			_, err = bitcoindConn.GetRawTransactionVerbose(&firstTxHash)
 		case "bgoldd":
-			// TODO(shelven)
+			_, err = bgolddConn.GetRawTransactionVerbose(&firstTxHash)
 		}
 		if err != nil {
 			// If the node doesn't have the txindex set, then we'll
@@ -539,11 +633,20 @@ var (
 		0xd9, 0x51, 0x28, 0x4b, 0x5a, 0x62, 0x66, 0x49,
 	})
 
+	// bitgoldGenesis is the genesis hash of Bitgold's testnet chain.
+	bitgoldGenesis = chainhash.Hash([chainhash.HashSize]byte{
+		0xf6, 0xf9, 0xe6, 0x53, 0x38, 0xde, 0x59, 0x89,
+		0xe7, 0x79, 0xc3, 0x3e, 0xb5, 0x57, 0xf5, 0xa2,
+		0xfe, 0xad, 0x93, 0xc2, 0xed, 0x1e, 0xb9, 0x24,
+		0xbe, 0x1e, 0x78, 0xe0, 0x00, 0x00, 0x00, 0x00,
+	})
+
 	// chainMap is a simple index that maps a chain's genesis hash to the
 	// chainCode enum for that chain.
 	chainMap = map[chainhash.Hash]chainCode{
 		bitcoinGenesis:  bitcoinChain,
 		litecoinGenesis: litecoinChain,
+		bitgoldGenesis:  bitgoldChain,
 	}
 
 	// reverseChainMap is the inverse of the chainMap above: it maps the
@@ -551,6 +654,7 @@ var (
 	reverseChainMap = map[chainCode]chainhash.Hash{
 		bitcoinChain:  bitcoinGenesis,
 		litecoinChain: litecoinGenesis,
+		bitgoldChain:  bitgoldGenesis,
 	}
 
 	// chainDNSSeeds is a map of a chain's hash to the set of DNS seeds

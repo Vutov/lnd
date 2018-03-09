@@ -195,8 +195,8 @@ type config struct {
 	Litecoin *chainConfig `group:"Litecoin" namespace:"litecoin"`
 	LtcdMode *btcdConfig  `group:"ltcd" namespace:"ltcd"`
 
-	Bitgold      *chainConfig  `group:"Bitgold" namespace:"bitgold"`
-	BitgolddMode *bgolddConfig `group:"bgoldd" namespace:"bgoldd"`
+	Bitgold    *chainConfig  `group:"Bitgold" namespace:"bitgold"`
+	BgolddMode *bgolddConfig `group:"bgoldd" namespace:"bgoldd"`
 
 	Autopilot *autoPilotConfig `group:"autopilot" namespace:"autopilot"`
 
@@ -264,7 +264,7 @@ func loadConfig() (*config, error) {
 			TimeLockDelta: defaultBitgoldTimeLockDelta,
 			Node:          "bgoldd",
 		},
-		BitgolddMode: &bgolddConfig{
+		BgolddMode: &bgolddConfig{
 			RPCHost: defaultRPCHost,
 		},
 		MaxPendingChannels: defaultMaxPendingChannels,
@@ -424,7 +424,7 @@ func loadConfig() (*config, error) {
 		applyBitgoldParams(&paramCopy, &bitgoldParams)
 		activeNetParams = paramCopy
 
-		err := parseRPCParams(cfg.Bitgold, cfg.BitgolddMode, bitgoldChain,
+		err := parseRPCParams(cfg.Bitgold, cfg.BgolddMode, bitgoldChain,
 			funcName)
 		if err != nil {
 			err := fmt.Errorf("unable to load RPC credentials for "+
