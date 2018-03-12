@@ -62,10 +62,10 @@ const (
 	defaultLitecoinTimeLockDelta = 576
 
 	// for now, it is the same as the Bitcoin's
-	defaultBitgoldMinHTLCMSat   = 1000
-	defaultBitgoldBaseFeeMSat   = 1000
-	defaultBitgoldFeeRate       = 1
-	defaultBitgoldTimeLockDelta = 144
+	defaultBitcoingoldMinHTLCMSat   = 1000
+	defaultBitcoingoldBaseFeeMSat   = 1000
+	defaultBitcoingoldFeeRate       = 1
+	defaultBitcoingoldTimeLockDelta = 144
 
 	defaultAlias = ""
 	defaultColor = "#3399FF"
@@ -90,7 +90,7 @@ var (
 
 	bitcoindHomeDir = btcutil.AppDataDir("bitcoin", false)
 
-	bgolddHomeDir = btcutil.AppDataDir("bitgold", false)
+	bgolddHomeDir = btcutil.AppDataDir("bitcoingold", false)
 )
 
 type chainConfig struct {
@@ -195,7 +195,7 @@ type config struct {
 	Litecoin *chainConfig `group:"Litecoin" namespace:"litecoin"`
 	LtcdMode *btcdConfig  `group:"ltcd" namespace:"ltcd"`
 
-	Bitgold    *chainConfig  `group:"Bitgold" namespace:"bitgold"`
+	Bitcoingold    *chainConfig  `group:"Bitcoingold" namespace:"bitcoingold"`
 	BgolddMode *bgolddConfig `group:"bgoldd" namespace:"bgoldd"`
 
 	Autopilot *autoPilotConfig `group:"autopilot" namespace:"autopilot"`
@@ -257,11 +257,11 @@ func loadConfig() (*config, error) {
 			RPCHost: defaultRPCHost,
 			RPCCert: defaultLtcdRPCCertFile,
 		},
-		Bitgold: &chainConfig{
-			MinHTLC:       defaultBitgoldMinHTLCMSat,
-			BaseFee:       defaultBitgoldBaseFeeMSat,
-			FeeRate:       defaultBitgoldFeeRate,
-			TimeLockDelta: defaultBitgoldTimeLockDelta,
+		Bitcoingold: &chainConfig{
+			MinHTLC:       defaultBitcoingoldMinHTLCMSat,
+			BaseFee:       defaultBitcoingoldBaseFeeMSat,
+			FeeRate:       defaultBitcoingoldFeeRate,
+			TimeLockDelta: defaultBitcoingoldTimeLockDelta,
 			Node:          "bgoldd",
 		},
 		BgolddMode: &bgolddConfig{
@@ -374,57 +374,57 @@ func loadConfig() (*config, error) {
 
 	switch {
 	// At this moment, multiple active chains are not supported.
-	case (cfg.Litecoin.Active && cfg.Bitcoin.Active) || (cfg.Litecoin.Active && cfg.Bitgold.Active) || (cfg.Bitcoin.Active && cfg.Bitgold.Active):
+	case (cfg.Litecoin.Active && cfg.Bitcoin.Active) || (cfg.Litecoin.Active && cfg.Bitcoingold.Active) || (cfg.Bitcoin.Active && cfg.Bitcoingold.Active):
 		str := "%s: Currently multiple coins cannot be " +
 			"active together"
 		return nil, fmt.Errorf(str, funcName)
 
-	// One of Bitcoin, Litecoin and Bitgold should be active
+	// One of Bitcoin, Litecoin and Bitcoingold should be active
 	// Otherwise, we don't know which chain we're on.
-	case !cfg.Bitcoin.Active && !cfg.Litecoin.Active && !cfg.Bitgold.Active:
+	case !cfg.Bitcoin.Active && !cfg.Litecoin.Active && !cfg.Bitcoingold.Active:
 		return nil, fmt.Errorf("%s: one of bitcoin.active, "+
-			"litecoin.active or bitgold.active must be set to 1 (true)", funcName)
+			"litecoin.active or bitcoingold.active must be set to 1 (true)", funcName)
 
-	case cfg.Bitgold.Active:
+	case cfg.Bitcoingold.Active:
 		// Multiple networks can't be selected simultaneously.  Count
 		// number of network flags passed; assign active network params
 		// while we're at it.
 		numNets := 0
-		var bitgoldParams bitgoldNetParams
-		if cfg.Bitgold.TestNet3 {
+		var bitcoingoldParams bitcoingoldNetParams
+		if cfg.Bitcoingold.TestNet3 {
 			numNets++
-			bitgoldParams = bitgoldTestNetParams
+			bitcoingoldParams = bitcoingoldTestNetParams
 		}
-		if cfg.Bitgold.RegTest {
+		if cfg.Bitcoingold.RegTest {
 			numNets++
-			bitgoldParams = bitgoldRegTestNetParams
+			bitcoingoldParams = bitcoingoldRegTestNetParams
 		}
 		if numNets > 1 {
-			str := "%s: The bitgold testnet and regnet params can't be " +
+			str := "%s: The bitcoingold testnet and regnet params can't be " +
 				"used together -- choose one of them"
 			err := fmt.Errorf(str, funcName)
 			return nil, err
 		}
 
-		if cfg.Bitgold.TimeLockDelta < minTimeLockDelta {
+		if cfg.Bitcoingold.TimeLockDelta < minTimeLockDelta {
 			return nil, fmt.Errorf("timelockdelta must be at least %v",
 				minTimeLockDelta)
 		}
 
-		if cfg.Bitgold.Node != "bgoldd" {
-			str := "%s: only bgoldd (`bgoldd`) mode supported for bitgold at this time"
+		if cfg.Bitcoingold.Node != "bgoldd" {
+			str := "%s: only bgoldd (`bgoldd`) mode supported for bitcoingold at this time"
 			return nil, fmt.Errorf(str, funcName)
 		}
 
-		// The bitgold chain is the current active chain. However
+		// The bitcoingold chain is the current active chain. However
 		// throughout the codebase we required chaincfg.Params. So as a
 		// temporary hack, we'll mutate the default net params for
-		// bitcoin with the bitgold specific information.
+		// bitcoin with the bitcoingold specific information.
 		paramCopy := bitcoinTestNetParams
-		applyBitgoldParams(&paramCopy, &bitgoldParams)
+		applyBitcoingoldParams(&paramCopy, &bitcoingoldParams)
 		activeNetParams = paramCopy
 
-		err := parseRPCParams(cfg.Bitgold, cfg.BgolddMode, bitgoldChain,
+		err := parseRPCParams(cfg.Bitcoingold, cfg.BgolddMode, bitcoingoldChain,
 			funcName)
 		if err != nil {
 			err := fmt.Errorf("unable to load RPC credentials for "+
@@ -432,13 +432,13 @@ func loadConfig() (*config, error) {
 			return nil, err
 		}
 
-		cfg.Bitgold.ChainDir = filepath.Join(cfg.DataDir,
+		cfg.Bitcoingold.ChainDir = filepath.Join(cfg.DataDir,
 			defaultChainSubDirname,
-			bitgoldChain.String())
+			bitcoingoldChain.String())
 
-		// Finally we'll register the bitgold chain as our current
+		// Finally we'll register the bitcoingold chain as our current
 		// primary chain.
-		registeredChains.RegisterPrimaryChain(bitgoldChain)
+		registeredChains.RegisterPrimaryChain(bitcoingoldChain)
 
 	case cfg.Litecoin.Active:
 		if cfg.Litecoin.SimNet {
@@ -836,12 +836,12 @@ func parseRPCParams(cConfig *chainConfig, nodeConfig interface{}, net chainCode,
 		case "bitcoind":
 			return fmt.Errorf("bitcoind mode doesn't work with Litecoin yet")
 		}
-	case bitgoldChain:
+	case bitcoingoldChain:
 		switch cConfig.Node {
 		case "bgoldd":
 			daemonName = "bgoldd"
 			homeDir = bgolddHomeDir
-			confFile = "bitgold"
+			confFile = "bitcoingold"
 		}
 	}
 

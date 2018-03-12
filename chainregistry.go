@@ -13,6 +13,12 @@ import (
 	"time"
 
 	"github.com/lightninglabs/neutrino"
+	"github.com/roasbeef/btcd/chaincfg/chainhash"
+	"github.com/roasbeef/btcd/rpcclient"
+	"github.com/roasbeef/btcutil"
+	"github.com/roasbeef/btcwallet/chain"
+	"github.com/roasbeef/btcwallet/walletdb"
+	btgChain "github.com/shelvenzhou/btgwallet/chain"
 	"github.com/shelvenzhou/lnd/chainntnfs"
 	"github.com/shelvenzhou/lnd/chainntnfs/bgolddnotify"
 	"github.com/shelvenzhou/lnd/chainntnfs/bitcoindnotify"
@@ -23,12 +29,6 @@ import (
 	"github.com/shelvenzhou/lnd/lnwallet"
 	"github.com/shelvenzhou/lnd/lnwallet/btcwallet"
 	"github.com/shelvenzhou/lnd/routing/chainview"
-	"github.com/roasbeef/btcd/chaincfg/chainhash"
-	"github.com/roasbeef/btcd/rpcclient"
-	"github.com/roasbeef/btcutil"
-	"github.com/roasbeef/btcwallet/chain"
-	"github.com/roasbeef/btcwallet/walletdb"
-	btgChain "github.com/shelvenzhou/btgwallet/chain"
 )
 
 // defaultChannelConstraints is the default set of channel constraints that are
@@ -52,8 +52,8 @@ const (
 	// litecoinChain is Litecoin's testnet chain.
 	litecoinChain
 
-	// bitgoldChain is Bitgold's testnet chain.
-	bitgoldChain
+	// bitcoingoldChain is Bitcoingold's testnet chain.
+	bitcoingoldChain
 )
 
 // String returns a string representation of the target chainCode.
@@ -63,8 +63,8 @@ func (c chainCode) String() string {
 		return "bitcoin"
 	case litecoinChain:
 		return "litecoin"
-	case bitgoldChain:
-		return "bitgold"
+	case bitcoingoldChain:
+		return "bitcoingold"
 	default:
 		return "kekcoin"
 	}
@@ -103,8 +103,8 @@ func newChainControlFromConfig(cfg *config, chanDB *channeldb.DB,
 	homeChainConfig := cfg.Bitcoin
 	if registeredChains.PrimaryChain() == litecoinChain {
 		homeChainConfig = cfg.Litecoin
-	} else if registeredChains.PrimaryChain() == bitgoldChain {
-		homeChainConfig = cfg.Bitgold
+	} else if registeredChains.PrimaryChain() == bitcoingoldChain {
+		homeChainConfig = cfg.Bitcoingold
 	}
 	ltndLog.Infof("Primary chain is set to: %v",
 		registeredChains.PrimaryChain())
@@ -132,12 +132,12 @@ func newChainControlFromConfig(cfg *config, chanDB *channeldb.DB,
 		cc.feeEstimator = lnwallet.StaticFeeEstimator{
 			FeeRate: 100,
 		}
-	case bitgoldChain:
+	case bitcoingoldChain:
 		cc.routingPolicy = htlcswitch.ForwardingPolicy{
-			MinHTLC:       cfg.Bitgold.MinHTLC,
-			BaseFee:       cfg.Bitgold.BaseFee,
-			FeeRate:       cfg.Bitgold.FeeRate,
-			TimeLockDelta: cfg.Bitgold.TimeLockDelta,
+			MinHTLC:       cfg.Bitcoingold.MinHTLC,
+			BaseFee:       cfg.Bitcoingold.BaseFee,
+			FeeRate:       cfg.Bitcoingold.FeeRate,
+			TimeLockDelta: cfg.Bitcoingold.TimeLockDelta,
 		}
 		cc.feeEstimator = lnwallet.StaticFeeEstimator{
 			FeeRate: 50,
@@ -462,7 +462,7 @@ func newChainControlFromConfig(cfg *config, chanDB *channeldb.DB,
 			rpcPort -= 2
 			bgolddHost = fmt.Sprintf("%v:%d",
 				cfg.BgolddMode.RPCHost, rpcPort)
-			if cfg.Bitgold.RegTest {
+			if cfg.Bitcoingold.RegTest {
 				conn, err := net.Dial("tcp", bgolddHost)
 				if err != nil || conn == nil {
 					rpcPort = 18338
@@ -516,7 +516,7 @@ func newChainControlFromConfig(cfg *config, chanDB *channeldb.DB,
 
 		// If we're not in regtest mode, then we'll attempt to use a
 		// proper fee estimator for testnet.
-		if !cfg.Bitgold.RegTest {
+		if !cfg.Bitcoingold.RegTest {
 			ltndLog.Infof("Initializing bgoldd backed fee estimator")
 
 			// Finally, we'll re-initialize the fee estimator, as
@@ -633,8 +633,8 @@ var (
 		0xd9, 0x51, 0x28, 0x4b, 0x5a, 0x62, 0x66, 0x49,
 	})
 
-	// bitgoldGenesis is the genesis hash of Bitgold's testnet chain.
-	bitgoldGenesis = chainhash.Hash([chainhash.HashSize]byte{
+	// bitcoingoldGenesis is the genesis hash of Bitcoingold's testnet chain.
+	bitcoingoldGenesis = chainhash.Hash([chainhash.HashSize]byte{
 		0xf6, 0xf9, 0xe6, 0x53, 0x38, 0xde, 0x59, 0x89,
 		0xe7, 0x79, 0xc3, 0x3e, 0xb5, 0x57, 0xf5, 0xa2,
 		0xfe, 0xad, 0x93, 0xc2, 0xed, 0x1e, 0xb9, 0x24,
@@ -644,17 +644,17 @@ var (
 	// chainMap is a simple index that maps a chain's genesis hash to the
 	// chainCode enum for that chain.
 	chainMap = map[chainhash.Hash]chainCode{
-		bitcoinGenesis:  bitcoinChain,
-		litecoinGenesis: litecoinChain,
-		bitgoldGenesis:  bitgoldChain,
+		bitcoinGenesis:     bitcoinChain,
+		litecoinGenesis:    litecoinChain,
+		bitcoingoldGenesis: bitcoingoldChain,
 	}
 
 	// reverseChainMap is the inverse of the chainMap above: it maps the
 	// chain enum for a chain to its genesis hash.
 	reverseChainMap = map[chainCode]chainhash.Hash{
-		bitcoinChain:  bitcoinGenesis,
-		litecoinChain: litecoinGenesis,
-		bitgoldChain:  bitgoldGenesis,
+		bitcoinChain:     bitcoinGenesis,
+		litecoinChain:    litecoinGenesis,
+		bitcoingoldChain: bitcoingoldGenesis,
 	}
 
 	// chainDNSSeeds is a map of a chain's hash to the set of DNS seeds

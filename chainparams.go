@@ -6,7 +6,7 @@ import (
 	bitcoinCfg "github.com/roasbeef/btcd/chaincfg"
 	"github.com/roasbeef/btcd/chaincfg/chainhash"
 	"github.com/roasbeef/btcd/wire"
-	bitgoldCfg "github.com/shelvenzhou/btgd/chaincfg"
+	bitcoingoldCfg "github.com/shelvenzhou/btgd/chaincfg"
 )
 
 // activeNetParams is a pointer to the parameters specific to the currently
@@ -27,10 +27,10 @@ type litecoinNetParams struct {
 	rpcPort string
 }
 
-// bitgoldNetParams couples the p2p parameters of a network with the
+// bitcoingoldNetParams couples the p2p parameters of a network with the
 // corresponding RPC port of a daemon running on the particular network.
-type bitgoldNetParams struct {
-	*bitgoldCfg.Params
+type bitcoingoldNetParams struct {
+	*bitcoingoldCfg.Params
 	rpcPort string
 }
 
@@ -61,22 +61,22 @@ var regTestNetParams = bitcoinNetParams{
 	rpcPort: "18334",
 }
 
-// bitgoldMainNetParams contains parameters specific to the main network.
-// var bitgoldMainNetParams = bitgoldNetParams{
-// 	Params:  &bitgoldCfg.MainNetParams,
+// bitcoingoldMainNetParams contains parameters specific to the main network.
+// var bitcoingoldMainNetParams = bitcoingoldNetParams{
+// 	Params:  &bitcoingoldCfg.MainNetParams,
 // 	rpcPort: "8338",
 // }
 
-// bitgoldTestNetParams contains parameters specific to the 3rd version of the
+// bitcoingoldTestNetParams contains parameters specific to the 3rd version of the
 // test network.
-var bitgoldTestNetParams = bitgoldNetParams{
-	Params:  &bitgoldCfg.TestNetParams,
+var bitcoingoldTestNetParams = bitcoingoldNetParams{
+	Params:  &bitcoingoldCfg.TestNetParams,
 	rpcPort: "18338",
 }
 
-// bitgoldRegTestNetParams contains parameters specific to a local regtest network.
-var bitgoldRegTestNetParams = bitgoldNetParams{
-	Params:  &bitgoldCfg.RegressionNetParams,
+// bitcoingoldRegTestNetParams contains parameters specific to a local regtest network.
+var bitcoingoldRegTestNetParams = bitcoingoldNetParams{
+	Params:  &bitcoingoldCfg.RegressionNetParams,
 	rpcPort: "18444",
 }
 
@@ -120,42 +120,42 @@ func applyLitecoinParams(params *bitcoinNetParams) {
 	params.rpcPort = liteTestNetParams.rpcPort
 }
 
-// applyBitgoldParams applies the relevant chain configuration parameters that
-// differ for bitgold to the chain parameters typed for btcsuite derivation.
+// applyBitcoingoldParams applies the relevant chain configuration parameters that
+// differ for bitcoingold to the chain parameters typed for btcsuite derivation.
 // This function is used in place of using something like interface{} to
 // abstract over _which_ chain (or fork) the parameters are for.
-func applyBitgoldParams(params *bitcoinNetParams, bitgoldParams *bitgoldNetParams) {
-	params.Name = bitgoldParams.Name
-	params.Net = wire.BitcoinNet(bitgoldParams.Net)
-	params.DefaultPort = bitgoldParams.DefaultPort
-	params.CoinbaseMaturity = bitgoldParams.CoinbaseMaturity
+func applyBitcoingoldParams(params *bitcoinNetParams, bitcoingoldParams *bitcoingoldNetParams) {
+	params.Name = bitcoingoldParams.Name
+	params.Net = wire.BitcoinNet(bitcoingoldParams.Net)
+	params.DefaultPort = bitcoingoldParams.DefaultPort
+	params.CoinbaseMaturity = bitcoingoldParams.CoinbaseMaturity
 
-	copy(params.GenesisHash[:], bitgoldParams.GenesisHash[:])
+	copy(params.GenesisHash[:], bitcoingoldParams.GenesisHash[:])
 
 	// Address encoding magics
-	params.PubKeyHashAddrID = bitgoldParams.PubKeyHashAddrID
-	params.ScriptHashAddrID = bitgoldParams.ScriptHashAddrID
-	params.PrivateKeyID = bitgoldParams.PrivateKeyID
-	params.WitnessPubKeyHashAddrID = bitgoldParams.WitnessPubKeyHashAddrID
-	params.WitnessScriptHashAddrID = bitgoldParams.WitnessScriptHashAddrID
-	params.Bech32HRPSegwit = bitgoldParams.Bech32HRPSegwit
+	params.PubKeyHashAddrID = bitcoingoldParams.PubKeyHashAddrID
+	params.ScriptHashAddrID = bitcoingoldParams.ScriptHashAddrID
+	params.PrivateKeyID = bitcoingoldParams.PrivateKeyID
+	params.WitnessPubKeyHashAddrID = bitcoingoldParams.WitnessPubKeyHashAddrID
+	params.WitnessScriptHashAddrID = bitcoingoldParams.WitnessScriptHashAddrID
+	params.Bech32HRPSegwit = bitcoingoldParams.Bech32HRPSegwit
 
-	copy(params.HDPrivateKeyID[:], bitgoldParams.HDPrivateKeyID[:])
-	copy(params.HDPublicKeyID[:], bitgoldParams.HDPublicKeyID[:])
+	copy(params.HDPrivateKeyID[:], bitcoingoldParams.HDPrivateKeyID[:])
+	copy(params.HDPublicKeyID[:], bitcoingoldParams.HDPublicKeyID[:])
 
-	params.HDCoinType = bitgoldParams.HDCoinType
+	params.HDCoinType = bitcoingoldParams.HDCoinType
 
-	checkPoints := make([]chaincfg.Checkpoint, len(bitgoldParams.Checkpoints))
-	for i := 0; i < len(bitgoldParams.Checkpoints); i++ {
+	checkPoints := make([]chaincfg.Checkpoint, len(bitcoingoldParams.Checkpoints))
+	for i := 0; i < len(bitcoingoldParams.Checkpoints); i++ {
 		var chainHash chainhash.Hash
-		copy(chainHash[:], bitgoldParams.Checkpoints[i].Hash[:])
+		copy(chainHash[:], bitcoingoldParams.Checkpoints[i].Hash[:])
 
 		checkPoints[i] = chaincfg.Checkpoint{
-			Height: bitgoldParams.Checkpoints[i].Height,
+			Height: bitcoingoldParams.Checkpoints[i].Height,
 			Hash:   &chainHash,
 		}
 	}
 	params.Checkpoints = checkPoints
 
-	params.rpcPort = bitgoldParams.rpcPort
+	params.rpcPort = bitcoingoldParams.rpcPort
 }
