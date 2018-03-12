@@ -7,14 +7,14 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/shelvenzhou/lnd/chainntnfs"
 	"github.com/roasbeef/btcd/btcjson"
 	"github.com/roasbeef/btcd/chaincfg"
 	"github.com/roasbeef/btcd/chaincfg/chainhash"
 	"github.com/roasbeef/btcd/rpcclient"
 	"github.com/roasbeef/btcd/wire"
 	"github.com/roasbeef/btcutil"
-	"github.com/roasbeef/btcwallet/chain"
+	"github.com/shelvenzhou/btgwallet/chain"
+	"github.com/shelvenzhou/lnd/chainntnfs"
 )
 
 const (
@@ -55,10 +55,10 @@ type txUpdate struct {
 // TODO(roasbeef): generalize struct below:
 //  * move chans to config, allow outside callers to handle send conditions
 
-// BitgolddNotifier implements the ChainNotifier interface using a bgoldd
+// BgolddNotifier implements the ChainNotifier interface using a bgoldd
 // chain client. Multiple concurrent clients are supported. All notifications
 // are achieved via non-blocking sends on client channels.
-type BitgolddNotifier struct {
+type BgolddNotifier struct {
 	spendClientCounter uint64 // To be used atomically.
 	epochClientCounter uint64 // To be used atomically.
 
@@ -68,8 +68,7 @@ type BitgolddNotifier struct {
 	heightMtx  sync.RWMutex
 	bestHeight int32
 
-	// TODO(shelven): replace this with BitgolddClient
-	chainConn *chain.BitcoindClient
+	chainConn *chain.BgolddClient
 
 	notificationCancels  chan interface{}
 	notificationRegistry chan interface{}
@@ -84,16 +83,16 @@ type BitgolddNotifier struct {
 	quit chan struct{}
 }
 
-// Ensure BitgolddNotifier implements the ChainNotifier interface at compile
+// Ensure BgolddNotifier implements the ChainNotifier interface at compile
 // time.
-var _ chainntnfs.ChainNotifier = (*BitgolddNotifier)(nil)
+var _ chainntnfs.ChainNotifier = (*BgolddNotifier)(nil)
 
-// New returns a new BitgolddNotifier instance. This function assumes the
+// New returns a new BgolddNotifier instance. This function assumes the
 // bgoldd node  detailed in the passed configuration is already running, and
 // willing to accept RPC requests and new zmq clients.
 func New(config *rpcclient.ConnConfig, zmqConnect string,
-	params chaincfg.Params) (*BitgolddNotifier, error) {
-	notifier := &BitgolddNotifier{
+	params chaincfg.Params) (*BgolddNotifier, error) {
+	notifier := &BgolddNotifier{
 		notificationCancels:  make(chan interface{}),
 		notificationRegistry: make(chan interface{}),
 
@@ -108,7 +107,7 @@ func New(config *rpcclient.ConnConfig, zmqConnect string,
 	// defer establishing the connection to our .Start() method.
 	config.DisableConnectOnNew = true
 	config.DisableAutoReconnect = false
-	chainConn, err := chain.NewBitcoindClient(&params, config.Host,
+	chainConn, err := chain.NewBgolddClient(&params, config.Host,
 		config.User, config.Pass, zmqConnect, 100*time.Millisecond)
 	if err != nil {
 		return nil, err
@@ -120,7 +119,7 @@ func New(config *rpcclient.ConnConfig, zmqConnect string,
 
 // Start connects to the running bgoldd node over websockets, registers for
 // block notifications, and finally launches all related helper goroutines.
-func (b *BitgolddNotifier) Start() error {
+func (b *BgolddNotifier) Start() error {
 	// Already started?
 	if atomic.AddInt32(&b.started, 1) != 1 {
 		return nil
@@ -153,8 +152,8 @@ func (b *BitgolddNotifier) Start() error {
 	return nil
 }
 
-// Stop shutsdown the BitgolddNotifier.
-func (b *BitgolddNotifier) Stop() error {
+// Stop shutsdown the BgolddNotifier.
+func (b *BgolddNotifier) Stop() error {
 	// Already shutting down?
 	if atomic.AddInt32(&b.stopped, 1) != 1 {
 		return nil
@@ -194,7 +193,7 @@ type blockNtfn struct {
 
 // notificationDispatcher is the primary goroutine which handles client
 // notification registrations, as well as notification dispatches.
-func (b *BitgolddNotifier) notificationDispatcher() {
+func (b *BgolddNotifier) notificationDispatcher() {
 out:
 	for {
 		select {
@@ -385,7 +384,7 @@ out:
 
 // historicalConfDetails looks up whether a transaction is already included in a
 // block in the active chain and, if so, returns details about the confirmation.
-func (b *BitgolddNotifier) historicalConfDetails(txid *chainhash.Hash,
+func (b *BgolddNotifier) historicalConfDetails(txid *chainhash.Hash,
 ) (*chainntnfs.TxConfirmation, error) {
 
 	// If the transaction already has some or all of the confirmations,
@@ -444,7 +443,7 @@ func (b *BitgolddNotifier) historicalConfDetails(txid *chainhash.Hash,
 
 // notifyBlockEpochs notifies all registered block epoch clients of the newly
 // connected block to the main chain.
-func (b *BitgolddNotifier) notifyBlockEpochs(newHeight int32, newSha *chainhash.Hash) {
+func (b *BgolddNotifier) notifyBlockEpochs(newHeight int32, newSha *chainhash.Hash) {
 	epoch := &chainntnfs.BlockEpoch{
 		Height: newHeight,
 		Hash:   newSha,
@@ -472,7 +471,7 @@ type spendNotification struct {
 	spendID uint64
 }
 
-// spendCancel is a message sent to the BitgolddNotifier when a client wishes
+// spendCancel is a message sent to the BgolddNotifier when a client wishes
 // to cancel an outstanding spend notification that has yet to be dispatched.
 type spendCancel struct {
 	// op is the target outpoint of the notification to be cancelled.
@@ -486,7 +485,7 @@ type spendCancel struct {
 // outpoint has been spent by a transaction on-chain. Once a spend of the target
 // outpoint has been detected, the details of the spending event will be sent
 // across the 'Spend' channel.
-func (b *BitgolddNotifier) RegisterSpendNtfn(outpoint *wire.OutPoint,
+func (b *BgolddNotifier) RegisterSpendNtfn(outpoint *wire.OutPoint,
 	_ uint32) (*chainntnfs.SpendEvent, error) {
 
 	if err := b.chainConn.NotifySpent([]*wire.OutPoint{outpoint}); err != nil {
@@ -596,10 +595,10 @@ type confirmationsNotification struct {
 	chainntnfs.ConfNtfn
 }
 
-// RegisterConfirmationsNtfn registers a notification with BitgolddNotifier
+// RegisterConfirmationsNtfn registers a notification with BgolddNotifier
 // which will be triggered once the txid reaches numConfs number of
 // confirmations.
-func (b *BitgolddNotifier) RegisterConfirmationsNtfn(txid *chainhash.Hash,
+func (b *BgolddNotifier) RegisterConfirmationsNtfn(txid *chainhash.Hash,
 	numConfs, _ uint32) (*chainntnfs.ConfirmationEvent, error) {
 
 	ntfn := &confirmationsNotification{
@@ -632,7 +631,7 @@ type blockEpochRegistration struct {
 	wg sync.WaitGroup
 }
 
-// epochCancel is a message sent to the BitgolddNotifier when a client wishes
+// epochCancel is a message sent to the BgolddNotifier when a client wishes
 // to cancel an outstanding epoch notification that has yet to be dispatched.
 type epochCancel struct {
 	epochID uint64
@@ -641,7 +640,7 @@ type epochCancel struct {
 // RegisterBlockEpochNtfn returns a BlockEpochEvent which subscribes the
 // caller to receive notifications, of each new block connected to the main
 // chain.
-func (b *BitgolddNotifier) RegisterBlockEpochNtfn() (*chainntnfs.BlockEpochEvent, error) {
+func (b *BgolddNotifier) RegisterBlockEpochNtfn() (*chainntnfs.BlockEpochEvent, error) {
 	reg := &blockEpochRegistration{
 		epochQueue: chainntnfs.NewConcurrentQueue(20),
 		epochChan:  make(chan *chainntnfs.BlockEpoch, 20),
