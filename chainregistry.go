@@ -465,7 +465,7 @@ func newChainControlFromConfig(cfg *config, chanDB *channeldb.DB,
 			if cfg.Bitcoingold.RegTest {
 				conn, err := net.Dial("tcp", bgolddHost)
 				if err != nil || conn == nil {
-					rpcPort = 18338
+					rpcPort = 18332
 					bgolddHost = fmt.Sprintf("%v:%d",
 						cfg.BgolddMode.RPCHost,
 						rpcPort)

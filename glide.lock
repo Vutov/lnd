@@ -1,5 +1,5 @@
 hash: bcba7f7e2828984ba6bc48d28a9a32afc783274e4230552d3d7f516008ea3e15
-updated: 2018-03-09T10:34:01.134331+08:00
+updated: 2018-03-30T15:38:46.631819+08:00
 imports:
 - name: github.com/aead/chacha20
   version: d31a916ded42d1640b9d89a26f8abd53cc96790c
@@ -137,12 +137,15 @@ imports:
 - name: github.com/rogpeppe/fastuuid
   version: 6724a57986aff9bff1a1770e9347036def7c89f6
 - name: github.com/shelvenzhou/btgd
-  version: bc6c83eb764731b94f2d947efcc53831b9a2918c
+  version: 97eaef84cdb9a1ff9506adbc889a9b565ac94a37
   subpackages:
   - chaincfg
+  - rpcclient
   - wire
+- name: github.com/shelvenzhou/btgutil
+  version: 3f84cf532d099df0588d6269e83351269766b64c
 - name: github.com/shelvenzhou/btgwallet
-  version: 4accf4d1360bde113b4b37573bedd269f8f6c7bc
+  version: 34ab3fa19790463a0f9df9dce82ffe500fdcc510
   subpackages:
   - chain
 - name: github.com/tv42/zbase32

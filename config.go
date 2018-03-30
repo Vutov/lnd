@@ -18,11 +18,12 @@ import (
 	"time"
 
 	flags "github.com/jessevdk/go-flags"
+	"github.com/roasbeef/btcd/btcec"
+	"github.com/roasbeef/btcutil"
+	"github.com/shelvenzhou/btgutil"
 	"github.com/shelvenzhou/lnd/brontide"
 	"github.com/shelvenzhou/lnd/lnwire"
 	"github.com/shelvenzhou/lnd/torsvc"
-	"github.com/roasbeef/btcd/btcec"
-	"github.com/roasbeef/btcutil"
 )
 
 const (
@@ -90,7 +91,7 @@ var (
 
 	bitcoindHomeDir = btcutil.AppDataDir("bitcoin", false)
 
-	bgolddHomeDir = btcutil.AppDataDir("bitcoingold", false)
+	bgolddHomeDir = btgutil.AppDataDir("bitcoingold", false)
 )
 
 type chainConfig struct {
@@ -195,8 +196,8 @@ type config struct {
 	Litecoin *chainConfig `group:"Litecoin" namespace:"litecoin"`
 	LtcdMode *btcdConfig  `group:"ltcd" namespace:"ltcd"`
 
-	Bitcoingold    *chainConfig  `group:"Bitcoingold" namespace:"bitcoingold"`
-	BgolddMode *bgolddConfig `group:"bgoldd" namespace:"bgoldd"`
+	Bitcoingold *chainConfig  `group:"Bitcoingold" namespace:"bitcoingold"`
+	BgolddMode  *bgolddConfig `group:"bgoldd" namespace:"bgoldd"`
 
 	Autopilot *autoPilotConfig `group:"autopilot" namespace:"autopilot"`
 

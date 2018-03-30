@@ -71,13 +71,13 @@ var regTestNetParams = bitcoinNetParams{
 // test network.
 var bitcoingoldTestNetParams = bitcoingoldNetParams{
 	Params:  &bitcoingoldCfg.TestNetParams,
-	rpcPort: "18338",
+	rpcPort: "18332",
 }
 
 // bitcoingoldRegTestNetParams contains parameters specific to a local regtest network.
 var bitcoingoldRegTestNetParams = bitcoingoldNetParams{
 	Params:  &bitcoingoldCfg.RegressionNetParams,
-	rpcPort: "18444",
+	rpcPort: "18332",
 }
 
 // applyLitecoinParams applies the relevant chain configuration parameters that

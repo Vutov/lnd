@@ -34,6 +34,9 @@ import (
 
 	proxy "github.com/grpc-ecosystem/grpc-gateway/runtime"
 	flags "github.com/jessevdk/go-flags"
+	"github.com/roasbeef/btcd/btcec"
+	"github.com/roasbeef/btcd/wire"
+	"github.com/roasbeef/btcutil"
 	"github.com/shelvenzhou/lnd/autopilot"
 	"github.com/shelvenzhou/lnd/channeldb"
 	"github.com/shelvenzhou/lnd/lnrpc"
@@ -41,9 +44,6 @@ import (
 	"github.com/shelvenzhou/lnd/lnwire"
 	"github.com/shelvenzhou/lnd/macaroons"
 	"github.com/shelvenzhou/lnd/walletunlocker"
-	"github.com/roasbeef/btcd/btcec"
-	"github.com/roasbeef/btcd/wire"
-	"github.com/roasbeef/btcutil"
 )
 
 const (
@@ -763,6 +763,8 @@ func waitForWalletPassword(grpcEndpoints, restEndpoints []string,
 	chainConfig := cfg.Bitcoin
 	if registeredChains.PrimaryChain() == litecoinChain {
 		chainConfig = cfg.Litecoin
+	} else if registeredChains.PrimaryChain() == bitcoingoldChain {
+		chainConfig = cfg.Bitcoingold
 	}
 	pwService := walletunlocker.New(macaroonService,
 		chainConfig.ChainDir, activeNetParams.Params)
