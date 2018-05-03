@@ -1,5 +1,5 @@
 hash: bcba7f7e2828984ba6bc48d28a9a32afc783274e4230552d3d7f516008ea3e15
-updated: 2018-03-30T15:38:46.631819+08:00
+updated: 2018-04-02T10:20:26.352742+08:00
 imports:
 - name: github.com/aead/chacha20
   version: d31a916ded42d1640b9d89a26f8abd53cc96790c
@@ -44,7 +44,7 @@ imports:
 - name: github.com/go-errors/errors
   version: a6af135bd4e28680facf08a3d206b454abc877a4
 - name: github.com/golang/protobuf
-  version: bbd03ef6da3a115852eaf24c8a1c46aeb39aa175
+  version: e09c5db296004fbe3f74490e84dcd62c3c5ddb1b
   subpackages:
   - jsonpb
   - proto
@@ -60,13 +60,13 @@ imports:
 - name: github.com/howeyc/gopass
   version: bf9dde6d0d2c004a008c27aaee91170c786f6db8
 - name: github.com/jessevdk/go-flags
-  version: f88afde2fa19a30cf50ba4b05b3d13bc6bae3079
+  version: 1c38ed7ad0cc3d9e66649ac398c30e45f395c4eb
 - name: github.com/jrick/logrotate
   version: a93b200c26cbae3bb09dd0dc2c7c7fe1468a034a
   subpackages:
   - rotator
 - name: github.com/juju/loggo
-  version: 8232ab8918d91c72af1a9fb94d3edbe31d88b790
+  version: 7f1609ff1f3fcf3519ed62ccaaa9e609ea287838
 - name: github.com/kkdai/bstream
   version: f71540b9dfdcfe64dbf2818e9b66423c6aafcacd
 - name: github.com/lightninglabs/gozmq
@@ -86,7 +86,7 @@ imports:
   - chaincfg/chainhash
   - wire
 - name: github.com/miekg/dns
-  version: 906238edc6eb0ddface4a1923f6d41ef2a5ca59b
+  version: 83c435cc65d2862736428b9b4d07d0ab10ad3e4d
 - name: github.com/roasbeef/btcd
   version: e6807bc4dd5ddbb95b4ab163f6dd61e4ad79463a
   subpackages:
@@ -153,7 +153,7 @@ imports:
 - name: github.com/urfave/cli
   version: cfb38830724cc34fedffe9a2a29fb54fa9169cd1
 - name: golang.org/x/crypto
-  version: c7dcf104e3a7a1417abc0230cb0d5240d764159d
+  version: 12892e8c234f4fe6f6803f052061de9057903bb2
   subpackages:
   - chacha20poly1305
   - curve25519
@@ -171,7 +171,7 @@ imports:
   - scrypt
   - ssh/terminal
 - name: golang.org/x/net
-  version: d0aafc73d5cdc42264b0af071c261abac580695e
+  version: b68f30494add4df6bd8ef5e82803f308e7f7c59c
   subpackages:
   - bpf
   - context
@@ -187,19 +187,19 @@ imports:
   - proxy
   - trace
 - name: golang.org/x/sys
-  version: 7dca6fe1f43775aa6d1334576870ff63f978f539
+  version: 378d26f46672a356c46195c28f61bdb4c0a781dd
   subpackages:
   - unix
   - windows
 - name: golang.org/x/text
-  version: b7ef84aaf62aa3e70962625c80a571ae7c17cb40
+  version: ece95c760240037f89ebcbdd7155ac8cb52e38fa
   subpackages:
   - secure/bidirule
   - transform
   - unicode/bidi
   - unicode/norm
 - name: google.golang.org/genproto
-  version: df60624c1e9b9d2973e889c7a1cff73155da81c4
+  version: ab0870e398d5dd054b868c0db1481ab029b9a9f2
   subpackages:
   - googleapis/api/annotations
   - googleapis/rpc/status
@@ -223,7 +223,7 @@ imports:
 - name: gopkg.in/errgo.v1
   version: 442357a80af5c6bf9b6d51ae791a39c3421004f3
 - name: gopkg.in/macaroon-bakery.v2
-  version: 22c04a94d902625448265ef041bb53e715452a40
+  version: 94012773d2874a067572bd16d7d11ae02968b47b
   subpackages:
   - bakery
   - bakery/checkers

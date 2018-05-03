@@ -14,8 +14,8 @@ import (
 	"github.com/roasbeef/btcd/rpcclient"
 	"github.com/roasbeef/btcd/wire"
 	"github.com/roasbeef/btcutil"
-	"github.com/roasbeef/btcwallet/chain"
 	"github.com/roasbeef/btcwallet/wtxmgr"
+	"github.com/shelvenzhou/btgwallet/chain"
 )
 
 // BgolddFilteredChainView is an implementation of the FilteredChainView
@@ -33,7 +33,7 @@ type BgolddFilteredChainView struct {
 
 	// TODO: Factor out common logic between bitcoind and btcd into a
 	// NodeFilteredView interface.
-	chainClient *chain.BitcoindClient
+	chainClient *chain.BgolddClient
 
 	// blockEventQueue is the ordered queue used to keep the order
 	// of connected and disconnected blocks sent to the reader of the
@@ -64,16 +64,16 @@ var _ FilteredChainView = (*BgolddFilteredChainView)(nil)
 // NewBgolddFilteredChainView creates a new instance of a FilteredChainView
 // from RPC credentials and a ZMQ socket address for a bitcoind instance.
 func NewBgolddFilteredChainView(config rpcclient.ConnConfig,
-	zmqConnect string, params chaincfg.Params) (*BitcoindFilteredChainView,
+	zmqConnect string, params chaincfg.Params) (*BgolddFilteredChainView,
 	error) {
-	chainView := &BitcoindFilteredChainView{
+	chainView := &BgolddFilteredChainView{
 		chainFilter:     make(map[wire.OutPoint]struct{}),
 		filterUpdates:   make(chan filterUpdate),
 		filterBlockReqs: make(chan *filterBlockReq),
 		quit:            make(chan struct{}),
 	}
 
-	chainConn, err := chain.NewBitcoindClient(&params, config.Host,
+	chainConn, err := chain.NewBgolddClient(&params, config.Host,
 		config.User, config.Pass, zmqConnect, 100*time.Millisecond)
 	if err != nil {
 		return nil, err

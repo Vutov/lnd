@@ -9,9 +9,10 @@ import (
 	"github.com/roasbeef/btcd/wire"
 
 	"github.com/lightninglabs/neutrino"
-	"github.com/shelvenzhou/lnd/lnwallet"
 	"github.com/roasbeef/btcwallet/chain"
 	"github.com/roasbeef/btcwallet/waddrmgr"
+	btgChain "github.com/shelvenzhou/btgwallet/chain"
+	"github.com/shelvenzhou/lnd/lnwallet"
 )
 
 var (
@@ -103,6 +104,9 @@ func (b *BtcWallet) GetUtxo(op *wire.OutPoint, heightHint uint32) (*wire.TxOut, 
 			Value:    int64(txout.Value * 1e8),
 			PkScript: pkScript,
 		}, nil
+
+	case *btgChain.BgolddClient:
+		return nil, fmt.Errorf("to be implemented")
 
 	default:
 		return nil, fmt.Errorf("unknown backend")

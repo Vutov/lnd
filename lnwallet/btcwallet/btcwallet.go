@@ -9,7 +9,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/shelvenzhou/lnd/lnwallet"
 	"github.com/roasbeef/btcd/btcec"
 	"github.com/roasbeef/btcd/chaincfg"
 	"github.com/roasbeef/btcd/chaincfg/chainhash"
@@ -20,6 +19,8 @@ import (
 	"github.com/roasbeef/btcwallet/waddrmgr"
 	base "github.com/roasbeef/btcwallet/wallet"
 	"github.com/roasbeef/btcwallet/walletdb"
+	btgChain "github.com/shelvenzhou/btgwallet/chain"
+	"github.com/shelvenzhou/lnd/lnwallet"
 )
 
 const (
@@ -465,6 +466,9 @@ func (b *BtcWallet) PublishTransaction(tx *wire.MsgTx) error {
 				// is missing or already spent.
 				return lnwallet.ErrDoubleSpend
 			}
+
+		case *btgChain.BgolddClient:
+			return fmt.Errorf("to be implemented")
 
 		case *chain.NeutrinoClient:
 			if strings.Contains(err.Error(), "already have") {
