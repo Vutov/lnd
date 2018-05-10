@@ -17,9 +17,9 @@ import (
 	"github.com/roasbeef/btcutil"
 	"github.com/roasbeef/btcwallet/chain"
 	"github.com/roasbeef/btcwallet/waddrmgr"
-	base "github.com/roasbeef/btcwallet/wallet"
 	"github.com/roasbeef/btcwallet/walletdb"
 	btgChain "github.com/shelvenzhou/btgwallet/chain"
+	base "github.com/shelvenzhou/btgwallet/wallet"
 	"github.com/shelvenzhou/lnd/lnwallet"
 )
 
@@ -468,7 +468,33 @@ func (b *BtcWallet) PublishTransaction(tx *wire.MsgTx) error {
 			}
 
 		case *btgChain.BgolddClient:
-			return fmt.Errorf("to be implemented")
+			if strings.Contains(err.Error(), "txn-already-in-mempool") {
+				// Transaction in mempool, treat as non-error.
+				return nil
+			}
+			if strings.Contains(err.Error(), "txn-already-known") {
+				// Transaction in mempool, treat as non-error.
+				return nil
+			}
+			if strings.Contains(err.Error(), "already in block") {
+				// Transaction was already mined, we don't
+				// consider this an error.
+				return nil
+			}
+			if strings.Contains(err.Error(), "txn-mempool-conflict") {
+				// Output was spent by other transaction
+				// already in the mempool.
+				return lnwallet.ErrDoubleSpend
+			}
+			if strings.Contains(err.Error(), "insufficient fee") {
+				// RBF enabled transaction did not have enough fee.
+				return lnwallet.ErrDoubleSpend
+			}
+			if strings.Contains(err.Error(), "Missing inputs") {
+				// Transaction is spending either output that
+				// is missing or already spent.
+				return lnwallet.ErrDoubleSpend
+			}
 
 		case *chain.NeutrinoClient:
 			if strings.Contains(err.Error(), "already have") {

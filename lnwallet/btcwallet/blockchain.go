@@ -106,7 +106,24 @@ func (b *BtcWallet) GetUtxo(op *wire.OutPoint, heightHint uint32) (*wire.TxOut, 
 		}, nil
 
 	case *btgChain.BgolddClient:
-		return nil, fmt.Errorf("to be implemented")
+		txout, err := backend.GetTxOut(&op.Hash, op.Index, false)
+		if err != nil {
+			return nil, err
+		} else if txout == nil {
+			return nil, ErrOutputSpent
+		}
+
+		pkScript, err := hex.DecodeString(txout.ScriptPubKey.Hex)
+		if err != nil {
+			return nil, err
+		}
+
+		return &wire.TxOut{
+			// Sadly, gettxout returns the output value in BTC
+			// instead of satoshis.
+			Value:    int64(txout.Value * 1e8),
+			PkScript: pkScript,
+		}, nil
 
 	default:
 		return nil, fmt.Errorf("unknown backend")

@@ -2,14 +2,14 @@ package btcwallet
 
 import (
 	"github.com/go-errors/errors"
-	"github.com/shelvenzhou/lnd/lnwallet"
 	"github.com/roasbeef/btcd/btcec"
 	"github.com/roasbeef/btcd/chaincfg/chainhash"
 	"github.com/roasbeef/btcd/txscript"
 	"github.com/roasbeef/btcd/wire"
 	"github.com/roasbeef/btcutil"
 	"github.com/roasbeef/btcwallet/waddrmgr"
-	base "github.com/roasbeef/btcwallet/wallet"
+	base "github.com/shelvenzhou/btgwallet/wallet"
+	"github.com/shelvenzhou/lnd/lnwallet"
 )
 
 // FetchInputInfo queries for the WalletController's knowledge of the passed

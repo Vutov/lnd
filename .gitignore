@@ -47,3 +47,5 @@ profile.tmp
 .DS_Store
 
 main*
+
+/.vscode/*
