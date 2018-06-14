@@ -11,17 +11,17 @@ import (
 	"sync/atomic"
 
 	"github.com/davecgh/go-spew/spew"
+	"github.com/roasbeef/btcd/blockchain"
+	"github.com/roasbeef/btcd/chaincfg/chainhash"
 	"github.com/shelvenzhou/lnd/chainntnfs"
 	"github.com/shelvenzhou/lnd/channeldb"
 	"github.com/shelvenzhou/lnd/lnwire"
-	"github.com/roasbeef/btcd/blockchain"
-	"github.com/roasbeef/btcd/chaincfg/chainhash"
 
 	"github.com/roasbeef/btcd/btcec"
-	"github.com/roasbeef/btcd/txscript"
 	"github.com/roasbeef/btcd/wire"
 	"github.com/roasbeef/btcutil"
 	"github.com/roasbeef/btcutil/txsort"
+	btgTxscript "github.com/shelvenzhou/btgd/txscript"
 )
 
 var zeroHash chainhash.Hash
@@ -1296,7 +1296,7 @@ func (lc *LightningChannel) createSignDesc() error {
 			PkScript: fundingPkScript,
 			Value:    int64(lc.channelState.Capacity),
 		},
-		HashType:   txscript.SigHashAll,
+		HashType:   btgTxscript.SigHashAll | btgTxscript.SigHashForkID,
 		InputIndex: 0,
 	}
 
@@ -1826,7 +1826,7 @@ func NewBreachRetribution(chanState *channeldb.OpenChannel, stateNum uint64,
 				PkScript: localPkScript,
 				Value:    int64(localAmt),
 			},
-			HashType: txscript.SigHashAll,
+			HashType: btgTxscript.SigHashAll | btgTxscript.SigHashForkID,
 		}
 	}
 
@@ -1841,7 +1841,7 @@ func NewBreachRetribution(chanState *channeldb.OpenChannel, stateNum uint64,
 				PkScript: remoteWitnessHash,
 				Value:    int64(remoteAmt),
 			},
-			HashType: txscript.SigHashAll,
+			HashType: btgTxscript.SigHashAll | btgTxscript.SigHashForkID,
 		}
 	}
 
@@ -1900,7 +1900,7 @@ func NewBreachRetribution(chanState *channeldb.OpenChannel, stateNum uint64,
 				Output: &wire.TxOut{
 					Value: int64(htlc.Amt.ToSatoshis()),
 				},
-				HashType: txscript.SigHashAll,
+				HashType: btgTxscript.SigHashAll | btgTxscript.SigHashForkID,
 			},
 			OutPoint: wire.OutPoint{
 				Hash:  commitHash,
@@ -2468,8 +2468,8 @@ func genRemoteHtlcSigJobs(keyRing *CommitmentKeyRing,
 			Output: &wire.TxOut{
 				Value: int64(htlc.Amount.ToSatoshis()),
 			},
-			HashType:   txscript.SigHashAll,
-			SigHashes:  txscript.NewTxSigHashes(sigJob.tx),
+			HashType:   btgTxscript.SigHashAll | btgTxscript.SigHashForkID,
+			SigHashes:  btgTxscript.NewTxSigHashes(sigJob.tx),
 			InputIndex: 0,
 		}
 		sigJob.outputIndex = htlc.remoteOutputIndex
@@ -2518,8 +2518,8 @@ func genRemoteHtlcSigJobs(keyRing *CommitmentKeyRing,
 			Output: &wire.TxOut{
 				Value: int64(htlc.Amount.ToSatoshis()),
 			},
-			HashType:   txscript.SigHashAll,
-			SigHashes:  txscript.NewTxSigHashes(sigJob.tx),
+			HashType:   btgTxscript.SigHashAll | btgTxscript.SigHashForkID,
+			SigHashes:  btgTxscript.NewTxSigHashes(sigJob.tx),
 			InputIndex: 0,
 		}
 		sigJob.outputIndex = htlc.remoteOutputIndex
@@ -2735,7 +2735,7 @@ func (lc *LightningChannel) SignNextCommitment() (lnwire.Sig, []lnwire.Sig, erro
 	// While the jobs are being carried out, we'll Sign their version of
 	// the new commitment transaction while we're waiting for the rest of
 	// the HTLC signatures to be processed.
-	lc.signDesc.SigHashes = txscript.NewTxSigHashes(newCommitView.txn)
+	lc.signDesc.SigHashes = btgTxscript.NewTxSigHashes(newCommitView.txn)
 	rawSig, err := lc.signer.SignOutputRaw(newCommitView.txn, lc.signDesc)
 	if err != nil {
 		close(cancelChan)
@@ -3323,10 +3323,10 @@ func genHtlcSigValidationJobs(localCommitmentView *commitment,
 					return nil, err
 				}
 
-				hashCache := txscript.NewTxSigHashes(successTx)
-				sigHash, err := txscript.CalcWitnessSigHash(
+				hashCache := btgTxscript.NewTxSigHashes(successTx)
+				sigHash, err := btgTxscript.CalcWitnessSigHash(
 					htlc.ourWitnessScript, hashCache,
-					txscript.SigHashAll, successTx, 0,
+					btgTxscript.SigHashAll|btgTxscript.SigHashForkID, successTx, 0,
 					int64(htlc.Amount.ToSatoshis()),
 				)
 				if err != nil {
@@ -3369,10 +3369,10 @@ func genHtlcSigValidationJobs(localCommitmentView *commitment,
 					return nil, err
 				}
 
-				hashCache := txscript.NewTxSigHashes(timeoutTx)
-				sigHash, err := txscript.CalcWitnessSigHash(
+				hashCache := btgTxscript.NewTxSigHashes(timeoutTx)
+				sigHash, err := btgTxscript.CalcWitnessSigHash(
 					htlc.ourWitnessScript, hashCache,
-					txscript.SigHashAll, timeoutTx, 0,
+					btgTxscript.SigHashAll|btgTxscript.SigHashForkID, timeoutTx, 0,
 					int64(htlc.Amount.ToSatoshis()),
 				)
 				if err != nil {
@@ -3504,9 +3504,9 @@ func (lc *LightningChannel) ReceiveNewCommitment(commitSig lnwire.Sig,
 	// this newly proposed state update.
 	localCommitTx := localCommitmentView.txn
 	multiSigScript := lc.signDesc.WitnessScript
-	hashCache := txscript.NewTxSigHashes(localCommitTx)
-	sigHash, err := txscript.CalcWitnessSigHash(multiSigScript, hashCache,
-		txscript.SigHashAll, localCommitTx, 0,
+	hashCache := btgTxscript.NewTxSigHashes(localCommitTx)
+	sigHash, err := btgTxscript.CalcWitnessSigHash(multiSigScript, hashCache,
+		btgTxscript.SigHashAll|btgTxscript.SigHashForkID, localCommitTx, 0,
 		int64(lc.channelState.Capacity))
 	if err != nil {
 		// TODO(roasbeef): fetchview has already mutated the HTLCs...
@@ -4131,17 +4131,17 @@ func (lc *LightningChannel) getSignedCommitTx() (*wire.MsgTx, error) {
 	// for the transaction.
 	localCommit := lc.channelState.LocalCommitment
 	commitTx := localCommit.CommitTx
-	theirSig := append(localCommit.CommitSig, byte(txscript.SigHashAll))
+	theirSig := append(localCommit.CommitSig, byte(btgTxscript.SigHashAll|btgTxscript.SigHashForkID))
 
 	// With this, we then generate the full witness so the caller can
 	// broadcast a fully signed transaction.
-	lc.signDesc.SigHashes = txscript.NewTxSigHashes(commitTx)
+	lc.signDesc.SigHashes = btgTxscript.NewTxSigHashes(commitTx)
 	ourSigRaw, err := lc.signer.SignOutputRaw(commitTx, lc.signDesc)
 	if err != nil {
 		return nil, err
 	}
 
-	ourSig := append(ourSigRaw, byte(txscript.SigHashAll))
+	ourSig := append(ourSigRaw, byte(btgTxscript.SigHashAll|btgTxscript.SigHashForkID))
 
 	// With the final signature generated, create the witness stack
 	// required to spend from the multi-sig output.
@@ -4274,7 +4274,7 @@ func NewUnilateralCloseSummary(chanState *channeldb.OpenChannel, signer Signer,
 					Value:    int64(localBalance),
 					PkScript: selfP2WKH,
 				},
-				HashType: txscript.SigHashAll,
+				HashType: btgTxscript.SigHashAll | btgTxscript.SigHashForkID,
 			},
 			MaturityDelay: 0,
 		}
@@ -4442,7 +4442,7 @@ func newOutgoingHtlcResolution(signer Signer, localChanCfg *channeldb.ChannelCon
 					PkScript: htlcScriptHash,
 					Value:    int64(htlc.Amt.ToSatoshis()),
 				},
-				HashType: txscript.SigHashAll,
+				HashType: btgTxscript.SigHashAll | btgTxscript.SigHashForkID,
 			},
 		}, nil
 	}
@@ -4481,8 +4481,8 @@ func newOutgoingHtlcResolution(signer Signer, localChanCfg *channeldb.ChannelCon
 		Output: &wire.TxOut{
 			Value: int64(htlc.Amt.ToSatoshis()),
 		},
-		HashType:   txscript.SigHashAll,
-		SigHashes:  txscript.NewTxSigHashes(timeoutTx),
+		HashType:   btgTxscript.SigHashAll | btgTxscript.SigHashForkID,
+		SigHashes:  btgTxscript.NewTxSigHashes(timeoutTx),
 		InputIndex: 0,
 	}
 
@@ -4527,7 +4527,7 @@ func newOutgoingHtlcResolution(signer Signer, localChanCfg *channeldb.ChannelCon
 				PkScript: htlcScriptHash,
 				Value:    int64(secondLevelOutputAmt),
 			},
-			HashType: txscript.SigHashAll,
+			HashType: btgTxscript.SigHashAll | btgTxscript.SigHashForkID,
 		},
 	}, nil
 }
@@ -4581,7 +4581,7 @@ func newIncomingHtlcResolution(signer Signer, localChanCfg *channeldb.ChannelCon
 					PkScript: htlcScriptHash,
 					Value:    int64(htlc.Amt.ToSatoshis()),
 				},
-				HashType: txscript.SigHashAll,
+				HashType: btgTxscript.SigHashAll | btgTxscript.SigHashForkID,
 			},
 		}, nil
 	}
@@ -4616,8 +4616,8 @@ func newIncomingHtlcResolution(signer Signer, localChanCfg *channeldb.ChannelCon
 		Output: &wire.TxOut{
 			Value: int64(htlc.Amt.ToSatoshis()),
 		},
-		HashType:   txscript.SigHashAll,
-		SigHashes:  txscript.NewTxSigHashes(successTx),
+		HashType:   btgTxscript.SigHashAll | btgTxscript.SigHashForkID,
+		SigHashes:  btgTxscript.NewTxSigHashes(successTx),
 		InputIndex: 0,
 	}
 
@@ -4664,7 +4664,7 @@ func newIncomingHtlcResolution(signer Signer, localChanCfg *channeldb.ChannelCon
 				PkScript: htlcScriptHash,
 				Value:    int64(secondLevelOutputAmt),
 			},
-			HashType: txscript.SigHashAll,
+			HashType: btgTxscript.SigHashAll | btgTxscript.SigHashForkID,
 		},
 	}, nil
 }
@@ -4861,7 +4861,7 @@ func (lc *LightningChannel) ForceClose() (*ForceCloseSummary, error) {
 					PkScript: delayScript,
 					Value:    int64(localBalance.ToSatoshis()),
 				},
-				HashType: txscript.SigHashAll,
+				HashType: btgTxscript.SigHashAll | btgTxscript.SigHashForkID,
 			},
 			MaturityDelay: csvTimeout,
 		}
@@ -4943,7 +4943,7 @@ func (lc *LightningChannel) CreateCloseProposal(proposedFee btcutil.Amount,
 	// initiator we'll simply send our signature over to the remote party,
 	// using the generated txid to be notified once the closure transaction
 	// has been confirmed.
-	lc.signDesc.SigHashes = txscript.NewTxSigHashes(closeTx)
+	lc.signDesc.SigHashes = btgTxscript.NewTxSigHashes(closeTx)
 	sig, err := lc.signer.SignOutputRaw(closeTx, lc.signDesc)
 	if err != nil {
 		return nil, nil, 0, err
@@ -5008,7 +5008,7 @@ func (lc *LightningChannel) CompleteCooperativeClose(localSig, remoteSig []byte,
 	if err := blockchain.CheckTransactionSanity(tx); err != nil {
 		return nil, 0, err
 	}
-	hashCache := txscript.NewTxSigHashes(closeTx)
+	hashCache := btgTxscript.NewTxSigHashes(closeTx)
 
 	// Finally, construct the witness stack minding the order of the
 	// pubkeys+sigs on the stack.
@@ -5021,8 +5021,8 @@ func (lc *LightningChannel) CompleteCooperativeClose(localSig, remoteSig []byte,
 	// Validate the finalized transaction to ensure the output script is
 	// properly met, and that the remote peer supplied a valid signature.
 	prevOut := lc.signDesc.Output
-	vm, err := txscript.NewEngine(prevOut.PkScript, closeTx, 0,
-		txscript.StandardVerifyFlags, nil, hashCache, prevOut.Value)
+	vm, err := btgTxscript.NewEngine(prevOut.PkScript, closeTx, 0,
+		btgTxscript.StandardVerifyFlags, nil, hashCache, prevOut.Value)
 	if err != nil {
 		return nil, 0, err
 	}

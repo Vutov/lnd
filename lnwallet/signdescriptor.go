@@ -6,8 +6,8 @@ import (
 	"io"
 
 	"github.com/roasbeef/btcd/btcec"
-	"github.com/roasbeef/btcd/txscript"
 	"github.com/roasbeef/btcd/wire"
+	"github.com/shelvenzhou/btgd/txscript"
 )
 
 var (

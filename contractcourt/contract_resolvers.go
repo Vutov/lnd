@@ -9,11 +9,11 @@ import (
 	"io/ioutil"
 
 	"github.com/davecgh/go-spew/spew"
+	"github.com/roasbeef/btcd/wire"
+	"github.com/shelvenzhou/btgd/txscript"
 	"github.com/shelvenzhou/lnd/chainntnfs"
 	"github.com/shelvenzhou/lnd/lnwallet"
 	"github.com/shelvenzhou/lnd/lnwire"
-	"github.com/roasbeef/btcd/txscript"
-	"github.com/roasbeef/btcd/wire"
 )
 
 var (

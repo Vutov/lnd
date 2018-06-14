@@ -4,14 +4,14 @@ import (
 	"fmt"
 
 	"github.com/davecgh/go-spew/spew"
+	"github.com/roasbeef/btcd/wire"
+	"github.com/roasbeef/btcutil"
+	btgTxscript "github.com/shelvenzhou/btgd/txscript"
 	"github.com/shelvenzhou/lnd/channeldb"
 	"github.com/shelvenzhou/lnd/contractcourt"
 	"github.com/shelvenzhou/lnd/htlcswitch"
 	"github.com/shelvenzhou/lnd/lnwallet"
 	"github.com/shelvenzhou/lnd/lnwire"
-	"github.com/roasbeef/btcd/txscript"
-	"github.com/roasbeef/btcd/wire"
-	"github.com/roasbeef/btcutil"
 )
 
 var (
@@ -417,10 +417,10 @@ func (c *channelCloser) ProcessCloseMsg(msg lnwire.Message) ([]lnwire.Message, b
 		// we can broadcast it to the network.
 		matchingSig := c.priorFeeOffers[remoteProposedFee].Signature
 		localSigBytes := matchingSig.ToSignatureBytes()
-		localSig := append(localSigBytes, byte(txscript.SigHashAll))
+		localSig := append(localSigBytes, byte(btgTxscript.SigHashAll|btgTxscript.SigHashForkID))
 
 		remoteSigBytes := closeSignedMsg.Signature.ToSignatureBytes()
-		remoteSig := append(remoteSigBytes, byte(txscript.SigHashAll))
+		remoteSig := append(remoteSigBytes, byte(btgTxscript.SigHashAll|btgTxscript.SigHashForkID))
 
 		closeTx, finalLocalBalance, err := c.cfg.channel.CompleteCooperativeClose(
 			localSig, remoteSig, c.localDeliveryScript,

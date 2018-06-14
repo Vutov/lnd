@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/shelvenzhou/lnd/chainntnfs"
-	"github.com/shelvenzhou/lnd/lnwallet"
 	"github.com/roasbeef/btcd/btcec"
 	"github.com/roasbeef/btcd/chaincfg"
 	"github.com/roasbeef/btcd/chaincfg/chainhash"
-	"github.com/roasbeef/btcd/txscript"
 	"github.com/roasbeef/btcd/wire"
 	"github.com/roasbeef/btcutil"
+	btgTxscript "github.com/shelvenzhou/btgd/txscript"
+	"github.com/shelvenzhou/lnd/chainntnfs"
+	"github.com/shelvenzhou/lnd/lnwallet"
 )
 
 // The block height returned by the mock BlockChainIO's GetBestBlock.
@@ -41,7 +41,7 @@ func (m *mockSigner) SignOutputRaw(tx *wire.MsgTx,
 			signDesc.DoubleTweak)
 	}
 
-	sig, err := txscript.RawTxInWitnessSignature(tx, signDesc.SigHashes,
+	sig, err := btgTxscript.RawTxInWitnessSignature(tx, signDesc.SigHashes,
 		signDesc.InputIndex, amt, witnessScript, signDesc.HashType,
 		privKey)
 	if err != nil {
@@ -68,7 +68,7 @@ func (m *mockSigner) ComputeInputScript(tx *wire.MsgTx,
 			signDesc.DoubleTweak)
 	}
 
-	witnessScript, err := txscript.WitnessSignature(tx, signDesc.SigHashes,
+	witnessScript, err := btgTxscript.WitnessSignature(tx, signDesc.SigHashes,
 		signDesc.InputIndex, signDesc.Output.Value, signDesc.Output.PkScript,
 		signDesc.HashType, privKey, true)
 	if err != nil {

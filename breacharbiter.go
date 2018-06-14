@@ -10,16 +10,16 @@ import (
 
 	"github.com/boltdb/bolt"
 	"github.com/davecgh/go-spew/spew"
+	"github.com/roasbeef/btcd/blockchain"
+	"github.com/roasbeef/btcd/chaincfg/chainhash"
+	"github.com/roasbeef/btcd/wire"
+	"github.com/roasbeef/btcutil"
+	btgTxscript "github.com/shelvenzhou/btgd/txscript"
 	"github.com/shelvenzhou/lnd/chainntnfs"
 	"github.com/shelvenzhou/lnd/channeldb"
 	"github.com/shelvenzhou/lnd/contractcourt"
 	"github.com/shelvenzhou/lnd/htlcswitch"
 	"github.com/shelvenzhou/lnd/lnwallet"
-	"github.com/roasbeef/btcd/blockchain"
-	"github.com/roasbeef/btcd/chaincfg/chainhash"
-	"github.com/roasbeef/btcd/txscript"
-	"github.com/roasbeef/btcd/wire"
-	"github.com/roasbeef/btcutil"
 )
 
 var (
@@ -805,7 +805,7 @@ type SpendableOutput interface {
 	// spent, the witness should be attached to the transaction at the
 	// location determined by the given `txinIdx`.
 	BuildWitness(signer lnwallet.Signer, txn *wire.MsgTx,
-		hashCache *txscript.TxSigHashes,
+		hashCache *btgTxscript.TxSigHashes,
 		txinIdx int) ([][]byte, error)
 }
 
@@ -870,7 +870,7 @@ func (bo *breachedOutput) SignDesc() *lnwallet.SignDescriptor {
 // sign descriptor. The method then returns the witness computed by invoking
 // this function on the first and subsequent calls.
 func (bo *breachedOutput) BuildWitness(signer lnwallet.Signer, txn *wire.MsgTx,
-	hashCache *txscript.TxSigHashes, txinIdx int) ([][]byte, error) {
+	hashCache *btgTxscript.TxSigHashes, txinIdx int) ([][]byte, error) {
 
 	// First, we ensure that the witness generation function has been
 	// initialized for this breached output.
@@ -1112,7 +1112,7 @@ func (b *breachArbiter) sweepSpendableOutputsTxn(txWeight uint64,
 
 	// Create a sighash cache to improve the performance of hashing and
 	// signing SigHashAll inputs.
-	hashCache := txscript.NewTxSigHashes(txn)
+	hashCache := btgTxscript.NewTxSigHashes(txn)
 
 	// Create a closure that encapsulates the process of initializing a
 	// particular output's witness generation function, computing the

@@ -8,6 +8,7 @@ import (
 	"github.com/roasbeef/btcd/wire"
 	"github.com/roasbeef/btcutil"
 	"github.com/roasbeef/btcwallet/waddrmgr"
+	btgTxscript "github.com/shelvenzhou/btgd/txscript"
 	base "github.com/shelvenzhou/btgwallet/wallet"
 	"github.com/shelvenzhou/lnd/lnwallet"
 )
@@ -137,7 +138,7 @@ func (b *BtcWallet) SignOutputRaw(tx *wire.MsgTx,
 	// TODO(roasbeef): generate sighash midstate if not present?
 
 	amt := signDesc.Output.Value
-	sig, err := txscript.RawTxInWitnessSignature(tx, signDesc.SigHashes,
+	sig, err := btgTxscript.RawTxInWitnessSignature(tx, signDesc.SigHashes,
 		signDesc.InputIndex, amt, witnessScript, signDesc.HashType,
 		privKey)
 	if err != nil {
@@ -222,7 +223,7 @@ func (b *BtcWallet) ComputeInputScript(tx *wire.MsgTx,
 
 	// Generate a valid witness stack for the input.
 	// TODO(roasbeef): adhere to passed HashType
-	witnessScript, err := txscript.WitnessSignature(tx, signDesc.SigHashes,
+	witnessScript, err := btgTxscript.WitnessSignature(tx, signDesc.SigHashes,
 		signDesc.InputIndex, signDesc.Output.Value, witnessProgram,
 		signDesc.HashType, privKey, true)
 	if err != nil {

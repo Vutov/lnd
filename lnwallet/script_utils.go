@@ -15,6 +15,7 @@ import (
 	"github.com/roasbeef/btcd/txscript"
 	"github.com/roasbeef/btcd/wire"
 	"github.com/roasbeef/btcutil"
+	btgTxscript "github.com/shelvenzhou/btgd/txscript"
 )
 
 var (
@@ -362,7 +363,7 @@ func senderHtlcSpendTimeout(receiverSig []byte, signer Signer,
 	// original OP_CHECKMULTISIG.
 	witnessStack := wire.TxWitness(make([][]byte, 5))
 	witnessStack[0] = nil
-	witnessStack[1] = append(receiverSig, byte(txscript.SigHashAll))
+	witnessStack[1] = append(receiverSig, byte(btgTxscript.SigHashAll|btgTxscript.SigHashForkID))
 	witnessStack[2] = append(sweepSig, byte(signDesc.HashType))
 	witnessStack[3] = nil
 	witnessStack[4] = signDesc.WitnessScript
@@ -517,7 +518,7 @@ func receiverHtlcSpendRedeem(senderSig, paymentPreimage []byte,
 	// order to consume the extra pop within OP_CHECKMULTISIG.
 	witnessStack := wire.TxWitness(make([][]byte, 5))
 	witnessStack[0] = nil
-	witnessStack[1] = append(senderSig, byte(txscript.SigHashAll))
+	witnessStack[1] = append(senderSig, byte(btgTxscript.SigHashAll|btgTxscript.SigHashForkID))
 	witnessStack[2] = append(sweepSig, byte(signDesc.HashType))
 	witnessStack[3] = paymentPreimage
 	witnessStack[4] = signDesc.WitnessScript
@@ -795,7 +796,7 @@ func htlcSpendSuccess(signer Signer, signDesc *SignDescriptor,
 
 	// As we mutated the transaction, we'll re-calculate the sighashes for
 	// this instance.
-	signDesc.SigHashes = txscript.NewTxSigHashes(sweepTx)
+	signDesc.SigHashes = btgTxscript.NewTxSigHashes(sweepTx)
 
 	// With the proper sequence an version set, we'll now sign the timeout
 	// transaction using the passed signed descriptor. In order to generate
@@ -866,7 +867,7 @@ func HtlcSecondLevelSpend(signer Signer, signDesc *SignDescriptor,
 	// witness script), in order to force execution to the second portion
 	// of the if clause.
 	witnessStack := wire.TxWitness(make([][]byte, 3))
-	witnessStack[0] = append(sweepSig, byte(txscript.SigHashAll))
+	witnessStack[0] = append(sweepSig, byte(btgTxscript.SigHashAll|btgTxscript.SigHashForkID))
 	witnessStack[1] = nil
 	witnessStack[2] = signDesc.WitnessScript
 

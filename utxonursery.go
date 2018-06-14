@@ -9,13 +9,14 @@ import (
 	"sync/atomic"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/shelvenzhou/lnd/chainntnfs"
-	"github.com/shelvenzhou/lnd/channeldb"
-	"github.com/shelvenzhou/lnd/lnwallet"
 	"github.com/roasbeef/btcd/blockchain"
 	"github.com/roasbeef/btcd/txscript"
 	"github.com/roasbeef/btcd/wire"
 	"github.com/roasbeef/btcutil"
+	btgTxscript "github.com/shelvenzhou/btgd/txscript"
+	"github.com/shelvenzhou/lnd/chainntnfs"
+	"github.com/shelvenzhou/lnd/channeldb"
+	"github.com/shelvenzhou/lnd/lnwallet"
 )
 
 //                          SUMMARY OF OUTPUT STATES
@@ -1070,7 +1071,7 @@ func (u *utxoNursery) populateSweepTx(txWeight uint64, classHeight uint32,
 		return nil, err
 	}
 
-	hashCache := txscript.NewTxSigHashes(sweepTx)
+	hashCache := btgTxscript.NewTxSigHashes(sweepTx)
 
 	// With all the inputs in place, use each output's unique witness
 	// function to generate the final witness required for spending.
