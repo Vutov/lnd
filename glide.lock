@@ -1,5 +1,5 @@
 hash: bcba7f7e2828984ba6bc48d28a9a32afc783274e4230552d3d7f516008ea3e15
-updated: 2018-05-07T16:41:12.080659+08:00
+updated: 2018-06-15T00:24:32.320157409+08:00
 imports:
 - name: github.com/aead/chacha20
   version: d31a916ded42d1640b9d89a26f8abd53cc96790c
@@ -44,7 +44,7 @@ imports:
 - name: github.com/go-errors/errors
   version: a6af135bd4e28680facf08a3d206b454abc877a4
 - name: github.com/golang/protobuf
-  version: b4deda0973fb4c70b50d226b1af49f3da59f5265
+  version: 5831880292e721c76b58a16ecc60adc27d8e6355
   subpackages:
   - jsonpb
   - proto
@@ -66,7 +66,7 @@ imports:
   subpackages:
   - rotator
 - name: github.com/juju/loggo
-  version: 7f1609ff1f3fcf3519ed62ccaaa9e609ea287838
+  version: 584905176618da46b895b176c721b02c476b6993
 - name: github.com/kkdai/bstream
   version: f71540b9dfdcfe64dbf2818e9b66423c6aafcacd
 - name: github.com/lightninglabs/gozmq
@@ -86,7 +86,7 @@ imports:
   - chaincfg/chainhash
   - wire
 - name: github.com/miekg/dns
-  version: 9c76f9827e170bfcd354c2cb02a6fd428faf81a6
+  version: f90eb8fb4590a3c81327ccca86ed4c4ca898c73d
 - name: github.com/roasbeef/btcd
   version: e6807bc4dd5ddbb95b4ab163f6dd61e4ad79463a
   subpackages:
@@ -137,23 +137,28 @@ imports:
 - name: github.com/rogpeppe/fastuuid
   version: 6724a57986aff9bff1a1770e9347036def7c89f6
 - name: github.com/shelvenzhou/btgd
-  version: e1735ad8dd3cbbaf19ed1e0b912cebc0b9111137
+  version: 82a0684b6cdff7a5246caa1b9098793a08fb981d
   subpackages:
   - chaincfg
   - rpcclient
+  - txscript
   - wire
 - name: github.com/shelvenzhou/btgutil
   version: 3f84cf532d099df0588d6269e83351269766b64c
 - name: github.com/shelvenzhou/btgwallet
-  version: c2393c929dfe9f5785d49b69856af8fecc7ddc58
+  version: 18ee2c1a815ce4c28f81e08af025a4d99cba6234
   subpackages:
   - chain
+  - internal/legacy/keystore
+  - internal/legacy/rename
+  - internal/prompt
+  - wallet
 - name: github.com/tv42/zbase32
   version: 501572607d0273fc75b3b261fa4904d63f6ffa0e
 - name: github.com/urfave/cli
   version: cfb38830724cc34fedffe9a2a29fb54fa9169cd1
 - name: golang.org/x/crypto
-  version: 4ec37c66abab2c7e02ae775328b2ff001c3f025a
+  version: 37a17fe027db43f76fd88b056ddf588563fc8722
   subpackages:
   - chacha20poly1305
   - curve25519
@@ -161,6 +166,7 @@ imports:
   - ed25519/internal/edwards25519
   - hkdf
   - internal/chacha20
+  - internal/subtle
   - nacl/box
   - nacl/secretbox
   - pbkdf2
@@ -171,7 +177,7 @@ imports:
   - scrypt
   - ssh/terminal
 - name: golang.org/x/net
-  version: 640f4622ab692b87c2f3a94265e6f579fe38263d
+  version: db08ff08e8622530d9ed3a0e8ac279f6d4c02196
   subpackages:
   - bpf
   - context
@@ -185,24 +191,22 @@ imports:
   - internal/timeseries
   - ipv4
   - ipv6
-  - lex/httplex
   - proxy
   - trace
-- name: golang.org/x/sys
-  version: 6f686a352de66814cdd080d970febae7767857a3
-  subpackages:
-  - cpu
-  - unix
-  - windows
-- name: golang.org/x/text
-  version: 7922cc490dd5a7dbaa7fd5d6196b49db59ac042f
-  subpackages:
-  - secure/bidirule
-  - transform
-  - unicode/bidi
-  - unicode/norm
+- name: golang.org/x/sys/cpu
+  version: 8883426083c04a2627e6e59d84d5f6fb63d16c91
+- name: golang.org/x/sys/unix
+  version: 8883426083c04a2627e6e59d84d5f6fb63d16c91
+- name: golang.org/x/sys/windows
+  version: 8883426083c04a2627e6e59d84d5f6fb63d16c91
+- name: golang.org/x/text/secure/bidirule
+  version: 5c1cf69b5978e5a34c5f9ba09a83e56acc4b7877
+- name: golang.org/x/text/unicode/bidi
+  version: 5c1cf69b5978e5a34c5f9ba09a83e56acc4b7877
+- name: golang.org/x/text/unicode/norm
+  version: 5c1cf69b5978e5a34c5f9ba09a83e56acc4b7877
 - name: google.golang.org/genproto
-  version: 86e600f69ee4704c6efbf6a2a40a5c10700e76c2
+  version: 32ee49c4dd805befd833990acba36cb75042378c
   subpackages:
   - googleapis/api/annotations
   - googleapis/rpc/status
