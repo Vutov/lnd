@@ -1,5 +1,5 @@
 hash: bcba7f7e2828984ba6bc48d28a9a32afc783274e4230552d3d7f516008ea3e15
-updated: 2018-06-15T00:24:32.320157409+08:00
+updated: 2018-06-15T23:20:35.264088+08:00
 imports:
 - name: github.com/aead/chacha20
   version: d31a916ded42d1640b9d89a26f8abd53cc96790c
@@ -146,7 +146,7 @@ imports:
 - name: github.com/shelvenzhou/btgutil
   version: 3f84cf532d099df0588d6269e83351269766b64c
 - name: github.com/shelvenzhou/btgwallet
-  version: 18ee2c1a815ce4c28f81e08af025a4d99cba6234
+  version: 63b217cfe69ac49390eafb1bf90aead8e5a1d064
   subpackages:
   - chain
   - internal/legacy/keystore
@@ -158,7 +158,7 @@ imports:
 - name: github.com/urfave/cli
   version: cfb38830724cc34fedffe9a2a29fb54fa9169cd1
 - name: golang.org/x/crypto
-  version: 37a17fe027db43f76fd88b056ddf588563fc8722
+  version: a8fb68e7206f8c78be19b432c58eb52a6aa34462
   subpackages:
   - chacha20poly1305
   - curve25519
@@ -194,11 +194,11 @@ imports:
   - proxy
   - trace
 - name: golang.org/x/sys/cpu
-  version: 8883426083c04a2627e6e59d84d5f6fb63d16c91
+  version: 8014b7b116a67fea23fbb82cd834c9ad656ea44b
 - name: golang.org/x/sys/unix
-  version: 8883426083c04a2627e6e59d84d5f6fb63d16c91
+  version: 8014b7b116a67fea23fbb82cd834c9ad656ea44b
 - name: golang.org/x/sys/windows
-  version: 8883426083c04a2627e6e59d84d5f6fb63d16c91
+  version: 8014b7b116a67fea23fbb82cd834c9ad656ea44b
 - name: golang.org/x/text/secure/bidirule
   version: 5c1cf69b5978e5a34c5f9ba09a83e56acc4b7877
 - name: golang.org/x/text/unicode/bidi

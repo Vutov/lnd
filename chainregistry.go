@@ -459,7 +459,6 @@ func newChainControlFromConfig(cfg *config, chanDB *channeldb.DB,
 			if err != nil {
 				return nil, nil, err
 			}
-			rpcPort -= 2
 			bgolddHost = fmt.Sprintf("%v:%d",
 				cfg.BgolddMode.RPCHost, rpcPort)
 			if cfg.Bitcoingold.RegTest {
