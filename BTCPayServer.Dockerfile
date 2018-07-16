@@ -9,7 +9,7 @@ RUN apk add --no-cache \
     git \
     make
 
-WORKDIR /go/src/github.com/lightningnetwork/lnd
+WORKDIR /go/src/github.com/shelvenzhou/lnd
 COPY . .
 
 RUN make \
@@ -24,11 +24,11 @@ RUN apk --no-cache add \
     ca-certificates
 
 ENV LND_DATA /data
-ENV LND_BITCOIND /deps/.bitcoin
+ENV LND_BITCOIND /deps/.bitcoingold
 ENV LND_BTCD /deps/.btcd
 
 RUN mkdir "$LND_DATA" && mkdir "/deps" && mkdir "$LND_BITCOIND" && mkdir "$LND_BTCD" && \
-    ln -sfn "$LND_DATA" /root/.lnd && ln -sfn "$LND_BITCOIND" /root/.bitcoin && ln -sfn "$LND_BTCD" /root/.btcd
+    ln -sfn "$LND_DATA" /root/.lnd && ln -sfn "$LND_BITCOIND" /root/.bitcoingold && ln -sfn "$LND_BTCD" /root/.btcd
 
 # Define a root volume for data persistence.
 VOLUME /data

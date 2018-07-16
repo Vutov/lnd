@@ -15,10 +15,8 @@ if [[ "$1" == "lnd" || "$1" == "lncli" ]]; then
         NETWORK=""
 
         shopt -s nocasematch
-        if [[ $LND_CHAIN == "btc" ]]; then
-            NETWORK="bitcoin"
-        elif [[ $LND_CHAIN == "ltc" ]]; then
-            NETWORK="litecoin"
+        if [[ $LND_CHAIN == "btg" ]]; then
+            NETWORK="bitcoingold"
         else
             echo "Unknwon value for LND_CHAIN, expected btc or ltc"
         fi
@@ -48,7 +46,7 @@ if [[ "$1" == "lnd" || "$1" == "lncli" ]]; then
     fi
 
 	ln -sfn "$LND_DATA" /root/.lnd
-    ln -sfn "$LND_BITCOIND" /root/.bitcoin
+    ln -sfn "$LND_BITCOIND" /root/.bitcoingold
     ln -sfn "$LND_BTCD" /root/.btcd
 	exec "$@"
 else
