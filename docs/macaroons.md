@@ -36,7 +36,8 @@ legitimate user.
 A macaroon is delegated by adding restrictions (called caveats) and an
 authentication code similar to a signature (technically an HMAC) to it. The
 technical method of doing this is outside the scope of this overview
-documentation, but the macaroon paper linked above describes it quite well. The
+documentation, but the [README in the macaroons package](../macaroons/README.md)
+or the macaroon paper linked above describe it in more detail. The
 user must remember several things:
 
 * Sharing a macaroon allows anyone in possession of that macaroon to use it to
@@ -49,19 +50,22 @@ user must remember several things:
   person receiving it cannot remove the caveat.
 
 This is used in `lnd` in an interesting way. By default, when `lnd` starts, it
-creates two files which contain macaroons: a file called `admin.macaroon`,
-which contains a macaroon with no caveats, and a file called
-`readonly.macaroon`, which is the *same* macaroon but with an additional caveat
-that permits only methods that don't change the state of `lnd`.
+creates three files which contain macaroons: a file called `admin.macaroon`,
+which contains a macaroon with no caveats, a file called `readonly.macaroon`,
+which is the *same* macaroon but with an additional caveat, that permits only
+methods that don't change the state of `lnd`, and `invoice.macaroon`, which
+only has access to invoice related methods.
 
 ## How macaroons are used by `lnd` and `lncli`.
 
-On startup, `lnd` checks to see if the `admin.macaroon` and `readonly.macaroon`
-files exist. If they *both* don't exist, `lnd` updates its database with a new
-macaroon ID, generates the `admin.macaroon` file with that ID, and generates
-the `readonly.macaroon` file with the same ID but an additional caveat which
-restricts the caller to using only read-only methods. This means a few
-important things:
+On startup, `lnd` checks to see if the `admin.macaroon`, `readonly.macaroon`
+and `invoice.macaroon` files exist. If they don't exist, `lnd` updates its
+database with a new macaroon ID, generates the three files `admin.macaroon`,
+`readonly.macaroon` and `invoice.macaroon`, all with the same ID. The
+`readonly.macaroon` file has an additional caveat which restricts the caller
+to using only read-only methods and the `invoice.macaroon` also has an
+additional caveat which restricts the caller to using only invoice related
+methods. This means a few important things:
 
 * You can delete the `admin.macaroon` and be left with only the
   `readonly.macaroon`, which can sometimes be useful (for example, if you want
@@ -69,10 +73,10 @@ important things:
   change its state).
 
 * If you delete the data directory which contains the `macaroons.db` file, this
-  invalidates the `admin.macaroon` and `readonly.macaroon` files. Invalid
-  macaroon files give you errors like `cannot get macaroon: root key with id 0
-  doesn't exist` or `verification failed: signature mismatch after caveat
-  verification`.
+  invalidates the `admin.macaroon`, `readonly.macaroon` and `invoice.macaroon`
+  files. Invalid macaroon files give you errors like `cannot get macaroon: root
+  key with id 0 doesn't exist` or `verification failed: signature mismatch
+  after caveat verification`.
 
 You can also run `lnd` with the `--no-macaroons` option, which skips the
 creation of the macaroon files and all macaroon checks within the RPC server.
@@ -96,6 +100,23 @@ gets access to the traffic logs after interception. The default 60 second
 timeout can be changed with the `--macaroontimeout` option; this can be
 increased for making RPC calls between systems whose clocks are more than 60s
 apart.
+
+## Using Macaroons with GRPC clients
+
+When interacting with `lnd` using the GRPC interface, the macaroons are encoded
+as a hex string over the wire and can be passed to `lnd` by specifying the
+hex-encoded macaroon as GRPC metadata:
+
+    GET https://localhost:8080/v1/getinfo
+    Grpc-Metadata-macaroon: <macaroon>
+
+Where `<macaroon>` is the hex encoded binary data from the macaroon file itself.
+
+A very simple example using `curl` may look something like this:
+
+    curl --insecure --header "Grpc-Metadata-macaroon: $(xxd -ps -u -c 1000  $HOME/.lnd/admin.macaroon)" https://localhost:8080/v1/getinfo
+
+Have a look at the [Java GRPC example](/docs/grpc/java.md) for programmatic usage details.
 
 ## Future improvements to the `lnd` macaroon implementation
 

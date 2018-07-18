@@ -7,6 +7,7 @@ import (
 
 	"github.com/roasbeef/btcd/chaincfg/chainhash"
 	"github.com/roasbeef/btcd/wire"
+	"github.com/roasbeef/btcutil"
 
 	"github.com/lightninglabs/neutrino"
 	"github.com/roasbeef/btcwallet/chain"
@@ -78,10 +79,15 @@ func (b *BtcWallet) GetUtxo(op *wire.OutPoint, heightHint uint32) (*wire.TxOut, 
 			return nil, err
 		}
 
+		// We'll ensure we properly convert the amount given in BTC to
+		// satoshis.
+		amt, err := btcutil.NewAmount(txout.Value)
+		if err != nil {
+			return nil, err
+		}
+
 		return &wire.TxOut{
-			// Sadly, gettxout returns the output value in BTC
-			// instead of satoshis.
-			Value:    int64(txout.Value * 1e8),
+			Value:    int64(amt),
 			PkScript: pkScript,
 		}, nil
 
@@ -98,10 +104,15 @@ func (b *BtcWallet) GetUtxo(op *wire.OutPoint, heightHint uint32) (*wire.TxOut, 
 			return nil, err
 		}
 
+		// Sadly, gettxout returns the output value in BTC instead of
+		// satoshis.
+		amt, err := btcutil.NewAmount(txout.Value)
+		if err != nil {
+			return nil, err
+		}
+
 		return &wire.TxOut{
-			// Sadly, gettxout returns the output value in BTC
-			// instead of satoshis.
-			Value:    int64(txout.Value * 1e8),
+			Value:    int64(amt),
 			PkScript: pkScript,
 		}, nil
 

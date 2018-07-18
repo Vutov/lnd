@@ -484,9 +484,10 @@ type spendCancel struct {
 // RegisterSpendNtfn registers an intent to be notified once the target
 // outpoint has been spent by a transaction on-chain. Once a spend of the target
 // outpoint has been detected, the details of the spending event will be sent
-// across the 'Spend' channel.
+// across the 'Spend' channel. The heightHint should represent the earliest
+// height in the chain where the transaction could have been spent in.
 func (b *BgolddNotifier) RegisterSpendNtfn(outpoint *wire.OutPoint,
-	_ uint32) (*chainntnfs.SpendEvent, error) {
+	heightHint uint32, _ bool) (*chainntnfs.SpendEvent, error) {
 
 	if err := b.chainConn.NotifySpent([]*wire.OutPoint{outpoint}); err != nil {
 		return nil, err
@@ -605,7 +606,7 @@ func (b *BgolddNotifier) RegisterConfirmationsNtfn(txid *chainhash.Hash,
 		chainntnfs.ConfNtfn{
 			TxID:             txid,
 			NumConfirmations: numConfs,
-			Event:            chainntnfs.NewConfirmationEvent(),
+			Event:            chainntnfs.NewConfirmationEvent(numConfs),
 		},
 	}
 
