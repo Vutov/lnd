@@ -686,8 +686,8 @@ var (
 		0x59, 0x40, 0xfd, 0x1f, 0xe3, 0x65, 0xa7, 0x12,
 	})
 
-	// bitcoingoldGenesis is the genesis hash of Bitcoingold's testnet chain.
-	bitcoingoldGenesis = chainhash.Hash([chainhash.HashSize]byte{
+	// bitcoingoldTestnetGenesis is the genesis hash of Bitcoingold's testnet chain.
+	bitcoingoldTestnetGenesis = chainhash.Hash([chainhash.HashSize]byte{
 		0xf6, 0xf9, 0xe6, 0x53, 0x38, 0xde, 0x59, 0x89,
 		0xe7, 0x79, 0xc3, 0x3e, 0xb5, 0x57, 0xf5, 0xa2,
 		0xfe, 0xad, 0x93, 0xc2, 0xed, 0x1e, 0xb9, 0x24,
@@ -703,7 +703,7 @@ var (
 		bitcoinMainnetGenesis:  bitcoinChain,
 		litecoinMainnetGenesis: litecoinChain,
 
-		bitcoingoldGenesis: bitcoingoldChain,
+		bitcoingoldTestnetGenesis: bitcoingoldChain,
 	}
 
 	// chainDNSSeeds is a map of a chain's hash to the set of DNS seeds
@@ -736,6 +736,13 @@ var (
 		litecoinMainnetGenesis: {
 			{
 				"ltc.nodes.lightning.directory",
+				"soa.nodes.lightning.directory",
+			},
+		},
+
+		bitcoingoldTestnetGenesis: {
+			{
+				"test.nodes.lightning.directory",
 				"soa.nodes.lightning.directory",
 			},
 		},
