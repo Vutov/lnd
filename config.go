@@ -1008,6 +1008,31 @@ func parseRPCParams(cConfig *chainConfig, nodeConfig interface{}, net chainCode,
 			confDir = conf.Dir
 			confFile = "litecoin"
 		}
+	case *bgolddConfig:
+		// If all of RPCUser, RPCPass, and ZMQPath are set, we assume
+		// those parameters are good to use.
+		if conf.RPCUser != "" && conf.RPCPass != "" && conf.ZMQPath != "" {
+			return nil
+		}
+
+		// Get the daemon name for displaying proper errors.
+		switch net {
+		case bitcoingoldChain:
+			daemonName = "bgoldd"
+		}
+		// If only one or two of the parameters are set, we assume the
+		// user did that unintentionally.
+		if conf.RPCUser != "" || conf.RPCPass != "" || conf.ZMQPath != "" {
+			return fmt.Errorf("please set all or none of "+
+				"%[1]v.rpcuser, %[1]v.rpcpass, "+
+				"and %[1]v.zmqpath", daemonName)
+		}
+
+		switch net {
+		case bitcoingoldChain:
+			confDir = conf.Dir
+			confFile = "bitcoingold"
+		}
 	}
 
 	// If we're in simnet mode, then the running btcd instance won't read
