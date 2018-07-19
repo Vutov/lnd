@@ -483,8 +483,8 @@ func newChainControlFromConfig(cfg *config, chanDB *channeldb.DB,
 
 		// If we're not in simnet or regtest mode, then we'll attempt
 		// to use a proper fee estimator for testnet.
-		if !cfg.Bitcoin.SimNet && !cfg.Litecoin.SimNet &&
-			!cfg.Bitcoin.RegTest && !cfg.Litecoin.RegTest {
+		if !cfg.Bitcoin.SimNet && !cfg.Litecoin.SimNet && !cfg.Bitcoingold.SimNet &&
+			!cfg.Bitcoin.RegTest && !cfg.Litecoin.RegTest && !cfg.Bitcoingold.RegTest {
 
 			ltndLog.Infof("Initializing btcd backed fee estimator")
 
