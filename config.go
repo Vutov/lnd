@@ -1021,14 +1021,7 @@ func parseRPCParams(cConfig *chainConfig, nodeConfig interface{}, net chainCode,
 		case bitcoingoldChain:
 			daemonName = "bgoldd"
 		}
-		// If only one or two of the parameters are set, we assume the
-		// user did that unintentionally.
-		if conf.RPCUser != "" || conf.RPCPass != "" || conf.ZMQPath != "" {
-			return fmt.Errorf("please set all or none of "+
-				"%[1]v.rpcuser, %[1]v.rpcpass, "+
-				"and %[1]v.zmqpath", daemonName)
-		}
-
+		
 		switch net {
 		case bitcoingoldChain:
 			confDir = conf.Dir
@@ -1075,7 +1068,15 @@ func parseRPCParams(cConfig *chainConfig, nodeConfig interface{}, net chainCode,
 				" %v, cannot start w/o RPC connection",
 				err)
 		}
-		nConf.RPCUser, nConf.RPCPass, nConf.ZMQPath = rpcUser, rpcPass, zmqPath
+		if nConf.RPCUser == "" {
+			nConf.RPCUser = rpcUser
+		}
+		if nConf.RPCPass == "" {
+			nConf.RPCPass = rpcPass
+		}
+		if nConf.ZMQPath == "" {
+			nConf.ZMQPath = zmqPath
+		}
 	}
 
 	fmt.Printf("Automatically obtained %v's RPC credentials\n", daemonName)
