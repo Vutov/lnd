@@ -742,8 +742,8 @@ var (
 
 		bitcoingoldTestnetGenesis: {
 			{
-				"test.nodes.lightning.directory",
-				"soa.nodes.lightning.directory",
+				"lseed.test.bitcoingold.org",
+				"soa.bitcoingold.org",
 			},
 		},
 	}
