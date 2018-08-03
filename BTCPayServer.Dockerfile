@@ -9,7 +9,7 @@ RUN apk add --no-cache \
     git \
     make
 
-WORKDIR /go/src/github.com/shelvenzhou/lnd
+WORKDIR /go/src/github.com/BTCGPU/lnd
 COPY . .
 
 RUN make \

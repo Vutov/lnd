@@ -9,8 +9,8 @@ import (
 	"github.com/coreos/bbolt"
 	"github.com/roasbeef/btcd/chaincfg/chainhash"
 	"github.com/roasbeef/btcd/wire"
-	"github.com/shelvenzhou/lnd/channeldb"
-	"github.com/shelvenzhou/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/lnwallet"
 )
 
 // ContractResolutions is a wrapper struct around the two forms of resolutions

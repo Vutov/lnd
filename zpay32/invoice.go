@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/shelvenzhou/lnd/lnwire"
-	"github.com/shelvenzhou/lnd/routing"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/lnd/routing"
 	"github.com/roasbeef/btcd/btcec"
 	"github.com/roasbeef/btcd/chaincfg"
 	"github.com/roasbeef/btcd/chaincfg/chainhash"

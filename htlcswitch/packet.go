@@ -1,8 +1,8 @@
 package htlcswitch
 
 import (
-	"github.com/shelvenzhou/lnd/channeldb"
-	"github.com/shelvenzhou/lnd/lnwire"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/lnwire"
 )
 
 // htlcPacket is a wrapper around htlc lnwire update, which adds additional

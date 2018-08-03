@@ -4,8 +4,8 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/shelvenzhou/lnd/channeldb"
-	"github.com/shelvenzhou/lnd/lnwire"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/lnwire"
 )
 
 // ErrVBarrierShuttingDown signals that the barrier has been requested to

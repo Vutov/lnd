@@ -13,7 +13,7 @@ import (
 	"github.com/roasbeef/btcd/txscript"
 	"github.com/roasbeef/btcd/wire"
 	"github.com/roasbeef/btcutil"
-	"github.com/shelvenzhou/lnd/keychain"
+	"github.com/BTCGPU/lnd/keychain"
 )
 
 // TestCommitmentSpendValidation test the spendability of both outputs within

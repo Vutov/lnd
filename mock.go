@@ -11,9 +11,9 @@ import (
 	"github.com/roasbeef/btcd/wire"
 	"github.com/roasbeef/btcutil"
 	btgTxscript "github.com/shelvenzhou/btgd/txscript"
-	"github.com/shelvenzhou/lnd/chainntnfs"
-	"github.com/shelvenzhou/lnd/keychain"
-	"github.com/shelvenzhou/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/chainntnfs"
+	"github.com/BTCGPU/lnd/keychain"
+	"github.com/BTCGPU/lnd/lnwallet"
 )
 
 // The block height returned by the mock BlockChainIO's GetBestBlock.

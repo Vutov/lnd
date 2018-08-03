@@ -8,7 +8,7 @@ import (
 	"github.com/roasbeef/btcd/chaincfg/chainhash"
 	bitcoinWire "github.com/roasbeef/btcd/wire"
 	bitcoingoldCfg "github.com/shelvenzhou/btgd/chaincfg"
-	"github.com/shelvenzhou/lnd/keychain"
+	"github.com/BTCGPU/lnd/keychain"
 )
 
 // activeNetParams is a pointer to the parameters specific to the currently

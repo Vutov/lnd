@@ -8,7 +8,7 @@ import (
 	"github.com/roasbeef/btcd/btcec"
 	"github.com/roasbeef/btcd/wire"
 	"github.com/shelvenzhou/btgd/txscript"
-	"github.com/shelvenzhou/lnd/keychain"
+	"github.com/BTCGPU/lnd/keychain"
 )
 
 var (

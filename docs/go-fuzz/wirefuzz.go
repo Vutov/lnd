@@ -3,7 +3,7 @@ package wirefuzz
 import (
 	"bytes"
 	"fmt"
-	"github.com/shelvenzhou/lnd/lnwire"
+	"github.com/BTCGPU/lnd/lnwire"
 	"reflect"
 )
 

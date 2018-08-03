@@ -6,7 +6,7 @@ import (
 	"io"
 
 	"github.com/lightningnetwork/lightning-onion"
-	"github.com/shelvenzhou/lnd/lnwire"
+	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/roasbeef/btcd/btcec"
 )
 

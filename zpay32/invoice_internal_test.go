@@ -11,8 +11,8 @@ import (
 	"github.com/roasbeef/btcd/chaincfg"
 	"github.com/roasbeef/btcutil"
 	"github.com/roasbeef/btcutil/bech32"
-	"github.com/shelvenzhou/lnd/lnwire"
-	"github.com/shelvenzhou/lnd/routing"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/lnd/routing"
 )
 
 // TestDecodeAmount ensures that the amount string in the hrp of the Invoice

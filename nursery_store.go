@@ -8,7 +8,7 @@ import (
 	"github.com/coreos/bbolt"
 	"github.com/roasbeef/btcd/chaincfg/chainhash"
 	"github.com/roasbeef/btcd/wire"
-	"github.com/shelvenzhou/lnd/channeldb"
+	"github.com/BTCGPU/lnd/channeldb"
 )
 
 //	              Overview of Nursery Store Storage Hierarchy

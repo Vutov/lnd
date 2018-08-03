@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/roasbeef/btcutil"
-	"github.com/shelvenzhou/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/lnwallet"
 )
 
 // TestFeeRateTypes checks that converting fee rates between the

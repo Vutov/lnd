@@ -14,9 +14,9 @@ import (
 	"github.com/roasbeef/btcd/wire"
 	"github.com/roasbeef/btcutil"
 	btgTxscript "github.com/shelvenzhou/btgd/txscript"
-	"github.com/shelvenzhou/lnd/chainntnfs"
-	"github.com/shelvenzhou/lnd/channeldb"
-	"github.com/shelvenzhou/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/chainntnfs"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/lnwallet"
 )
 
 //                          SUMMARY OF OUTPUT STATES

@@ -14,7 +14,7 @@ import (
 	"github.com/roasbeef/btcd/wire"
 	"github.com/roasbeef/btcutil"
 	"github.com/shelvenzhou/btgwallet/chain"
-	"github.com/shelvenzhou/lnd/chainntnfs"
+	"github.com/BTCGPU/lnd/chainntnfs"
 )
 
 const (

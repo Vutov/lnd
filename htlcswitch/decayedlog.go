@@ -10,7 +10,7 @@ import (
 
 	"github.com/coreos/bbolt"
 	"github.com/lightningnetwork/lightning-onion"
-	"github.com/shelvenzhou/lnd/chainntnfs"
+	"github.com/BTCGPU/lnd/chainntnfs"
 )
 
 const (

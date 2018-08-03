@@ -13,7 +13,7 @@ import (
 	"github.com/roasbeef/btcwallet/chain"
 	"github.com/roasbeef/btcwallet/waddrmgr"
 	btgChain "github.com/shelvenzhou/btgwallet/chain"
-	"github.com/shelvenzhou/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/lnwallet"
 )
 
 var (

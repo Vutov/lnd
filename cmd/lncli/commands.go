@@ -20,7 +20,7 @@ import (
 	"github.com/awalterschulze/gographviz"
 	"github.com/golang/protobuf/jsonpb"
 	"github.com/golang/protobuf/proto"
-	"github.com/shelvenzhou/lnd/lnrpc"
+	"github.com/BTCGPU/lnd/lnrpc"
 	"github.com/roasbeef/btcd/chaincfg/chainhash"
 	"github.com/roasbeef/btcutil"
 	"github.com/urfave/cli"

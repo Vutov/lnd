@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	"github.com/btcsuite/btclog"
-	"github.com/shelvenzhou/lnd/channeldb"
+	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/roasbeef/btcd/wire"
 )
 

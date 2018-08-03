@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/lightninglabs/neutrino"
-	"github.com/shelvenzhou/lnd/chainntnfs"
+	"github.com/BTCGPU/lnd/chainntnfs"
 	"github.com/roasbeef/btcd/chaincfg/chainhash"
 	"github.com/roasbeef/btcd/rpcclient"
 	"github.com/roasbeef/btcd/wire"

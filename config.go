@@ -22,10 +22,10 @@ import (
 	"github.com/roasbeef/btcd/btcec"
 	"github.com/roasbeef/btcutil"
 	"github.com/shelvenzhou/btgutil"
-	"github.com/shelvenzhou/lnd/brontide"
-	"github.com/shelvenzhou/lnd/htlcswitch/hodl"
-	"github.com/shelvenzhou/lnd/lnwire"
-	"github.com/shelvenzhou/lnd/torsvc"
+	"github.com/BTCGPU/lnd/brontide"
+	"github.com/BTCGPU/lnd/htlcswitch/hodl"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/lnd/torsvc"
 )
 
 const (

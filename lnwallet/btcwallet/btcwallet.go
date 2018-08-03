@@ -20,8 +20,8 @@ import (
 	"github.com/roasbeef/btcwallet/walletdb"
 	btgChain "github.com/shelvenzhou/btgwallet/chain"
 	base "github.com/shelvenzhou/btgwallet/wallet"
-	"github.com/shelvenzhou/lnd/keychain"
-	"github.com/shelvenzhou/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/keychain"
+	"github.com/BTCGPU/lnd/lnwallet"
 )
 
 const (

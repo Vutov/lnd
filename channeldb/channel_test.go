@@ -17,9 +17,9 @@ import (
 	"github.com/roasbeef/btcd/wire"
 	"github.com/roasbeef/btcutil"
 	_ "github.com/roasbeef/btcwallet/walletdb/bdb"
-	"github.com/shelvenzhou/lnd/keychain"
-	"github.com/shelvenzhou/lnd/lnwire"
-	"github.com/shelvenzhou/lnd/shachain"
+	"github.com/BTCGPU/lnd/keychain"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/lnd/shachain"
 )
 
 var (

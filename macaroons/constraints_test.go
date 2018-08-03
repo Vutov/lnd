@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/shelvenzhou/lnd/macaroons"
+	"github.com/BTCGPU/lnd/macaroons"
 	macaroon "gopkg.in/macaroon.v2"
 )
 

@@ -21,8 +21,8 @@ import (
 	macaroon "gopkg.in/macaroon.v2"
 
 	"github.com/go-errors/errors"
-	"github.com/shelvenzhou/lnd/lnrpc"
-	"github.com/shelvenzhou/lnd/macaroons"
+	"github.com/BTCGPU/lnd/lnrpc"
+	"github.com/BTCGPU/lnd/macaroons"
 	"github.com/roasbeef/btcd/chaincfg"
 	"github.com/roasbeef/btcd/chaincfg/chainhash"
 	"github.com/roasbeef/btcd/rpcclient"

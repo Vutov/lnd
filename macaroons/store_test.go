@@ -9,7 +9,7 @@ import (
 
 	"github.com/coreos/bbolt"
 
-	"github.com/shelvenzhou/lnd/macaroons"
+	"github.com/BTCGPU/lnd/macaroons"
 
 	"github.com/roasbeef/btcwallet/snacl"
 )

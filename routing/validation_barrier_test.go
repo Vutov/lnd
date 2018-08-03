@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/shelvenzhou/lnd/lnwire"
-	"github.com/shelvenzhou/lnd/routing"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/lnd/routing"
 )
 
 // TestValidationBarrierSemaphore checks basic properties of the validation

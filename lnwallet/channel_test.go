@@ -15,8 +15,8 @@ import (
 	"github.com/roasbeef/btcd/txscript"
 	"github.com/roasbeef/btcd/wire"
 	"github.com/roasbeef/btcutil"
-	"github.com/shelvenzhou/lnd/chainntnfs"
-	"github.com/shelvenzhou/lnd/lnwire"
+	"github.com/BTCGPU/lnd/chainntnfs"
+	"github.com/BTCGPU/lnd/lnwire"
 )
 
 // forceStateTransition executes the necessary interaction between the two

@@ -13,14 +13,14 @@ import (
 	"github.com/lightninglabs/neutrino"
 	"github.com/lightningnetwork/lightning-onion"
 	"github.com/roasbeef/btcd/connmgr"
-	"github.com/shelvenzhou/lnd/autopilot"
-	"github.com/shelvenzhou/lnd/chainntnfs"
-	"github.com/shelvenzhou/lnd/channeldb"
-	"github.com/shelvenzhou/lnd/contractcourt"
-	"github.com/shelvenzhou/lnd/discovery"
-	"github.com/shelvenzhou/lnd/htlcswitch"
-	"github.com/shelvenzhou/lnd/lnwallet"
-	"github.com/shelvenzhou/lnd/routing"
+	"github.com/BTCGPU/lnd/autopilot"
+	"github.com/BTCGPU/lnd/chainntnfs"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/contractcourt"
+	"github.com/BTCGPU/lnd/discovery"
+	"github.com/BTCGPU/lnd/htlcswitch"
+	"github.com/BTCGPU/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/routing"
 )
 
 // logWriter implements an io.Writer that outputs to both standard output and

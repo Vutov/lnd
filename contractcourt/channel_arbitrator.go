@@ -7,10 +7,10 @@ import (
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/roasbeef/btcd/wire"
-	"github.com/shelvenzhou/lnd/chainntnfs"
-	"github.com/shelvenzhou/lnd/channeldb"
-	"github.com/shelvenzhou/lnd/lnwallet"
-	"github.com/shelvenzhou/lnd/lnwire"
+	"github.com/BTCGPU/lnd/chainntnfs"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/lnwire"
 )
 
 const (

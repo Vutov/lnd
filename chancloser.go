@@ -7,9 +7,9 @@ import (
 	"github.com/roasbeef/btcd/wire"
 	"github.com/roasbeef/btcutil"
 	btgTxscript "github.com/shelvenzhou/btgd/txscript"
-	"github.com/shelvenzhou/lnd/htlcswitch"
-	"github.com/shelvenzhou/lnd/lnwallet"
-	"github.com/shelvenzhou/lnd/lnwire"
+	"github.com/BTCGPU/lnd/htlcswitch"
+	"github.com/BTCGPU/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/lnwire"
 )
 
 var (

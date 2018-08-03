@@ -14,8 +14,8 @@ import (
 
 	macaroon "gopkg.in/macaroon.v2"
 
-	"github.com/shelvenzhou/lnd/lnrpc"
-	"github.com/shelvenzhou/lnd/macaroons"
+	"github.com/BTCGPU/lnd/lnrpc"
+	"github.com/BTCGPU/lnd/macaroons"
 	"github.com/roasbeef/btcutil"
 	"github.com/urfave/cli"
 

@@ -3,7 +3,7 @@ package hodl_test
 import (
 	"testing"
 
-	"github.com/shelvenzhou/lnd/htlcswitch/hodl"
+	"github.com/BTCGPU/lnd/htlcswitch/hodl"
 )
 
 var hodlMaskTests = []struct {

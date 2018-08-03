@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/shelvenzhou/lnd/chainntnfs"
+	"github.com/BTCGPU/lnd/chainntnfs"
 )
 
 const (

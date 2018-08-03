@@ -7,7 +7,7 @@ import (
 	"net"
 	"time"
 
-	"github.com/shelvenzhou/lnd/lnwire"
+	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/roasbeef/btcd/btcec"
 )
 

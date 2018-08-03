@@ -8,7 +8,7 @@ import (
 	"github.com/roasbeef/btcd/btcec"
 	"github.com/roasbeef/btcd/txscript"
 	"github.com/roasbeef/btcd/wire"
-	"github.com/shelvenzhou/lnd/keychain"
+	"github.com/BTCGPU/lnd/keychain"
 )
 
 func TestSignDescriptorSerialization(t *testing.T) {

@@ -3,7 +3,7 @@ package chainntnfs_test
 import (
 	"testing"
 
-	"github.com/shelvenzhou/lnd/chainntnfs"
+	"github.com/BTCGPU/lnd/chainntnfs"
 )
 
 func TestConcurrentQueue(t *testing.T) {

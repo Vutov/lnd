@@ -10,7 +10,7 @@ import (
 
 	"github.com/coreos/bbolt"
 	"github.com/roasbeef/btcd/wire"
-	"github.com/shelvenzhou/lnd/lnwire"
+	"github.com/BTCGPU/lnd/lnwire"
 )
 
 var (

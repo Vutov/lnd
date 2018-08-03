@@ -12,9 +12,9 @@ import (
 	"github.com/roasbeef/btcd/blockchain"
 	"github.com/roasbeef/btcd/chaincfg/chainhash"
 	"github.com/roasbeef/btcutil/hdkeychain"
-	"github.com/shelvenzhou/lnd/channeldb"
-	"github.com/shelvenzhou/lnd/keychain"
-	"github.com/shelvenzhou/lnd/lnwire"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/keychain"
+	"github.com/BTCGPU/lnd/lnwire"
 
 	"github.com/roasbeef/btcd/btcec"
 	"github.com/roasbeef/btcd/txscript"
@@ -22,7 +22,7 @@ import (
 	"github.com/roasbeef/btcutil"
 	"github.com/roasbeef/btcutil/txsort"
 	btgTxscript "github.com/shelvenzhou/btgd/txscript"
-	"github.com/shelvenzhou/lnd/shachain"
+	"github.com/BTCGPU/lnd/shachain"
 )
 
 const (

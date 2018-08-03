@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/shelvenzhou/lnd/lnwire"
+	"github.com/BTCGPU/lnd/lnwire"
 )
 
 // TestWaitingQueueThreadSafety test the thread safety properties of the

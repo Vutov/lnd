@@ -10,11 +10,11 @@ import (
 
 	"github.com/roasbeef/btcd/chaincfg"
 	"github.com/roasbeef/btcwallet/wallet"
-	"github.com/shelvenzhou/lnd/aezeed"
-	"github.com/shelvenzhou/lnd/keychain"
-	"github.com/shelvenzhou/lnd/lnrpc"
-	"github.com/shelvenzhou/lnd/lnwallet/btcwallet"
-	"github.com/shelvenzhou/lnd/walletunlocker"
+	"github.com/BTCGPU/lnd/aezeed"
+	"github.com/BTCGPU/lnd/keychain"
+	"github.com/BTCGPU/lnd/lnrpc"
+	"github.com/BTCGPU/lnd/lnwallet/btcwallet"
+	"github.com/BTCGPU/lnd/walletunlocker"
 	"golang.org/x/net/context"
 )
 

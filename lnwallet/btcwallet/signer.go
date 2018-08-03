@@ -11,8 +11,8 @@ import (
 	"github.com/roasbeef/btcwallet/walletdb"
 	btgTxscript "github.com/shelvenzhou/btgd/txscript"
 	base "github.com/shelvenzhou/btgwallet/wallet"
-	"github.com/shelvenzhou/lnd/keychain"
-	"github.com/shelvenzhou/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/keychain"
+	"github.com/BTCGPU/lnd/lnwallet"
 )
 
 // FetchInputInfo queries for the WalletController's knowledge of the passed

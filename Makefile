@@ -1,4 +1,4 @@
-PKG := github.com/shelvenzhou/lnd
+PKG := github.com/BTCGPU/lnd
 ESCPKG := github.com\/shelvenzhou\/lnd
 
 DEP_PKG := github.com/golang/dep/cmd/dep

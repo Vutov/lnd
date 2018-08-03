@@ -8,7 +8,7 @@ import (
 	"path"
 	"testing"
 
-	"github.com/shelvenzhou/lnd/macaroons"
+	"github.com/BTCGPU/lnd/macaroons"
 	"google.golang.org/grpc/metadata"
 	"gopkg.in/macaroon-bakery.v2/bakery"
 	"gopkg.in/macaroon-bakery.v2/bakery/checkers"

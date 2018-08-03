@@ -34,8 +34,8 @@ for i in $SYS; do
     mkdir $PACKAGE-$i-$TAG
     cd $PACKAGE-$i-$TAG
     echo "Building:" $OS $ARCH
-    env GOOS=$OS GOARCH=$ARCH go build -v -ldflags "$COMMITFLAGS" github.com/shelvenzhou/lnd
-    env GOOS=$OS GOARCH=$ARCH go build -v -ldflags "$COMMITFLAGS" github.com/shelvenzhou/lnd/cmd/lncli
+    env GOOS=$OS GOARCH=$ARCH go build -v -ldflags "$COMMITFLAGS" github.com/BTCGPU/lnd
+    env GOOS=$OS GOARCH=$ARCH go build -v -ldflags "$COMMITFLAGS" github.com/BTCGPU/lnd/cmd/lncli
     cd ..
     if [[ $OS = "windows" ]]; then
 	zip -r $PACKAGE-$i-$TAG.zip $PACKAGE-$i-$TAG
