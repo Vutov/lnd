@@ -12,13 +12,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/lightninglabs/neutrino"
-	"github.com/roasbeef/btcd/chaincfg/chainhash"
-	"github.com/roasbeef/btcd/rpcclient"
-	"github.com/roasbeef/btcutil"
-	"github.com/roasbeef/btcwallet/chain"
-	"github.com/roasbeef/btcwallet/walletdb"
-	btgChain "github.com/shelvenzhou/btgwallet/chain"
 	"github.com/BTCGPU/lnd/chainntnfs"
 	"github.com/BTCGPU/lnd/chainntnfs/bgolddnotify"
 	"github.com/BTCGPU/lnd/chainntnfs/bitcoindnotify"
@@ -31,6 +24,13 @@ import (
 	"github.com/BTCGPU/lnd/lnwallet/btcwallet"
 	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/routing/chainview"
+	"github.com/lightninglabs/neutrino"
+	"github.com/roasbeef/btcd/chaincfg/chainhash"
+	"github.com/roasbeef/btcd/rpcclient"
+	"github.com/roasbeef/btcutil"
+	"github.com/roasbeef/btcwallet/chain"
+	"github.com/roasbeef/btcwallet/walletdb"
+	btgChain "github.com/shelvenzhou/btgwallet/chain"
 )
 
 const (
@@ -742,8 +742,8 @@ var (
 
 		bitcoingoldTestnetGenesis: {
 			{
-				"lseed.test.bitcoingold.org",
-				"soa.bitcoingold.org",
+				"lseed.testnet.bitcoingold.org",
+				"soa.testnet.bitcoingold.org",
 			},
 		},
 	}
