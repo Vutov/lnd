@@ -9,9 +9,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/BTCGPU/lnd/autopilot"
 	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/davecgh/go-spew/spew"
 	"github.com/miekg/dns"
 	"github.com/roasbeef/btcd/btcec"
 	"github.com/roasbeef/btcutil/bech32"
@@ -344,12 +344,14 @@ func (d *DNSSeedBootstrapper) SampleNodeAddrs(numAddrs uint32,
 	ignore map[autopilot.NodeID]struct{}) ([]*lnwire.NetAddress, error) {
 
 	var netAddrs []*lnwire.NetAddress
+	numRetry := 0
 
 	// We'll continue this loop until we reach our target address limit.
 	// Each SRV query to the seed will return 25 random nodes, so we can
 	// continue to query until we reach our target.
 search:
-	for uint32(len(netAddrs)) < numAddrs {
+	for uint32(len(netAddrs)) < numAddrs && numRetry < 5 {
+		numExisingAddrs := len(netAddrs)
 		for _, dnsSeedTuple := range d.dnsSeeds {
 			// We'll first query the seed with an SRV record so we
 			// can obtain a random sample of the encoded public
@@ -472,6 +474,12 @@ search:
 
 				netAddrs = append(netAddrs, lnAddr)
 			}
+		}
+		// Limit the max retry times
+		if len(netAddrs) == numExisingAddrs {
+			numRetry++
+		} else {
+			numRetry = 0
 		}
 	}
 
