@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/lightningnetwork/lnd/buffer"
-	"github.com/lightningnetwork/lnd/pool"
+	"github.com/BTCGPU/lnd/buffer"
+	"github.com/BTCGPU/lnd/pool"
 )
 
 type mockRecycler bool

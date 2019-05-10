@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/btcsuite/btcutil"
-	"github.com/lightningnetwork/lnd/autopilot"
+	"github.com/BTCGPU/lnd/autopilot"
 )
 
 // TestMedian tests the Median method.

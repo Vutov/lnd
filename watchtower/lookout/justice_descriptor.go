@@ -9,9 +9,9 @@ import (
 	"github.com/btcsuite/btcd/wire"
 	"github.com/btcsuite/btcutil"
 	"github.com/btcsuite/btcutil/txsort"
-	"github.com/lightningnetwork/lnd/input"
-	"github.com/lightningnetwork/lnd/watchtower/blob"
-	"github.com/lightningnetwork/lnd/watchtower/wtdb"
+	"github.com/BTCGPU/lnd/input"
+	"github.com/BTCGPU/lnd/watchtower/blob"
+	"github.com/BTCGPU/lnd/watchtower/wtdb"
 )
 
 var (

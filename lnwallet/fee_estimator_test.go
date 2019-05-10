@@ -10,7 +10,7 @@ import (
 
 	"github.com/btcsuite/btcutil"
 
-	"github.com/lightningnetwork/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/lnwallet"
 )
 
 type mockSparseConfFeeSource struct {

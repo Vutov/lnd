@@ -12,9 +12,9 @@ import (
 	"gopkg.in/macaroon-bakery.v2/bakery"
 
 	"github.com/btcsuite/btcutil"
-	"github.com/lightningnetwork/lnd/channeldb"
-	"github.com/lightningnetwork/lnd/lnrpc"
-	"github.com/lightningnetwork/lnd/lntypes"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/lnrpc"
+	"github.com/BTCGPU/lnd/lntypes"
 )
 
 const (

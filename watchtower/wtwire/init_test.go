@@ -5,8 +5,8 @@ import (
 
 	"github.com/btcsuite/btcd/chaincfg"
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
-	"github.com/lightningnetwork/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/watchtower/wtwire"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/lnd/watchtower/wtwire"
 )
 
 var (

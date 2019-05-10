@@ -18,15 +18,15 @@ import (
 	"github.com/go-errors/errors"
 
 	sphinx "github.com/lightningnetwork/lightning-onion"
-	"github.com/lightningnetwork/lnd/channeldb"
-	"github.com/lightningnetwork/lnd/htlcswitch"
-	"github.com/lightningnetwork/lnd/input"
-	"github.com/lightningnetwork/lnd/lnwallet"
-	"github.com/lightningnetwork/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/multimutex"
-	"github.com/lightningnetwork/lnd/routing/chainview"
-	"github.com/lightningnetwork/lnd/routing/route"
-	"github.com/lightningnetwork/lnd/zpay32"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/htlcswitch"
+	"github.com/BTCGPU/lnd/input"
+	"github.com/BTCGPU/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/lnd/multimutex"
+	"github.com/BTCGPU/lnd/routing/chainview"
+	"github.com/BTCGPU/lnd/routing/route"
+	"github.com/BTCGPU/lnd/zpay32"
 )
 
 const (

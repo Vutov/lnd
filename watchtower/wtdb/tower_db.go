@@ -9,8 +9,8 @@ import (
 
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
 	"github.com/coreos/bbolt"
-	"github.com/lightningnetwork/lnd/chainntnfs"
-	"github.com/lightningnetwork/lnd/channeldb"
+	"github.com/BTCGPU/lnd/chainntnfs"
+	"github.com/BTCGPU/lnd/channeldb"
 )
 
 const (

@@ -1,4 +1,4 @@
-PKG := github.com/lightningnetwork/lnd
+PKG := github.com/BTCGPU/lnd
 ESCPKG := github.com\/lightningnetwork\/lnd
 
 BTCD_PKG := github.com/btcsuite/btcd

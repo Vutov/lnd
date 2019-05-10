@@ -9,11 +9,11 @@ import (
 
 	"github.com/btcsuite/btcd/btcec"
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
-	"github.com/lightningnetwork/lnd/input"
-	"github.com/lightningnetwork/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/watchtower/wtdb"
-	"github.com/lightningnetwork/lnd/watchtower/wtserver"
-	"github.com/lightningnetwork/lnd/watchtower/wtwire"
+	"github.com/BTCGPU/lnd/input"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/lnd/watchtower/wtdb"
+	"github.com/BTCGPU/lnd/watchtower/wtserver"
+	"github.com/BTCGPU/lnd/watchtower/wtwire"
 )
 
 // retryInterval is the default duration we will wait between attempting to

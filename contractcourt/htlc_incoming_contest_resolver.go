@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/lightningnetwork/lnd/channeldb"
-	"github.com/lightningnetwork/lnd/invoices"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/invoices"
 
 	"github.com/btcsuite/btcutil"
-	"github.com/lightningnetwork/lnd/lntypes"
+	"github.com/BTCGPU/lnd/lntypes"
 )
 
 // htlcIncomingContestResolver is a ContractResolver that's able to resolve an

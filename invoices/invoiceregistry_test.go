@@ -7,10 +7,10 @@ import (
 	"time"
 
 	"github.com/btcsuite/btcd/chaincfg"
-	"github.com/lightningnetwork/lnd/channeldb"
-	"github.com/lightningnetwork/lnd/lntypes"
-	"github.com/lightningnetwork/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/zpay32"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/lntypes"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/lnd/zpay32"
 )
 
 var (

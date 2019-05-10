@@ -25,9 +25,9 @@ import (
 	"github.com/btcsuite/btcd/wire"
 	"github.com/btcsuite/btcutil"
 	"github.com/go-errors/errors"
-	"github.com/lightningnetwork/lnd/chanbackup"
-	"github.com/lightningnetwork/lnd/lnrpc"
-	"github.com/lightningnetwork/lnd/macaroons"
+	"github.com/BTCGPU/lnd/chanbackup"
+	"github.com/BTCGPU/lnd/lnrpc"
+	"github.com/BTCGPU/lnd/macaroons"
 )
 
 var (

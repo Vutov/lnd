@@ -6,7 +6,7 @@ import (
 	"sync"
 
 	"github.com/btcsuite/btcd/btcec"
-	"github.com/lightningnetwork/lnd/lnwire"
+	"github.com/BTCGPU/lnd/lnwire"
 )
 
 var (

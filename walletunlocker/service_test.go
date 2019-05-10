@@ -10,11 +10,11 @@ import (
 
 	"github.com/btcsuite/btcd/chaincfg"
 	"github.com/btcsuite/btcwallet/wallet"
-	"github.com/lightningnetwork/lnd/aezeed"
-	"github.com/lightningnetwork/lnd/keychain"
-	"github.com/lightningnetwork/lnd/lnrpc"
-	"github.com/lightningnetwork/lnd/lnwallet/btcwallet"
-	"github.com/lightningnetwork/lnd/walletunlocker"
+	"github.com/BTCGPU/lnd/aezeed"
+	"github.com/BTCGPU/lnd/keychain"
+	"github.com/BTCGPU/lnd/lnrpc"
+	"github.com/BTCGPU/lnd/lnwallet/btcwallet"
+	"github.com/BTCGPU/lnd/walletunlocker"
 	"golang.org/x/net/context"
 )
 

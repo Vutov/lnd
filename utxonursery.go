@@ -13,11 +13,11 @@ import (
 	"github.com/btcsuite/btcutil"
 	"github.com/davecgh/go-spew/spew"
 
-	"github.com/lightningnetwork/lnd/chainntnfs"
-	"github.com/lightningnetwork/lnd/channeldb"
-	"github.com/lightningnetwork/lnd/input"
-	"github.com/lightningnetwork/lnd/lnwallet"
-	"github.com/lightningnetwork/lnd/sweep"
+	"github.com/BTCGPU/lnd/chainntnfs"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/input"
+	"github.com/BTCGPU/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/sweep"
 )
 
 //                          SUMMARY OF OUTPUT STATES

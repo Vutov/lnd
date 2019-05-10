@@ -6,10 +6,10 @@ import (
 	"time"
 
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
-	"github.com/lightningnetwork/lnd/lnpeer"
-	"github.com/lightningnetwork/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/routing/route"
-	"github.com/lightningnetwork/lnd/ticker"
+	"github.com/BTCGPU/lnd/lnpeer"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/lnd/routing/route"
+	"github.com/BTCGPU/lnd/ticker"
 )
 
 const (

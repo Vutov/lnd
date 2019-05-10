@@ -16,11 +16,11 @@ import (
 	"github.com/btcsuite/btcd/wire"
 	"github.com/btcsuite/btcutil"
 	"github.com/davecgh/go-spew/spew"
-	"github.com/lightningnetwork/lnd/chainntnfs"
-	"github.com/lightningnetwork/lnd/channeldb"
-	"github.com/lightningnetwork/lnd/input"
-	"github.com/lightningnetwork/lnd/lntypes"
-	"github.com/lightningnetwork/lnd/lnwire"
+	"github.com/BTCGPU/lnd/chainntnfs"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/input"
+	"github.com/BTCGPU/lnd/lntypes"
+	"github.com/BTCGPU/lnd/lnwire"
 )
 
 // createHTLC is a utility function for generating an HTLC with a given

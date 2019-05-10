@@ -8,11 +8,11 @@ import (
 	"testing"
 
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
-	"github.com/lightningnetwork/lnd/chainntnfs"
-	"github.com/lightningnetwork/lnd/watchtower"
-	"github.com/lightningnetwork/lnd/watchtower/wtdb"
-	"github.com/lightningnetwork/lnd/watchtower/wtmock"
-	"github.com/lightningnetwork/lnd/watchtower/wtpolicy"
+	"github.com/BTCGPU/lnd/chainntnfs"
+	"github.com/BTCGPU/lnd/watchtower"
+	"github.com/BTCGPU/lnd/watchtower/wtdb"
+	"github.com/BTCGPU/lnd/watchtower/wtmock"
+	"github.com/BTCGPU/lnd/watchtower/wtpolicy"
 )
 
 // dbInit is a closure used to initialize a watchtower.DB instance and its

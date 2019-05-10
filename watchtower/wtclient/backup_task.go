@@ -7,11 +7,11 @@ import (
 	"github.com/btcsuite/btcd/wire"
 	"github.com/btcsuite/btcutil"
 	"github.com/btcsuite/btcutil/txsort"
-	"github.com/lightningnetwork/lnd/input"
-	"github.com/lightningnetwork/lnd/lnwallet"
-	"github.com/lightningnetwork/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/watchtower/blob"
-	"github.com/lightningnetwork/lnd/watchtower/wtdb"
+	"github.com/BTCGPU/lnd/input"
+	"github.com/BTCGPU/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/lnd/watchtower/blob"
+	"github.com/BTCGPU/lnd/watchtower/wtdb"
 )
 
 // backupTask is an internal struct for computing the justice transaction for a

@@ -11,9 +11,9 @@ import (
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
 	"github.com/btcsuite/btcd/wire"
 	"github.com/davecgh/go-spew/spew"
-	"github.com/lightningnetwork/lnd/build"
-	"github.com/lightningnetwork/lnd/input"
-	"github.com/lightningnetwork/lnd/keychain"
+	"github.com/BTCGPU/lnd/build"
+	"github.com/BTCGPU/lnd/input"
+	"github.com/BTCGPU/lnd/keychain"
 )
 
 var (

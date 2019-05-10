@@ -3,7 +3,7 @@ package pool
 import (
 	"time"
 
-	"github.com/lightningnetwork/lnd/buffer"
+	"github.com/BTCGPU/lnd/buffer"
 )
 
 const (

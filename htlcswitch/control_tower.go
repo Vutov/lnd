@@ -4,8 +4,8 @@ import (
 	"errors"
 
 	"github.com/coreos/bbolt"
-	"github.com/lightningnetwork/lnd/channeldb"
-	"github.com/lightningnetwork/lnd/lnwire"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/lnwire"
 )
 
 var (

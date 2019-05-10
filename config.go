@@ -21,16 +21,16 @@ import (
 
 	"github.com/btcsuite/btcutil"
 	flags "github.com/jessevdk/go-flags"
-	"github.com/lightningnetwork/lnd/build"
-	"github.com/lightningnetwork/lnd/chanbackup"
-	"github.com/lightningnetwork/lnd/channeldb"
-	"github.com/lightningnetwork/lnd/discovery"
-	"github.com/lightningnetwork/lnd/htlcswitch/hodl"
-	"github.com/lightningnetwork/lnd/lncfg"
-	"github.com/lightningnetwork/lnd/lnrpc/signrpc"
-	"github.com/lightningnetwork/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/routing"
-	"github.com/lightningnetwork/lnd/tor"
+	"github.com/BTCGPU/lnd/build"
+	"github.com/BTCGPU/lnd/chanbackup"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/discovery"
+	"github.com/BTCGPU/lnd/htlcswitch/hodl"
+	"github.com/BTCGPU/lnd/lncfg"
+	"github.com/BTCGPU/lnd/lnrpc/signrpc"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/lnd/routing"
+	"github.com/BTCGPU/lnd/tor"
 )
 
 const (

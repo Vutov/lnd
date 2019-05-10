@@ -17,17 +17,17 @@ import (
 	"github.com/btcsuite/btcd/wire"
 	"github.com/davecgh/go-spew/spew"
 
-	"github.com/lightningnetwork/lnd/brontide"
-	"github.com/lightningnetwork/lnd/buffer"
-	"github.com/lightningnetwork/lnd/chainntnfs"
-	"github.com/lightningnetwork/lnd/channeldb"
-	"github.com/lightningnetwork/lnd/contractcourt"
-	"github.com/lightningnetwork/lnd/htlcswitch"
-	"github.com/lightningnetwork/lnd/lnpeer"
-	"github.com/lightningnetwork/lnd/lnwallet"
-	"github.com/lightningnetwork/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/pool"
-	"github.com/lightningnetwork/lnd/ticker"
+	"github.com/BTCGPU/lnd/brontide"
+	"github.com/BTCGPU/lnd/buffer"
+	"github.com/BTCGPU/lnd/chainntnfs"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/contractcourt"
+	"github.com/BTCGPU/lnd/htlcswitch"
+	"github.com/BTCGPU/lnd/lnpeer"
+	"github.com/BTCGPU/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/lnd/pool"
+	"github.com/BTCGPU/lnd/ticker"
 )
 
 var (

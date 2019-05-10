@@ -16,11 +16,11 @@ import (
 	"github.com/davecgh/go-spew/spew"
 
 	sphinx "github.com/lightningnetwork/lightning-onion"
-	"github.com/lightningnetwork/lnd/channeldb"
-	"github.com/lightningnetwork/lnd/htlcswitch"
-	"github.com/lightningnetwork/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/routing/route"
-	"github.com/lightningnetwork/lnd/zpay32"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/htlcswitch"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/lnd/routing/route"
+	"github.com/BTCGPU/lnd/zpay32"
 )
 
 // defaultNumRoutes is the default value for the maximum number of routes to

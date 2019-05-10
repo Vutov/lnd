@@ -1,8 +1,8 @@
 package watchtower
 
 import (
-	"github.com/lightningnetwork/lnd/watchtower/lookout"
-	"github.com/lightningnetwork/lnd/watchtower/wtserver"
+	"github.com/BTCGPU/lnd/watchtower/lookout"
+	"github.com/BTCGPU/lnd/watchtower/wtserver"
 )
 
 // DB abstracts the persistent functionality required to run the watchtower

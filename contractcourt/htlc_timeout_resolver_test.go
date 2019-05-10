@@ -8,10 +8,10 @@ import (
 	"time"
 
 	"github.com/btcsuite/btcd/wire"
-	"github.com/lightningnetwork/lnd/chainntnfs"
-	"github.com/lightningnetwork/lnd/input"
-	"github.com/lightningnetwork/lnd/lntypes"
-	"github.com/lightningnetwork/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/chainntnfs"
+	"github.com/BTCGPU/lnd/input"
+	"github.com/BTCGPU/lnd/lntypes"
+	"github.com/BTCGPU/lnd/lnwallet"
 )
 
 type mockSigner struct {

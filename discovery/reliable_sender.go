@@ -4,8 +4,8 @@ import (
 	"sync"
 
 	"github.com/btcsuite/btcd/btcec"
-	"github.com/lightningnetwork/lnd/lnpeer"
-	"github.com/lightningnetwork/lnd/lnwire"
+	"github.com/BTCGPU/lnd/lnpeer"
+	"github.com/BTCGPU/lnd/lnwire"
 )
 
 // reliableSenderCfg contains all of necessary items for the reliableSender to

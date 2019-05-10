@@ -15,10 +15,10 @@ import (
 	macaroon "gopkg.in/macaroon.v2"
 
 	"github.com/btcsuite/btcutil"
-	"github.com/lightningnetwork/lnd/build"
-	"github.com/lightningnetwork/lnd/lncfg"
-	"github.com/lightningnetwork/lnd/lnrpc"
-	"github.com/lightningnetwork/lnd/macaroons"
+	"github.com/BTCGPU/lnd/build"
+	"github.com/BTCGPU/lnd/lncfg"
+	"github.com/BTCGPU/lnd/lnrpc"
+	"github.com/BTCGPU/lnd/macaroons"
 	"github.com/urfave/cli"
 
 	"google.golang.org/grpc"

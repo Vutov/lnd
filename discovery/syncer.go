@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
-	"github.com/lightningnetwork/lnd/lnpeer"
-	"github.com/lightningnetwork/lnd/lnwire"
+	"github.com/BTCGPU/lnd/lnpeer"
+	"github.com/BTCGPU/lnd/lnwire"
 	"golang.org/x/time/rate"
 )
 

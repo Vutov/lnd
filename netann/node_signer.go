@@ -5,7 +5,7 @@ import (
 
 	"github.com/btcsuite/btcd/btcec"
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
-	"github.com/lightningnetwork/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/lnwallet"
 )
 
 // NodeSigner is an implementation of the MessageSigner interface backed by the

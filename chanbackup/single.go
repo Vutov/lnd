@@ -10,9 +10,9 @@ import (
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
 	"github.com/btcsuite/btcd/wire"
 	"github.com/btcsuite/btcutil"
-	"github.com/lightningnetwork/lnd/channeldb"
-	"github.com/lightningnetwork/lnd/keychain"
-	"github.com/lightningnetwork/lnd/lnwire"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/keychain"
+	"github.com/BTCGPU/lnd/lnwire"
 )
 
 // SingleBackupVersion denotes the version of the single static channel backup.

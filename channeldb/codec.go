@@ -10,9 +10,9 @@ import (
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
 	"github.com/btcsuite/btcd/wire"
 	"github.com/btcsuite/btcutil"
-	"github.com/lightningnetwork/lnd/keychain"
-	"github.com/lightningnetwork/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/shachain"
+	"github.com/BTCGPU/lnd/keychain"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/lnd/shachain"
 )
 
 // outPointSize is the size of a serialized outpoint on disk.

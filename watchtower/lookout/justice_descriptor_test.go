@@ -14,14 +14,14 @@ import (
 	"github.com/btcsuite/btcutil"
 	"github.com/btcsuite/btcutil/txsort"
 	"github.com/davecgh/go-spew/spew"
-	"github.com/lightningnetwork/lnd/input"
-	"github.com/lightningnetwork/lnd/keychain"
-	"github.com/lightningnetwork/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/watchtower/blob"
-	"github.com/lightningnetwork/lnd/watchtower/lookout"
-	"github.com/lightningnetwork/lnd/watchtower/wtdb"
-	"github.com/lightningnetwork/lnd/watchtower/wtmock"
-	"github.com/lightningnetwork/lnd/watchtower/wtpolicy"
+	"github.com/BTCGPU/lnd/input"
+	"github.com/BTCGPU/lnd/keychain"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/lnd/watchtower/blob"
+	"github.com/BTCGPU/lnd/watchtower/lookout"
+	"github.com/BTCGPU/lnd/watchtower/wtdb"
+	"github.com/BTCGPU/lnd/watchtower/wtmock"
+	"github.com/BTCGPU/lnd/watchtower/wtpolicy"
 )
 
 const csvDelay uint32 = 144
