@@ -14,7 +14,7 @@ import (
 
 	macaroon "gopkg.in/macaroon.v2"
 
-	"github.com/btcsuite/btcutil"
+	btcutil "github.com/btgsuite/btgutil"
 	"github.com/BTCGPU/lnd/build"
 	"github.com/BTCGPU/lnd/lncfg"
 	"github.com/BTCGPU/lnd/lnrpc"
@@ -311,7 +311,7 @@ func main() {
 
 // cleanAndExpandPath expands environment variables and leading ~ in the
 // passed path, cleans the result, and returns it.
-// This function is taken from https://github.com/btcsuite/btcd
+// This function is taken from https://github.com/btgsuite/btgd
 func cleanAndExpandPath(path string) string {
 	if path == "" {
 		return ""

@@ -6,7 +6,7 @@ import (
 	"encoding/hex"
 	"testing"
 
-	"github.com/btcsuite/btcutil"
+	btcutil "github.com/btgsuite/btgutil"
 	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/routing"
 	"github.com/BTCGPU/lnd/routing/route"

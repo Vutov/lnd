@@ -6,8 +6,8 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/btcsuite/btcd/wire"
-	"github.com/btcsuite/btcutil"
+	"github.com/btgsuite/btgd/wire"
+	btcutil "github.com/btgsuite/btgutil"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/BTCGPU/lnd/chainntnfs"
 	"github.com/BTCGPU/lnd/channeldb"

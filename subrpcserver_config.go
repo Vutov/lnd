@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/btcsuite/btcd/chaincfg"
+	"github.com/btgsuite/btgd/chaincfg"
 	"github.com/BTCGPU/lnd/autopilot"
 	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/htlcswitch"

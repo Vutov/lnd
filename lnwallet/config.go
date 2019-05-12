@@ -1,7 +1,7 @@
 package lnwallet
 
 import (
-	"github.com/btcsuite/btcd/chaincfg"
+	"github.com/btgsuite/btgd/chaincfg"
 	"github.com/BTCGPU/lnd/chainntnfs"
 	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/input"

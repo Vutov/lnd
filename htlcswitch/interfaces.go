@@ -1,7 +1,7 @@
 package htlcswitch
 
 import (
-	"github.com/btcsuite/btcd/wire"
+	"github.com/btgsuite/btgd/wire"
 	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/invoices"
 	"github.com/BTCGPU/lnd/lnpeer"

@@ -3,7 +3,7 @@ package channelnotifier
 import (
 	"sync/atomic"
 
-	"github.com/btcsuite/btcd/wire"
+	"github.com/btgsuite/btgd/wire"
 	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/subscribe"
 )

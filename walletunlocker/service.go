@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/btcsuite/btcd/chaincfg"
+	"github.com/btgsuite/btgd/chaincfg"
 	"github.com/btcsuite/btcwallet/wallet"
 	"github.com/BTCGPU/lnd/aezeed"
 	"github.com/BTCGPU/lnd/chanbackup"

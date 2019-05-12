@@ -3,9 +3,9 @@ package lnd
 import (
 	"fmt"
 
-	"github.com/btcsuite/btcd/txscript"
-	"github.com/btcsuite/btcd/wire"
-	"github.com/btcsuite/btcutil"
+	"github.com/btgsuite/btgd/txscript"
+	"github.com/btgsuite/btgd/wire"
+	btcutil "github.com/btgsuite/btgutil"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/BTCGPU/lnd/htlcswitch"
 	"github.com/BTCGPU/lnd/lnwallet"

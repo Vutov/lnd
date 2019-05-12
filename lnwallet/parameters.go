@@ -1,7 +1,7 @@
 package lnwallet
 
 import (
-	"github.com/btcsuite/btcutil"
+	btcutil "github.com/btgsuite/btgutil"
 	"github.com/btcsuite/btcwallet/wallet/txrules"
 	"github.com/BTCGPU/lnd/input"
 )

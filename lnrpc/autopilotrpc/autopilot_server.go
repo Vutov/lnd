@@ -7,7 +7,7 @@ import (
 	"encoding/hex"
 	"sync/atomic"
 
-	"github.com/btcsuite/btcd/btcec"
+	"github.com/btgsuite/btgd/btcec"
 	"github.com/BTCGPU/lnd/autopilot"
 	"github.com/BTCGPU/lnd/lnrpc"
 	"google.golang.org/grpc"

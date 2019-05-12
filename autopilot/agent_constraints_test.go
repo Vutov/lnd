@@ -6,7 +6,7 @@ import (
 
 	prand "math/rand"
 
-	"github.com/btcsuite/btcutil"
+	btcutil "github.com/btgsuite/btgutil"
 	"github.com/BTCGPU/lnd/lnwire"
 )
 

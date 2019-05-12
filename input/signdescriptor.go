@@ -5,9 +5,9 @@ import (
 	"errors"
 	"io"
 
-	"github.com/btcsuite/btcd/btcec"
-	"github.com/btcsuite/btcd/txscript"
-	"github.com/btcsuite/btcd/wire"
+	"github.com/btgsuite/btgd/btcec"
+	"github.com/btgsuite/btgd/txscript"
+	"github.com/btgsuite/btgd/wire"
 	"github.com/BTCGPU/lnd/keychain"
 )
 

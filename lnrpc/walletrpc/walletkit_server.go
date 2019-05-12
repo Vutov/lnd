@@ -9,7 +9,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/btcsuite/btcd/wire"
+	"github.com/btgsuite/btgd/wire"
 	"github.com/BTCGPU/lnd/keychain"
 	"github.com/BTCGPU/lnd/lnrpc"
 	"github.com/BTCGPU/lnd/lnrpc/signrpc"

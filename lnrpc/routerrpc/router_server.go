@@ -11,7 +11,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/btcsuite/btcutil"
+	btcutil "github.com/btgsuite/btgutil"
 	"github.com/BTCGPU/lnd/lnrpc"
 	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/routing"

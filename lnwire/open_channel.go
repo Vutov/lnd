@@ -3,9 +3,9 @@ package lnwire
 import (
 	"io"
 
-	"github.com/btcsuite/btcd/btcec"
-	"github.com/btcsuite/btcd/chaincfg/chainhash"
-	"github.com/btcsuite/btcutil"
+	"github.com/btgsuite/btgd/btcec"
+	"github.com/btgsuite/btgd/chaincfg/chainhash"
+	btcutil "github.com/btgsuite/btgutil"
 )
 
 // FundingFlag represents the possible bit mask values for the ChannelFlags

@@ -4,7 +4,7 @@ import (
 	"encoding/binary"
 	"fmt"
 
-	"github.com/btcsuite/btcd/btcec"
+	"github.com/btgsuite/btgd/btcec"
 	sphinx "github.com/lightningnetwork/lightning-onion"
 	"github.com/BTCGPU/lnd/lnwire"
 )

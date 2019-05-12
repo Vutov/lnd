@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/btcsuite/btcd/chaincfg"
-	"github.com/btcsuite/btcd/rpcclient"
+	"github.com/btgsuite/btgd/chaincfg"
+	"github.com/btgsuite/btgd/rpcclient"
 	"github.com/BTCGPU/lnd/chainntnfs"
 )
 

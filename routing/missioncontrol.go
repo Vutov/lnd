@@ -4,7 +4,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/btcsuite/btcd/btcec"
+	"github.com/btgsuite/btgd/btcec"
 	"github.com/coreos/bbolt"
 	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/lnwire"

@@ -6,8 +6,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/btcsuite/btcd/btcec"
-	"github.com/btcsuite/btcd/wire"
+	"github.com/btgsuite/btgd/btcec"
+	"github.com/btgsuite/btgd/wire"
 	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/lnwallet"
 	"github.com/BTCGPU/lnd/lnwire"

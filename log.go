@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/btcsuite/btcd/connmgr"
+	"github.com/btgsuite/btgd/connmgr"
 	"github.com/btcsuite/btclog"
 	"github.com/jrick/logrotate/rotator"
 	"github.com/lightninglabs/neutrino"

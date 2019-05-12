@@ -3,7 +3,7 @@
 package invoicesrpc
 
 import (
-	"github.com/btcsuite/btcd/chaincfg"
+	"github.com/btgsuite/btgd/chaincfg"
 	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/invoices"
 	"github.com/BTCGPU/lnd/lnwire"

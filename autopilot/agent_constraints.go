@@ -1,7 +1,7 @@
 package autopilot
 
 import (
-	"github.com/btcsuite/btcutil"
+	btcutil "github.com/btgsuite/btgutil"
 )
 
 // AgentConstraints is an interface the agent will query to determine what

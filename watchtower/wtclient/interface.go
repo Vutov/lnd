@@ -3,7 +3,7 @@ package wtclient
 import (
 	"net"
 
-	"github.com/btcsuite/btcd/btcec"
+	"github.com/btgsuite/btgd/btcec"
 	"github.com/BTCGPU/lnd/brontide"
 	"github.com/BTCGPU/lnd/keychain"
 	"github.com/BTCGPU/lnd/lnwire"

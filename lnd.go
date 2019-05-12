@@ -35,8 +35,8 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
-	"github.com/btcsuite/btcd/btcec"
 	"github.com/btcsuite/btcwallet/wallet"
+	"github.com/btgsuite/btgd/btcec"
 	proxy "github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/lightninglabs/neutrino"
 
@@ -470,7 +470,7 @@ func getTLSConfig(cfg *config) (*tls.Config, *credentials.TransportCredentials,
 }
 
 // fileExists reports whether the named file or directory exists.
-// This function is taken from https://github.com/btcsuite/btcd
+// This function is taken from https://github.com/btgsuite/btgd
 func fileExists(name string) bool {
 	if _, err := os.Stat(name); err != nil {
 		if os.IsNotExist(err) {
@@ -486,8 +486,8 @@ func fileExists(name string) bool {
 // desired hostnames for the service. For production/public use, consider a
 // real PKI.
 //
-// This function is adapted from https://github.com/btcsuite/btcd and
-// https://github.com/btcsuite/btcutil
+// This function is adapted from https://github.com/btgsuite/btgd and
+// https://github.com/btgsuite/btgutil
 func genCertPair(certFile, keyFile string) error {
 	rpcsLog.Infof("Generating TLS certificates...")
 
@@ -572,7 +572,7 @@ func genCertPair(certFile, keyFile string) error {
 
 		KeyUsage: x509.KeyUsageKeyEncipherment |
 			x509.KeyUsageDigitalSignature | x509.KeyUsageCertSign,
-		IsCA:                  true, // so can sign self.
+		IsCA: true, // so can sign self.
 		BasicConstraintsValid: true,
 
 		DNSNames:    dnsNames,

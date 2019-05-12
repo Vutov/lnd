@@ -19,7 +19,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/btcsuite/btcutil"
+	btcutil "github.com/btgsuite/btgutil"
 	flags "github.com/jessevdk/go-flags"
 	"github.com/BTCGPU/lnd/build"
 	"github.com/BTCGPU/lnd/chanbackup"
@@ -1070,7 +1070,7 @@ func loadConfig() (*config, error) {
 
 // cleanAndExpandPath expands environment variables and leading ~ in the
 // passed path, cleans the result, and returns it.
-// This function is taken from https://github.com/btcsuite/btcd
+// This function is taken from https://github.com/btgsuite/btgd
 func cleanAndExpandPath(path string) string {
 	if path == "" {
 		return ""

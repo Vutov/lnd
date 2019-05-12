@@ -4,7 +4,7 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"github.com/btcsuite/btcd/chaincfg"
+	"github.com/btgsuite/btgd/chaincfg"
 	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/lnrpc"
 	"github.com/BTCGPU/lnd/zpay32"

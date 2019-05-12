@@ -1,7 +1,7 @@
 package netann
 
 import (
-	"github.com/btcsuite/btcd/wire"
+	"github.com/btgsuite/btgd/wire"
 	"github.com/BTCGPU/lnd/channeldb"
 )
 

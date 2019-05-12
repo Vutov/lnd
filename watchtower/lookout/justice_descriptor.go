@@ -3,12 +3,12 @@ package lookout
 import (
 	"errors"
 
-	"github.com/btcsuite/btcd/blockchain"
-	"github.com/btcsuite/btcd/btcec"
-	"github.com/btcsuite/btcd/txscript"
-	"github.com/btcsuite/btcd/wire"
-	"github.com/btcsuite/btcutil"
-	"github.com/btcsuite/btcutil/txsort"
+	"github.com/btgsuite/btgd/blockchain"
+	"github.com/btgsuite/btgd/btcec"
+	"github.com/btgsuite/btgd/txscript"
+	"github.com/btgsuite/btgd/wire"
+	btcutil "github.com/btgsuite/btgutil"
+	"github.com/btgsuite/btgutil/txsort"
 	"github.com/BTCGPU/lnd/input"
 	"github.com/BTCGPU/lnd/watchtower/blob"
 	"github.com/BTCGPU/lnd/watchtower/wtdb"

@@ -10,8 +10,8 @@ import (
 
 	"golang.org/x/crypto/chacha20poly1305"
 
-	"github.com/btcsuite/btcd/btcec"
-	"github.com/btcsuite/btcd/txscript"
+	"github.com/btgsuite/btgd/btcec"
+	"github.com/btgsuite/btgd/txscript"
 	"github.com/BTCGPU/lnd/input"
 	"github.com/BTCGPU/lnd/lnwire"
 )

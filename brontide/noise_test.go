@@ -10,7 +10,7 @@ import (
 	"testing"
 	"testing/iotest"
 
-	"github.com/btcsuite/btcd/btcec"
+	"github.com/btgsuite/btgd/btcec"
 	"github.com/BTCGPU/lnd/lnwire"
 )
 

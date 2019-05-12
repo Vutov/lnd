@@ -20,10 +20,10 @@ import (
 	"google.golang.org/grpc/credentials"
 	macaroon "gopkg.in/macaroon.v2"
 
-	"github.com/btcsuite/btcd/chaincfg"
-	"github.com/btcsuite/btcd/chaincfg/chainhash"
-	"github.com/btcsuite/btcd/wire"
-	"github.com/btcsuite/btcutil"
+	"github.com/btgsuite/btgd/chaincfg"
+	"github.com/btgsuite/btgd/chaincfg/chainhash"
+	"github.com/btgsuite/btgd/wire"
+	btcutil "github.com/btgsuite/btgutil"
 	"github.com/go-errors/errors"
 	"github.com/BTCGPU/lnd/chanbackup"
 	"github.com/BTCGPU/lnd/lnrpc"
@@ -1029,7 +1029,7 @@ func (hn *HarnessNode) WaitForBalance(expectedBalance btcutil.Amount, confirmed 
 }
 
 // fileExists reports whether the named file or directory exists.
-// This function is taken from https://github.com/btcsuite/btcd
+// This function is taken from https://github.com/btgsuite/btgd
 func fileExists(name string) bool {
 	if _, err := os.Stat(name); err != nil {
 		if os.IsNotExist(err) {

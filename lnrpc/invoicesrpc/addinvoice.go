@@ -9,8 +9,8 @@ import (
 	"math"
 	"time"
 
-	"github.com/btcsuite/btcd/chaincfg"
-	"github.com/btcsuite/btcutil"
+	"github.com/btgsuite/btgd/chaincfg"
+	btcutil "github.com/btgsuite/btgutil"
 	"github.com/davecgh/go-spew/spew"
 
 	"github.com/BTCGPU/lnd/channeldb"
