@@ -9,7 +9,7 @@ import (
 	"github.com/btgsuite/btgd/btcec"
 	bitcoinCfg "github.com/btgsuite/btgd/chaincfg"
 	btcutil "github.com/btgsuite/btgutil"
-	"github.com/lightningnetwork/lightning-onion"
+	"github.com/BTCGPU/lightning-onion"
 	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/htlcswitch"
 	"github.com/BTCGPU/lnd/lnwire"

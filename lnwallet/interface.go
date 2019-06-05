@@ -9,7 +9,7 @@ import (
 	"github.com/btgsuite/btgd/chaincfg/chainhash"
 	"github.com/btgsuite/btgd/wire"
 	btcutil "github.com/btgsuite/btgutil"
-	"github.com/btcsuite/btcwallet/wallet/txauthor"
+	"github.com/btgsuite/btgwallet/wallet/txauthor"
 	"github.com/BTCGPU/lnd/lntypes"
 )
 

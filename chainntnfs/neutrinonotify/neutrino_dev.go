@@ -8,7 +8,7 @@ import (
 
 	"github.com/btgsuite/btgd/chaincfg/chainhash"
 	"github.com/btgsuite/btgd/rpcclient"
-	"github.com/lightninglabs/neutrino"
+	"github.com/BTCGPU/neutrino"
 	"github.com/BTCGPU/lnd/chainntnfs"
 )
 

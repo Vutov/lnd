@@ -21,9 +21,9 @@ import (
 	"github.com/btgsuite/btgd/txscript"
 	"github.com/btgsuite/btgd/wire"
 	btcutil "github.com/btgsuite/btgutil"
-	"github.com/btcsuite/btcwallet/chain"
-	"github.com/btcsuite/btcwallet/walletdb"
-	"github.com/lightninglabs/neutrino"
+	"github.com/btgsuite/btgwallet/chain"
+	"github.com/btgsuite/btgwallet/walletdb"
+	"github.com/BTCGPU/neutrino"
 )
 
 var (

@@ -21,11 +21,11 @@ import (
 	"github.com/btgsuite/btgd/txscript"
 	"github.com/btgsuite/btgd/wire"
 	btcutil "github.com/btgsuite/btgutil"
-	"github.com/btcsuite/btcwallet/chain"
-	"github.com/btcsuite/btcwallet/walletdb"
-	_ "github.com/btcsuite/btcwallet/walletdb/bdb" // Required to register the boltdb walletdb implementation.
+	"github.com/btgsuite/btgwallet/chain"
+	"github.com/btgsuite/btgwallet/walletdb"
+	_ "github.com/btgsuite/btgwallet/walletdb/bdb" // Required to register the boltdb walletdb implementation.
 
-	"github.com/lightninglabs/neutrino"
+	"github.com/BTCGPU/neutrino"
 	"github.com/BTCGPU/lnd/channeldb"
 )
 

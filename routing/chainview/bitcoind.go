@@ -10,8 +10,8 @@ import (
 	"github.com/btgsuite/btgd/btcjson"
 	"github.com/btgsuite/btgd/chaincfg/chainhash"
 	"github.com/btgsuite/btgd/wire"
-	"github.com/btcsuite/btcwallet/chain"
-	"github.com/btcsuite/btcwallet/wtxmgr"
+	"github.com/btgsuite/btgwallet/chain"
+	"github.com/btgsuite/btgwallet/wtxmgr"
 	"github.com/BTCGPU/lnd/channeldb"
 )
 

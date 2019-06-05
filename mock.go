@@ -11,7 +11,7 @@ import (
 	"github.com/btgsuite/btgd/txscript"
 	"github.com/btgsuite/btgd/wire"
 	btcutil "github.com/btgsuite/btgutil"
-	"github.com/btcsuite/btcwallet/wallet/txauthor"
+	"github.com/btgsuite/btgwallet/wallet/txauthor"
 
 	"github.com/BTCGPU/lnd/chainntnfs"
 	"github.com/BTCGPU/lnd/input"

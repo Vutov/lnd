@@ -35,10 +35,10 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
-	"github.com/btcsuite/btcwallet/wallet"
+	"github.com/btgsuite/btgwallet/wallet"
 	"github.com/btgsuite/btgd/btcec"
 	proxy "github.com/grpc-ecosystem/grpc-gateway/runtime"
-	"github.com/lightninglabs/neutrino"
+	"github.com/BTCGPU/neutrino"
 
 	"github.com/BTCGPU/lnd/autopilot"
 	"github.com/BTCGPU/lnd/build"

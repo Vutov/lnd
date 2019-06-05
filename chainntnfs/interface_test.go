@@ -16,9 +16,9 @@ import (
 	"github.com/btgsuite/btgd/rpcclient"
 	"github.com/btgsuite/btgd/wire"
 	btcutil "github.com/btgsuite/btgutil"
-	"github.com/btcsuite/btcwallet/chain"
-	_ "github.com/btcsuite/btcwallet/walletdb/bdb" // Required to auto-register the boltdb walletdb implementation.
-	"github.com/lightninglabs/neutrino"
+	"github.com/btgsuite/btgwallet/chain"
+	_ "github.com/btgsuite/btgwallet/walletdb/bdb" // Required to auto-register the boltdb walletdb implementation.
+	"github.com/BTCGPU/neutrino"
 	"github.com/BTCGPU/lnd/chainntnfs"
 	"github.com/BTCGPU/lnd/chainntnfs/bitcoindnotify"
 	"github.com/BTCGPU/lnd/chainntnfs/btcdnotify"

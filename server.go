@@ -24,7 +24,7 @@ import (
 	btcutil "github.com/btgsuite/btgutil"
 	"github.com/coreos/bbolt"
 	"github.com/go-errors/errors"
-	sphinx "github.com/lightningnetwork/lightning-onion"
+	sphinx "github.com/BTCGPU/lightning-onion"
 	"github.com/BTCGPU/lnd/autopilot"
 	"github.com/BTCGPU/lnd/brontide"
 	"github.com/BTCGPU/lnd/chanbackup"

@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/btgsuite/btgd/chaincfg"
-	"github.com/btcsuite/btcwallet/chain"
+	"github.com/btgsuite/btgwallet/chain"
 	"github.com/BTCGPU/lnd/chainntnfs"
 )
 

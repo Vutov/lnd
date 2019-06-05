@@ -5,9 +5,9 @@ import (
 	"fmt"
 
 	"github.com/btgsuite/btgd/btcec"
-	"github.com/btcsuite/btcwallet/waddrmgr"
-	"github.com/btcsuite/btcwallet/wallet"
-	"github.com/btcsuite/btcwallet/walletdb"
+	"github.com/btgsuite/btgwallet/waddrmgr"
+	"github.com/btgsuite/btgwallet/wallet"
+	"github.com/btgsuite/btgwallet/walletdb"
 )
 
 const (

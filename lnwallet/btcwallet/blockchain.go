@@ -9,9 +9,9 @@ import (
 	"github.com/btgsuite/btgd/wire"
 	btcutil "github.com/btgsuite/btgutil"
 
-	"github.com/btcsuite/btcwallet/chain"
-	"github.com/btcsuite/btcwallet/waddrmgr"
-	"github.com/lightninglabs/neutrino"
+	"github.com/btgsuite/btgwallet/chain"
+	"github.com/btgsuite/btgwallet/waddrmgr"
+	"github.com/BTCGPU/neutrino"
 	"github.com/BTCGPU/lnd/lnwallet"
 )
 
