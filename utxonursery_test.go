@@ -14,15 +14,15 @@ import (
 	"testing"
 	"time"
 
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/input"
+	"github.com/BTCGPU/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/sweep"
 	"github.com/btgsuite/btgd/btcec"
 	"github.com/btgsuite/btgd/chaincfg/chainhash"
 	"github.com/btgsuite/btgd/txscript"
 	"github.com/btgsuite/btgd/wire"
 	btcutil "github.com/btgsuite/btgutil"
-	"github.com/BTCGPU/lnd/channeldb"
-	"github.com/BTCGPU/lnd/input"
-	"github.com/BTCGPU/lnd/lnwallet"
-	"github.com/BTCGPU/lnd/sweep"
 )
 
 var (
@@ -138,7 +138,7 @@ var (
 					0xac, // OP_CHECKSIG
 				},
 			},
-			HashType: txscript.SigHashAll,
+			HashType: txscript.SigHashAll | txscript.SigHashForkID,
 		},
 		{
 			SingleTweak: []byte{
@@ -168,7 +168,7 @@ var (
 					0xac, // OP_CHECKSIG
 				},
 			},
-			HashType: txscript.SigHashAll,
+			HashType: txscript.SigHashAll | txscript.SigHashForkID,
 		},
 		{
 			SingleTweak: []byte{
@@ -198,7 +198,7 @@ var (
 					0xac, // OP_CHECKSIG
 				},
 			},
-			HashType: txscript.SigHashAll,
+			HashType: txscript.SigHashAll | txscript.SigHashForkID,
 		},
 	}
 

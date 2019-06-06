@@ -10,16 +10,16 @@ import (
 
 	prand "math/rand"
 
-	"github.com/btgsuite/btgd/btcec"
-	"github.com/btgsuite/btgd/chaincfg/chainhash"
-	"github.com/btgsuite/btgd/txscript"
-	"github.com/btgsuite/btgd/wire"
-	"github.com/coreos/bbolt"
-	"github.com/davecgh/go-spew/spew"
 	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/input"
 	"github.com/BTCGPU/lnd/lnwallet"
 	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/btgsuite/btgd/btcec"
+	"github.com/btgsuite/btgd/chaincfg/chainhash"
+	"github.com/btgsuite/btgd/txscript"
+	"github.com/btgsuite/btgd/wire"
+	"github.com/davecgh/go-spew/spew"
+	"github.com/coreos/bbolt"
 )
 
 var (
@@ -92,7 +92,7 @@ var (
 				0xac, // OP_CHECKSIG
 			},
 		},
-		HashType: txscript.SigHashAll,
+		HashType: txscript.SigHashAll | txscript.SigHashForkID,
 	}
 )
 

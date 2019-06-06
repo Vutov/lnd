@@ -18,12 +18,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/btgsuite/btgd/btcec"
-	"github.com/btgsuite/btgd/chaincfg/chainhash"
-	"github.com/btgsuite/btgd/txscript"
-	"github.com/btgsuite/btgd/wire"
-	btcutil "github.com/btgsuite/btgutil"
-	"github.com/go-errors/errors"
 	"github.com/BTCGPU/lnd/chainntnfs"
 	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/htlcswitch"
@@ -33,6 +27,12 @@ import (
 	"github.com/BTCGPU/lnd/lnwallet"
 	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/shachain"
+	"github.com/btgsuite/btgd/btcec"
+	"github.com/btgsuite/btgd/chaincfg/chainhash"
+	"github.com/btgsuite/btgd/txscript"
+	"github.com/btgsuite/btgd/wire"
+	btcutil "github.com/btgsuite/btgutil"
+	"github.com/go-errors/errors"
 )
 
 var (
@@ -133,7 +133,7 @@ var (
 						0xac, // OP_CHECKSIG
 					},
 				},
-				HashType: txscript.SigHashAll,
+				HashType: txscript.SigHashAll | txscript.SigHashForkID,
 			},
 			secondLevelWitnessScript: breachKeys[0],
 		},
@@ -177,7 +177,7 @@ var (
 						0xac, // OP_CHECKSIG
 					},
 				},
-				HashType: txscript.SigHashAll,
+				HashType: txscript.SigHashAll | txscript.SigHashForkID,
 			},
 			secondLevelWitnessScript: breachKeys[0],
 		},
@@ -221,7 +221,7 @@ var (
 						0xac, // OP_CHECKSIG
 					},
 				},
-				HashType: txscript.SigHashAll,
+				HashType: txscript.SigHashAll | txscript.SigHashForkID,
 			},
 			secondLevelWitnessScript: breachKeys[0],
 		},

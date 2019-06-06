@@ -238,7 +238,7 @@ func (c *mockChannel) createRemoteCommitTx(t *testing.T) {
 			},
 			WitnessScript: toLocalScript,
 			Output:        commitTxn.TxOut[outputIndex],
-			HashType:      txscript.SigHashAll,
+			HashType:      txscript.SigHashAll | txscript.SigHashForkID,
 		}
 		outputIndex++
 	}
@@ -257,7 +257,7 @@ func (c *mockChannel) createRemoteCommitTx(t *testing.T) {
 			},
 			WitnessScript: toRemoteScriptHash,
 			Output:        commitTxn.TxOut[outputIndex],
-			HashType:      txscript.SigHashAll,
+			HashType:      txscript.SigHashAll | txscript.SigHashForkID,
 		}
 		outputIndex++
 	}

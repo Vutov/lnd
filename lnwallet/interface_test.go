@@ -17,6 +17,15 @@ import (
 	"testing"
 	"time"
 
+	"github.com/BTCGPU/lnd/chainntnfs"
+	"github.com/BTCGPU/lnd/chainntnfs/btcdnotify"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/input"
+	"github.com/BTCGPU/lnd/keychain"
+	"github.com/BTCGPU/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/lnwallet/btcwallet"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/neutrino"
 	"github.com/btgsuite/btgd/btcec"
 	"github.com/btgsuite/btgd/btcjson"
 	"github.com/btgsuite/btgd/chaincfg"
@@ -31,15 +40,6 @@ import (
 	_ "github.com/btgsuite/btgwallet/walletdb/bdb"
 	"github.com/coreos/bbolt"
 	"github.com/davecgh/go-spew/spew"
-	"github.com/BTCGPU/neutrino"
-	"github.com/BTCGPU/lnd/chainntnfs"
-	"github.com/BTCGPU/lnd/chainntnfs/btcdnotify"
-	"github.com/BTCGPU/lnd/channeldb"
-	"github.com/BTCGPU/lnd/input"
-	"github.com/BTCGPU/lnd/keychain"
-	"github.com/BTCGPU/lnd/lnwallet"
-	"github.com/BTCGPU/lnd/lnwallet/btcwallet"
-	"github.com/BTCGPU/lnd/lnwire"
 )
 
 var (
@@ -1535,7 +1535,7 @@ func testPublishTransaction(r *rpctest.Harness,
 			},
 			WitnessScript: keyScript,
 			Output:        tx.TxOut[outputIndex],
-			HashType:      txscript.SigHashAll,
+			HashType:      txscript.SigHashAll | txscript.SigHashForkID,
 			SigHashes:     txscript.NewTxSigHashes(tx1),
 			InputIndex:    0, // Has only one input.
 		}
@@ -1548,7 +1548,7 @@ func testPublishTransaction(r *rpctest.Harness,
 			t.Fatalf("unable to generate signature: %v", err)
 		}
 		witness := make([][]byte, 2)
-		witness[0] = append(spendSig, byte(txscript.SigHashAll))
+		witness[0] = append(spendSig, byte(txscript.SigHashAll|txscript.SigHashForkID))
 		witness[1] = pubKey.PubKey.SerializeCompressed()
 		tx1.TxIn[0].Witness = witness
 
@@ -1863,7 +1863,7 @@ func testSignOutputUsingTweaks(r *rpctest.Harness,
 			},
 			WitnessScript: keyScript,
 			Output:        newOutput,
-			HashType:      txscript.SigHashAll,
+			HashType:      txscript.SigHashAll | txscript.SigHashForkID,
 			SigHashes:     txscript.NewTxSigHashes(sweepTx),
 			InputIndex:    0,
 		}
@@ -1884,7 +1884,7 @@ func testSignOutputUsingTweaks(r *rpctest.Harness,
 			t.Fatalf("unable to generate signature: %v", err)
 		}
 		witness := make([][]byte, 2)
-		witness[0] = append(spendSig, byte(txscript.SigHashAll))
+		witness[0] = append(spendSig, byte(txscript.SigHashAll|txscript.SigHashForkID))
 		witness[1] = tweakedKey.SerializeCompressed()
 		sweepTx.TxIn[0].Witness = witness
 

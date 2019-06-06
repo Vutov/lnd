@@ -7,18 +7,18 @@ import (
 	"testing"
 	"time"
 
-	"github.com/btgsuite/btgd/btcec"
-	"github.com/btgsuite/btgd/chaincfg"
-	"github.com/btgsuite/btgd/chaincfg/chainhash"
-	"github.com/btgsuite/btgd/txscript"
-	"github.com/btgsuite/btgd/wire"
-	btcutil "github.com/btgsuite/btgutil"
-	"github.com/davecgh/go-spew/spew"
 	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/input"
 	"github.com/BTCGPU/lnd/keychain"
 	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/shachain"
+	"github.com/btgsuite/btgd/chaincfg/chainhash"
+	btcutil "github.com/btgsuite/btgutil"
+	"github.com/btgsuite/btgd/btcec"
+	"github.com/btgsuite/btgd/chaincfg"
+	"github.com/btgsuite/btgd/txscript"
+	"github.com/btgsuite/btgd/wire"
+	"github.com/davecgh/go-spew/spew"
 )
 
 /**
@@ -1107,7 +1107,7 @@ func TestCommitmentSpendValidation(t *testing.T) {
 		Output: &wire.TxOut{
 			Value: int64(channelBalance),
 		},
-		HashType:   txscript.SigHashAll,
+		HashType:   txscript.SigHashAll | txscript.SigHashForkID,
 		InputIndex: 0,
 	}
 	aliceWitnessSpend, err := input.CommitSpendTimeout(aliceSelfOutputSigner,
@@ -1141,7 +1141,7 @@ func TestCommitmentSpendValidation(t *testing.T) {
 		Output: &wire.TxOut{
 			Value: int64(channelBalance),
 		},
-		HashType:   txscript.SigHashAll,
+		HashType:   txscript.SigHashAll | txscript.SigHashForkID,
 		InputIndex: 0,
 	}
 	bobWitnessSpend, err := input.CommitSpendRevoke(bobSigner, signDesc,
@@ -1187,7 +1187,7 @@ func TestCommitmentSpendValidation(t *testing.T) {
 			Value:    int64(channelBalance),
 			PkScript: bobScriptP2WKH,
 		},
-		HashType:   txscript.SigHashAll,
+		HashType:   txscript.SigHashAll | txscript.SigHashForkID,
 		InputIndex: 0,
 	}
 	bobRegularSpend, err := input.CommitSpendNoDelay(bobSigner, signDesc,

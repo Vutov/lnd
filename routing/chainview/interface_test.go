@@ -118,7 +118,7 @@ func craftSpendTransaction(outpoint wire.OutPoint, payScript []byte) (*wire.MsgT
 		PkScript: payScript,
 	})
 	sigScript, err := txscript.SignatureScript(spendingTx, 0, payScript,
-		txscript.SigHashAll, privKey, true)
+		txscript.SigHashAll | txscript.SigHashForkID, privKey, true)
 	if err != nil {
 		return nil, err
 	}

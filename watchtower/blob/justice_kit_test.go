@@ -283,7 +283,7 @@ func TestJusticeKitRemoteWitnessConstruction(t *testing.T) {
 	// Compute the expected first element, by appending a sighash all byte
 	// to our raw DER-encoded signature.
 	rawToRemoteSigWithSigHash := append(
-		rawToRemoteSig.Serialize(), byte(txscript.SigHashAll),
+		rawToRemoteSig.Serialize(), byte(txscript.SigHashAll | txscript.SigHashForkID),
 	)
 
 	// Assert that the expected signature matches the first element in the
@@ -398,7 +398,7 @@ func TestJusticeKitToLocalWitnessConstruction(t *testing.T) {
 	// Next, compute the expected signature in the bottom element of the
 	// stack, by appending a sighash all flag to the raw DER signature.
 	rawRevSigWithSigHash := append(
-		rawRevSig.Serialize(), byte(txscript.SigHashAll),
+		rawRevSig.Serialize(), byte(txscript.SigHashAll | txscript.SigHashForkID),
 	)
 
 	// Assert that the second element on the stack matches our expected
