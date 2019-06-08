@@ -19,8 +19,6 @@ import (
 	"strings"
 	"time"
 
-	btcutil "github.com/btgsuite/btgutil"
-	flags "github.com/jessevdk/go-flags"
 	"github.com/BTCGPU/lnd/build"
 	"github.com/BTCGPU/lnd/chanbackup"
 	"github.com/BTCGPU/lnd/channeldb"
@@ -31,6 +29,8 @@ import (
 	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/routing"
 	"github.com/BTCGPU/lnd/tor"
+	btcutil "github.com/btgsuite/btgutil"
+	flags "github.com/jessevdk/go-flags"
 )
 
 const (
@@ -62,7 +62,7 @@ const (
 	defaultMaxBackoff               = time.Hour
 
 	defaultTorSOCKSPort            = 9050
-	defaultTorDNSHost              = "soa.nodes.lightning.directory"
+	defaultTorDNSHost              = "soa.bitcoingold.org"
 	defaultTorDNSPort              = 53
 	defaultTorControlPort          = 9051
 	defaultTorV2PrivateKeyFilename = "v2_onion_private_key"
@@ -1198,9 +1198,9 @@ func parseRPCParams(cConfig *chainConfig, nodeConfig interface{}, net chainCode,
 		// Get the daemon name for displaying proper errors.
 		switch net {
 		case bitcoinChain:
-			daemonName = "btcd"
+			daemonName = "btgd"
 			confDir = conf.Dir
-			confFile = "btcd"
+			confFile = "btgd"
 		case litecoinChain:
 			daemonName = "ltcd"
 			confDir = conf.Dir
@@ -1236,9 +1236,9 @@ func parseRPCParams(cConfig *chainConfig, nodeConfig interface{}, net chainCode,
 		// Get the daemon name for displaying proper errors.
 		switch net {
 		case bitcoinChain:
-			daemonName = "bitcoind"
+			daemonName = "bgoldd"
 			confDir = conf.Dir
-			confFile = "bitcoin"
+			confFile = "bitcoingold"
 		case litecoinChain:
 			daemonName = "litecoind"
 			confDir = conf.Dir
