@@ -7,12 +7,12 @@ import (
 	"strings"
 	"time"
 
+	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/btgsuite/btgd/btcec"
 	"github.com/btgsuite/btgd/chaincfg"
 	"github.com/btgsuite/btgd/chaincfg/chainhash"
 	btcutil "github.com/btgsuite/btgutil"
 	"github.com/btgsuite/btgutil/bech32"
-	"github.com/BTCGPU/lnd/lnwire"
 )
 
 const (

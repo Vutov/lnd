@@ -6,11 +6,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/btgsuite/btgd/chaincfg"
 	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/lntypes"
 	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/zpay32"
+	"github.com/btgsuite/btgd/chaincfg"
 )
 
 var (
@@ -26,7 +26,7 @@ var (
 	// testPayReq is a dummy payment request that does parse properly. It
 	// has no relation with the real invoice parameters and isn't asserted
 	// on in this test. LookupInvoice requires this to have a valid value.
-	testPayReq = "lnbc500u1pwywxzwpp5nd2u9xzq02t0tuf2654as7vma42lwkcjptx4yzfq0umq4swpa7cqdqqcqzysmlpc9ewnydr8rr8dnltyxphdyf6mcqrsd6dml8zajtyhwe6a45d807kxtmzayuf0hh2d9tn478ecxkecdg7c5g85pntupug5kakm7xcpn63zqk"
+	testPayReq = "lnbtg2500u1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdq5xysxxatsyp3k7enxv4jscqzysnp4q0n326hr8v9zprg8gsvezcch06gfaqqhde2aj730yg0durunfhv66p544fn6zxdrf67vya89qm5r8xkevvlpce4epx8hsygdgmc082s09gww0yl5x6exavtj5ly95zx4ljwqramujusmel2wax8nu86z80tsqf9ylwq"
 )
 
 func decodeExpiry(payReq string) (uint32, error) {

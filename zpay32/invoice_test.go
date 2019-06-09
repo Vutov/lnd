@@ -11,12 +11,12 @@ import (
 	"testing"
 	"time"
 
+	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/btgsuite/btgd/btcec"
 	"github.com/btgsuite/btgd/chaincfg"
 	"github.com/btgsuite/btgd/chaincfg/chainhash"
 	"github.com/btgsuite/btgd/wire"
 	btcutil "github.com/btgsuite/btgutil"
-	"github.com/BTCGPU/lnd/lnwire"
 
 	litecoinCfg "github.com/ltcsuite/ltcd/chaincfg"
 )
@@ -42,10 +42,10 @@ var (
 	testExpiry60 = time.Duration(60) * time.Second
 
 	testAddrTestnet, _       = btcutil.DecodeAddress("mk2QpYatsKicvFVuTAQLBryyccRXMUaGHP", &chaincfg.TestNet3Params)
-	testRustyAddr, _         = btcutil.DecodeAddress("1RustyRX2oai4EYYDpQGWvEL62BBGqN9T", &chaincfg.MainNetParams)
-	testAddrMainnetP2SH, _   = btcutil.DecodeAddress("3EktnHQD7RiAE6uzMj2ZifT9YgRrkSgzQX", &chaincfg.MainNetParams)
-	testAddrMainnetP2WPKH, _ = btcutil.DecodeAddress("bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4", &chaincfg.MainNetParams)
-	testAddrMainnetP2WSH, _  = btcutil.DecodeAddress("bc1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3qccfmv3", &chaincfg.MainNetParams)
+	testRustyAddr, _         = btcutil.DecodeAddress("GJGqJ2JNVtQsnXXqUAUWhHG8FFp2DZwgod", &chaincfg.MainNetParams)
+	testAddrMainnetP2SH, _   = btcutil.DecodeAddress("AUqkWEmPtg3vwuRYoH2JSvMJsm4qYkR1hS", &chaincfg.MainNetParams)
+	testAddrMainnetP2WPKH, _ = btcutil.DecodeAddress("btg1qrgv8636u9a3u6xgtv7cmjtztuqga59lyl024e3", &chaincfg.MainNetParams)
+	testAddrMainnetP2WSH, _  = btcutil.DecodeAddress("btg1qkt4u8ma82tgusp8pwvy5cg8ht0wptd26hqu4520jklsnrv0ntduqzyhx9q", &chaincfg.MainNetParams)
 
 	testHopHintPubkeyBytes1, _ = hex.DecodeString("029e03a901b85534ff1e92c43c74431f7ce72046060fcf7a95c37e148f78c77255")
 	testHopHintPubkey1, _      = btcec.ParsePubKey(testHopHintPubkeyBytes1, btcec.S256())
@@ -131,7 +131,7 @@ func TestDecodeEncode(t *testing.T) {
 			valid:          false,
 		},
 		{
-			encodedInvoice: "lnbc1abcde", // too short
+			encodedInvoice: "lnbtg1abcde", // too short
 			valid:          false,
 		},
 		{
@@ -151,24 +151,24 @@ func TestDecodeEncode(t *testing.T) {
 			valid:          false,
 		},
 		{
-			encodedInvoice: "lnbcm1aaamcu25m", // invalid amount
+			encodedInvoice: "lnbtgm1aaamcu25m", // invalid amount
 			valid:          false,
 		},
 		{
-			encodedInvoice: "lnbc1000000000m1", // invalid amount
+			encodedInvoice: "lnbtg1000000000m1", // invalid amount
 			valid:          false,
 		},
 		{
-			encodedInvoice: "lnbc20m1pvjluezhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqspp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqfqqepvrhrm9s57hejg0p662ur5j5cr03890fa7k2pypgttmh4897d3raaq85a293e9jpuqwl0rnfuwzam7yr8e690nd2ypcq9hlkdwdvycqjhlqg5", // empty fallback address field
+			encodedInvoice: "lnbtg20m1pvjluezhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqspp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqfqqepvrhrm9s57hejg0p662ur5j5cr03890fa7k2pypgttmh4897d3raaq85a293e9jpuqwl0rnfuwzam7yr8e690nd2ypcq9hlkdwdvycqjhlqg5", // empty fallback address field
 			valid:          false,
 		},
 		{
-			encodedInvoice: "lnbc20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqsfpp3qjmp7lwpagxun9pygexvgpjdc4jdj85frqg00000000j9n4evl6mr5aj9f58zp6fyjzup6ywn3x6sk8akg5v4tgn2q8g4fhx05wf6juaxu9760yp46454gpg5mtzgerlzezqcqvjnhjh8z3g2qqsj5cgu", // invalid routing info length: not a multiple of 51
+			encodedInvoice: "lnbtg20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqsfpp3qjmp7lwpagxun9pygexvgpjdc4jdj85frqg00000000j9n4evl6mr5aj9f58zp6fyjzup6ywn3x6sk8akg5v4tgn2q8g4fhx05wf6juaxu9760yp46454gpg5mtzgerlzezqcqvjnhjh8z3g2qqsj5cgu", // invalid routing info length: not a multiple of 51
 			valid:          false,
 		},
 		{
 			// no payment hash set
-			encodedInvoice: "lnbc20m1pvjluezhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqsjv38luh6p6s2xrv3mzvlmzaya43376h0twal5ax0k6p47498hp3hnaymzhsn424rxqjs0q7apn26yrhaxltq3vzwpqj9nc2r3kzwccsplnq470",
+			encodedInvoice: "lnbtg20m1pvjluezhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqsnp4q0n326hr8v9zprg8gsvezcch06gfaqqhde2aj730yg0durunfhv669uwlgrnn68chlm2ejg04e5euy8k5vc4y9mru2xhf4qfd9l7crrdr0s2twt5v44kdh2aaq4w3ycgdayum5pllc7grm4v44w0nfkq8tlqp4y44qa",
 			valid:          false,
 			decodedInvoice: func() *Invoice {
 				return &Invoice{
@@ -212,7 +212,7 @@ func TestDecodeEncode(t *testing.T) {
 		},
 		{
 			// Has a few unknown fields, should just be ignored.
-			encodedInvoice: "lnbc20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdpl2pkx2ctnv5sxxmmwwd5kgetjypeh2ursdae8g6twvus8g6rfwvs8qun0dfjkxaqtq2v93xxer9vczq8v93xxeqv72xr42ca60022jqu6fu73n453tmnr0ukc0pl0t23w7eavtensjz0j2wcu7nkxhfdgp9y37welajh5kw34mq7m4xuay0a72cwec8qwgqt5vqht",
+			encodedInvoice: "lnbtg20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdpl2pkx2ctnv5sxxmmwwd5kgetjypeh2ursdae8g6twvus8g6rfwvs8qun0dfjkxaqnp4q0n326hr8v9zprg8gsvezcch06gfaqqhde2aj730yg0durunfhv66cyz6u5aa2ta476f2a7ywh58m7uzmwur2tjmqy949z8auagplh47k3ht9xwq4f97hfd96rm7hktwdulqv2rytv54c5laws7lqg0c9clsqc7ealu",
 			valid:          true,
 			decodedInvoice: func() *Invoice {
 				return &Invoice{
@@ -228,7 +228,7 @@ func TestDecodeEncode(t *testing.T) {
 		},
 		{
 			// Ignore unknown witness version in fallback address.
-			encodedInvoice: "lnbc20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqsfpppw508d6qejxtdg4y5r3zarvary0c5xw7k8txqv6x0a75xuzp0zsdzk5hq6tmfgweltvs6jk5nhtyd9uqksvr48zga9mw08667w8264gkspluu66jhtcmct36nx363km6cquhhv2cpc6q43r",
+			encodedInvoice: "lnbtg20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqsnp4q0n326hr8v9zprg8gsvezcch06gfaqqhde2aj730yg0durunfhv666t7eram4mwvxy300yp0755z2wsjm3czw7w3tldpgkltcyjrkmulkrcfudn7pja80swe0699xxg676pq6r7t3lnxq88n9sd6zq5dvwdcqzfzetv",
 			valid:          true,
 			decodedInvoice: func() *Invoice {
 				return &Invoice{
@@ -244,7 +244,7 @@ func TestDecodeEncode(t *testing.T) {
 		},
 		{
 			// Ignore fields with unknown lengths.
-			encodedInvoice: "lnbc241pveeq09pp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqpp3qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqshp38yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahnp4q0n326hr8v9zprg8gsvezcch06gfaqqhde2aj730yg0durunfhv66np3q0n326hr8v9zprg8gsvezcch06gfaqqhde2aj730yg0durunfy8huflvs2zwkymx47cszugvzn5v64ahemzzlmm62rpn9l9rm05h35aceq00tkt296289wepws9jh4499wq2l0vk6xcxffd90dpuqchqqztyayq",
+			encodedInvoice: "lnbtg241pveeq09pp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqsnp4q0n326hr8v9zprg8gsvezcch06gfaqqhde2aj730yg0durunfhv66v2tr5t2z34sl9ufztwcxdhu2cve97zw2e4er9l6e0hex5z4krzrh06wzdm0kwtv7gh8vjhq3ej9wdwf9yks7fhul2yzlhdvv8xdl83qpvfzqft",
 			valid:          true,
 			decodedInvoice: func() *Invoice {
 				return &Invoice{
@@ -260,7 +260,7 @@ func TestDecodeEncode(t *testing.T) {
 		},
 		{
 			// Invoice with no amount.
-			encodedInvoice: "lnbc1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdq5xysxxatsyp3k7enxv4jshwlglv23cytkzvq8ld39drs8sq656yh2zn0aevrwu6uqctaklelhtpjnmgjdzmvwsh0kuxuwqf69fjeap9m5mev2qzpp27xfswhs5vgqmn9xzq",
+			encodedInvoice: "lnbtg1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdq5xysxxatsyp3k7enxv4jsn96h5xaykv5m6z9n4w4aqpjledudyyvgs238hce740t67ufhj5uzvrc38g3z9k9pc7rjzhmdnwzu0clzcvkl2zkxxgulqzk608fcq8cpd3t6uk",
 			valid:          true,
 			decodedInvoice: func() *Invoice {
 				return &Invoice{
@@ -280,7 +280,7 @@ func TestDecodeEncode(t *testing.T) {
 		},
 		{
 			// Please make a donation of any amount using rhash 0001020304050607080900010203040506070809000102030405060708090102 to me @03e7156ae33b0a208d0744199163177e909e80176e55d97a2f221ede0f934dd9ad
-			encodedInvoice: "lnbc1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdpl2pkx2ctnv5sxxmmwwd5kgetjypeh2ursdae8g6twvus8g6rfwvs8qun0dfjkxaq8rkx3yf5tcsyz3d73gafnh3cax9rn449d9p5uxz9ezhhypd0elx87sjle52x86fux2ypatgddc6k63n7erqz25le42c4u4ecky03ylcqca784w",
+			encodedInvoice: "lnbtg1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdpl2pkx2ctnv5sxxmmwwd5kgetjypeh2ursdae8g6twvus8g6rfwvs8qun0dfjkxaq0q4z0alpmyerkwn9pv6g46q6pqm2llymksrdt58rzuytejhcz00hhj4scv4ccmyhn4y3a8m5k80xgky7ahnxpe8zmnfmsje73nyefasq6g2yav",
 			valid:          true,
 			decodedInvoice: func() *Invoice {
 				return &Invoice{
@@ -300,7 +300,7 @@ func TestDecodeEncode(t *testing.T) {
 		},
 		{
 			// Same as above, pubkey set in 'n' field.
-			encodedInvoice: "lnbc241pveeq09pp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdqqnp4q0n326hr8v9zprg8gsvezcch06gfaqqhde2aj730yg0durunfhv66jd3m5klcwhq68vdsmx2rjgxeay5v0tkt2v5sjaky4eqahe4fx3k9sqavvce3capfuwv8rvjng57jrtfajn5dkpqv8yelsewtljwmmycq62k443",
+			encodedInvoice: "lnbtg241pveeq09pp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdqqnp4q0n326hr8v9zprg8gsvezcch06gfaqqhde2aj730yg0durunfhv66pxes8wlhn4du4hcwqw8rad6l0acr6gd6rpm4stdy4u5n0pw9q6g89598easth2328neqd9u6ugp9dcwqfs3cc4x7yltlglcn7t2kwrgpthuqku",
 			valid:          true,
 			decodedInvoice: func() *Invoice {
 				return &Invoice{
@@ -315,7 +315,7 @@ func TestDecodeEncode(t *testing.T) {
 		},
 		{
 			// Please send $3 for a cup of coffee to the same peer, within 1 minute
-			encodedInvoice: "lnbc2500u1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdq5xysxxatsyp3k7enxv4jsxqzpuaztrnwngzn3kdzw5hydlzf03qdgm2hdq27cqv3agm2awhz5se903vruatfhq77w3ls4evs3ch9zw97j25emudupq63nyw24cg27h2rspfj9srp",
+			encodedInvoice: "lnbtg2500u1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdq5xysxxatsyp3k7enxv4jsxqzpuq02xamy6gvj8y7aythzp0jh2fae5jm386wpg5628t7e7tmmxcmrhq0akmm6jexfyafzd0nhlf22zxjsf7gdf5d6npeuekyzp68hmgucp6wmg04",
 			valid:          true,
 			decodedInvoice: func() *Invoice {
 				i, _ := NewInvoice(
@@ -337,7 +337,7 @@ func TestDecodeEncode(t *testing.T) {
 		},
 		{
 			// Please send 0.0025 BTC for a cup of nonsense (ナンセンス 1杯) to the same peer, within 1 minute
-			encodedInvoice: "lnbc2500u1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdpquwpc4curk03c9wlrswe78q4eyqc7d8d0xqzpuyk0sg5g70me25alkluzd2x62aysf2pyy8edtjeevuv4p2d5p76r4zkmneet7uvyakky2zr4cusd45tftc9c5fh0nnqpnl2jfll544esqchsrny",
+			encodedInvoice: "lnbtg2500u1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdpquwpc4curk03c9wlrswe78q4eyqc7d8d0xqzpusrmv4mt9g2q30pc4vlcvljp2rfwgxse3pqcg6mdw2jxrz0psqw5hy62d353z74m739lj3k0suvzxn5egu4t9uwsmmu9k0ggyukakn0qplgawjs",
 			valid:          true,
 			decodedInvoice: func() *Invoice {
 				i, _ := NewInvoice(
@@ -359,7 +359,7 @@ func TestDecodeEncode(t *testing.T) {
 		},
 		{
 			// Now send $24 for an entire list of things (hashed)
-			encodedInvoice: "lnbc20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqscc6gd6ql3jrc5yzme8v4ntcewwz5cnw92tz0pc8qcuufvq7khhr8wpald05e92xw006sq94mg8v2ndf4sefvf9sygkshp5zfem29trqq2yxxz7",
+			encodedInvoice: "lnbtg20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqs3r6l7uem6hrduxhjw8497zzsy6d34xy8q3dhkl04fmu25hky5w333sxkry5f3kuc7k24qs0tyaqsd64dgq0l757ss7rug299zw2j9fspepqd7u",
 			valid:          true,
 			decodedInvoice: func() *Invoice {
 				return &Invoice{
@@ -380,7 +380,7 @@ func TestDecodeEncode(t *testing.T) {
 		},
 		{
 			// The same, on testnet, with a fallback address mk2QpYatsKicvFVuTAQLBryyccRXMUaGHP
-			encodedInvoice: "lntb20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqsfpp3x9et2e20v6pu37c5d9vax37wxq72un98k6vcx9fz94w0qf237cm2rqv9pmn5lnexfvf5579slr4zq3u8kmczecytdx0xg9rwzngp7e6guwqpqlhssu04sucpnz4axcv2dstmknqq6jsk2l",
+			encodedInvoice: "lntbtg20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqsfpp3x9et2e20v6pu37c5d9vax37wxq72un98nnqmn2jsagl6whnrkd23rlrvuptd3zrrw4qclvdzy8ds37m9ndcyfucypnhdxv8pz2skx3tdqjautuh0s740c46ezytkhpxcljhvrhqpygnnvp",
 			valid:          true,
 			decodedInvoice: func() *Invoice {
 				return &Invoice{
@@ -401,8 +401,8 @@ func TestDecodeEncode(t *testing.T) {
 			},
 		},
 		{
-			// On mainnet, with fallback address 1RustyRX2oai4EYYDpQGWvEL62BBGqN9T with extra routing info to get to node 029e03a901b85534ff1e92c43c74431f7ce72046060fcf7a95c37e148f78c77255
-			encodedInvoice: "lnbc20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqsfpp3qjmp7lwpagxun9pygexvgpjdc4jdj85frzjq20q82gphp2nflc7jtzrcazrra7wwgzxqc8u7754cdlpfrmccae92qgzqvzq2ps8pqqqqqqqqqqqq9qqqvncsk57n4v9ehw86wq8fzvjejhv9z3w3q5zh6qkql005x9xl240ch23jk79ujzvr4hsmmafyxghpqe79psktnjl668ntaf4ne7ucs5csqh5mnnk",
+			// On mainnet, with fallback address GJGqJ2JNVtQsnXXqUAUWhHG8FFp2DZwgod with extra routing info to get to node 029e03a901b85534ff1e92c43c74431f7ce72046060fcf7a95c37e148f78c77255
+			encodedInvoice: "lnbtg20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqsfpp3qjmp7lwpagxun9pygexvgpjdc4jdj85frzjq20q82gphp2nflc7jtzrcazrra7wwgzxqc8u7754cdlpfrmccae92qgzqvzq2ps8pqqqqqqqqqqqq9qqqv3m072xarlldnmy5j3rszl49y2yjpuyhpmec947s7eca33pr8qfm4k3tyuah2xel52kpunzexazx5w342vevqcxsmg7yghl6yk03rp3gpr70nyp",
 			valid:          true,
 			decodedInvoice: func() *Invoice {
 				return &Invoice{
@@ -424,8 +424,8 @@ func TestDecodeEncode(t *testing.T) {
 			},
 		},
 		{
-			// On mainnet, with fallback address 1RustyRX2oai4EYYDpQGWvEL62BBGqN9T with extra routing info to go via nodes 029e03a901b85534ff1e92c43c74431f7ce72046060fcf7a95c37e148f78c77255 then 039e03a901b85534ff1e92c43c74431f7ce72046060fcf7a95c37e148f78c77255
-			encodedInvoice: "lnbc20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqsfpp3qjmp7lwpagxun9pygexvgpjdc4jdj85fr9yq20q82gphp2nflc7jtzrcazrra7wwgzxqc8u7754cdlpfrmccae92qgzqvzq2ps8pqqqqqqpqqqqq9qqqvpeuqafqxu92d8lr6fvg0r5gv0heeeqgcrqlnm6jhphu9y00rrhy4grqszsvpcgpy9qqqqqqgqqqqq7qqzqj9n4evl6mr5aj9f58zp6fyjzup6ywn3x6sk8akg5v4tgn2q8g4fhx05wf6juaxu9760yp46454gpg5mtzgerlzezqcqvjnhjh8z3g2qqdhhwkj",
+			// On mainnet, with fallback address GJGqJ2JNVtQsnXXqUAUWhHG8FFp2DZwgod with extra routing info to go via nodes 029e03a901b85534ff1e92c43c74431f7ce72046060fcf7a95c37e148f78c77255 then 039e03a901b85534ff1e92c43c74431f7ce72046060fcf7a95c37e148f78c77255
+			encodedInvoice: "lnbtg20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqsfpp3qjmp7lwpagxun9pygexvgpjdc4jdj85fr9yq20q82gphp2nflc7jtzrcazrra7wwgzxqc8u7754cdlpfrmccae92qgzqvzq2ps8pqqqqqqpqqqqq9qqqvpeuqafqxu92d8lr6fvg0r5gv0heeeqgcrqlnm6jhphu9y00rrhy4grqszsvpcgpy9qqqqqqgqqqqq7qqzqhdasnpm2k4ezqfls6ddlurh64lvhpcfmn6h08lledzvgltngggv4y6x4n3j4zvxg6rj32srdheaqxacefryrvj95nkjqhq8jgg3prtgq40rpzu",
 			valid:          true,
 			decodedInvoice: func() *Invoice {
 				return &Invoice{
@@ -447,8 +447,8 @@ func TestDecodeEncode(t *testing.T) {
 			},
 		},
 		{
-			// On mainnet, with fallback (p2sh) address 3EktnHQD7RiAE6uzMj2ZifT9YgRrkSgzQX
-			encodedInvoice: "lnbc20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqsfppj3a24vwu6r8ejrss3axul8rxldph2q7z9kk822r8plup77n9yq5ep2dfpcydrjwzxs0la84v3tfw43t3vqhek7f05m6uf8lmfkjn7zv7enn76sq65d8u9lxav2pl6x3xnc2ww3lqpagnh0u",
+			// On mainnet, with fallback (p2sh) address AUqkWEmPtg3vwuRYoH2JSvMJsm4qYkR1hS
+			encodedInvoice: "lnbtg20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqsfppj3a24vwu6r8ejrss3axul8rxldph2q7z9xv0r7zyd5de0mj0xvcuguf8yzdjm8d023z30rn4p8fdew3852vlq9wvc6a9dwxdnepzpeux68w2e6yggdzww8y5jzpzv2gjasjs87xgpk737y6",
 			valid:          true,
 			decodedInvoice: func() *Invoice {
 				return &Invoice{
@@ -469,8 +469,8 @@ func TestDecodeEncode(t *testing.T) {
 			},
 		},
 		{
-			// On mainnet, with fallback (p2wpkh) address bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4
-			encodedInvoice: "lnbc20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqsfppqw508d6qejxtdg4y5r3zarvary0c5xw7kknt6zz5vxa8yh8jrnlkl63dah48yh6eupakk87fjdcnwqfcyt7snnpuz7vp83txauq4c60sys3xyucesxjf46yqnpplj0saq36a554cp9wt865",
+			// On mainnet, with fallback (p2wpkh) address btg1qrgv8636u9a3u6xgtv7cmjtztuqga59lyl024e3
+			encodedInvoice: "lnbtg20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqsfppqrgv8636u9a3u6xgtv7cmjtztuqga59lysmmqr7elq496gs9shwtdq6amp6uqg4xwv489c8ntahfnx8lxkn0hed3zzadz732aancaztuj60rzc4kav9t86ehc84wv349gyp82vxsqsedjul",
 			valid:          true,
 			decodedInvoice: func() *Invoice {
 				return &Invoice{
@@ -491,8 +491,8 @@ func TestDecodeEncode(t *testing.T) {
 			},
 		},
 		{
-			// On mainnet, with fallback (p2wsh) address bc1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3qccfmv3
-			encodedInvoice: "lnbc20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqsfp4qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3qvnjha2auylmwrltv2pkp2t22uy8ura2xsdwhq5nm7s574xva47djmnj2xeycsu7u5v8929mvuux43j0cqhhf32wfyn2th0sv4t9x55sppz5we8",
+			// On mainnet, with fallback (p2wsh) address btg1qkt4u8ma82tgusp8pwvy5cg8ht0wptd26hqu4520jklsnrv0ntduqzyhx9q
+			encodedInvoice: "lnbtg20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqsfp4qkt4u8ma82tgusp8pwvy5cg8ht0wptd26hqu4520jklsnrv0ntduq4sulqlfuwpy73sfwujnggxchsm80cj7agyecp78lzhhjtzt7rgnxdzt5x9mlkhl44t27ghl5e5g66f4wfujhgv8pr8k3z5kaps7e7fcppvzt27",
 			valid:          true,
 			decodedInvoice: func() *Invoice {
 				return &Invoice{
@@ -515,7 +515,7 @@ func TestDecodeEncode(t *testing.T) {
 		{
 			// Send 2500uBTC for a cup of coffee with a custom CLTV
 			// expiry value.
-			encodedInvoice: "lnbc2500u1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdq5xysxxatsyp3k7enxv4jscqzysnp4q0n326hr8v9zprg8gsvezcch06gfaqqhde2aj730yg0durunfhv66ysxkvnxhcvhz48sn72lp77h4fxcur27z0he48u5qvk3sxse9mr9jhkltt962s8arjnzk8rk59yj5nw4p495747gksj30gza0crhzwjcpgxzy00",
+			encodedInvoice: "lnbtg2500u1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdq5xysxxatsyp3k7enxv4jscqzysnp4q0n326hr8v9zprg8gsvezcch06gfaqqhde2aj730yg0durunfhv66p544fn6zxdrf67vya89qm5r8xkevvlpce4epx8hsygdgmc082s09gww0yl5x6exavtj5ly95zx4ljwqramujusmel2wax8nu86z80tsqf9ylwq",
 			valid:          true,
 			decodedInvoice: func() *Invoice {
 				i, _ := NewInvoice(
@@ -533,7 +533,7 @@ func TestDecodeEncode(t *testing.T) {
 		},
 		{
 			// Decode a mainnet invoice while expecting active net to be testnet
-			encodedInvoice: "lnbc241pveeq09pp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdqqnp4q0n326hr8v9zprg8gsvezcch06gfaqqhde2aj730yg0durunfhv66jd3m5klcwhq68vdsmx2rjgxeay5v0tkt2v5sjaky4eqahe4fx3k9sqavvce3capfuwv8rvjng57jrtfajn5dkpqv8yelsewtljwmmycq62k443",
+			encodedInvoice: "lnbtg241pveeq09pp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdqqnp4q0n326hr8v9zprg8gsvezcch06gfaqqhde2aj730yg0durunfhv66pxes8wlhn4du4hcwqw8rad6l0acr6gd6rpm4stdy4u5n0pw9q6g89598easth2328neqd9u6ugp9dcwqfs3cc4x7yltlglcn7t2kwrgpthuqku",
 			valid:          false,
 			decodedInvoice: func() *Invoice {
 				return &Invoice{
@@ -658,7 +658,7 @@ func TestNewInvoice(t *testing.T) {
 				)
 			},
 			valid:          true,
-			encodedInvoice: "lnbc1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdq5xysxxatsyp3k7enxv4jshwlglv23cytkzvq8ld39drs8sq656yh2zn0aevrwu6uqctaklelhtpjnmgjdzmvwsh0kuxuwqf69fjeap9m5mev2qzpp27xfswhs5vgqmn9xzq",
+			encodedInvoice: "lnbtg1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdq5xysxxatsyp3k7enxv4jsn96h5xaykv5m6z9n4w4aqpjledudyyvgs238hce740t67ufhj5uzvrc38g3z9k9pc7rjzhmdnwzu0clzcvkl2zkxxgulqzk608fcq8cpd3t6uk",
 		},
 		{
 			// 'n' field set.
@@ -670,10 +670,10 @@ func TestNewInvoice(t *testing.T) {
 					Destination(testPubKey))
 			},
 			valid:          true,
-			encodedInvoice: "lnbc241pveeq09pp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdqqnp4q0n326hr8v9zprg8gsvezcch06gfaqqhde2aj730yg0durunfhv66jd3m5klcwhq68vdsmx2rjgxeay5v0tkt2v5sjaky4eqahe4fx3k9sqavvce3capfuwv8rvjng57jrtfajn5dkpqv8yelsewtljwmmycq62k443",
+			encodedInvoice: "lnbtg241pveeq09pp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdqqnp4q0n326hr8v9zprg8gsvezcch06gfaqqhde2aj730yg0durunfhv66pxes8wlhn4du4hcwqw8rad6l0acr6gd6rpm4stdy4u5n0pw9q6g89598easth2328neqd9u6ugp9dcwqfs3cc4x7yltlglcn7t2kwrgpthuqku",
 		},
 		{
-			// On mainnet, with fallback address 1RustyRX2oai4EYYDpQGWvEL62BBGqN9T with extra routing info to go via nodes 029e03a901b85534ff1e92c43c74431f7ce72046060fcf7a95c37e148f78c77255 then 039e03a901b85534ff1e92c43c74431f7ce72046060fcf7a95c37e148f78c77255
+			// On mainnet, with fallback address GJGqJ2JNVtQsnXXqUAUWhHG8FFp2DZwgod with extra routing info to go via nodes 029e03a901b85534ff1e92c43c74431f7ce72046060fcf7a95c37e148f78c77255 then 039e03a901b85534ff1e92c43c74431f7ce72046060fcf7a95c37e148f78c77255
 			newInvoice: func() (*Invoice, error) {
 				return NewInvoice(&chaincfg.MainNetParams,
 					testPaymentHash, time.Unix(1496314658, 0),
@@ -684,7 +684,7 @@ func TestNewInvoice(t *testing.T) {
 				)
 			},
 			valid:          true,
-			encodedInvoice: "lnbc20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqsfpp3qjmp7lwpagxun9pygexvgpjdc4jdj85fr9yq20q82gphp2nflc7jtzrcazrra7wwgzxqc8u7754cdlpfrmccae92qgzqvzq2ps8pqqqqqqpqqqqq9qqqvpeuqafqxu92d8lr6fvg0r5gv0heeeqgcrqlnm6jhphu9y00rrhy4grqszsvpcgpy9qqqqqqgqqqqq7qqzqj9n4evl6mr5aj9f58zp6fyjzup6ywn3x6sk8akg5v4tgn2q8g4fhx05wf6juaxu9760yp46454gpg5mtzgerlzezqcqvjnhjh8z3g2qqdhhwkj",
+			encodedInvoice: "lnbtg20m1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqhp58yjmdan79s6qqdhdzgynm4zwqd5d7xmw5fk98klysy043l2ahrqsfpp3qjmp7lwpagxun9pygexvgpjdc4jdj85fr9yq20q82gphp2nflc7jtzrcazrra7wwgzxqc8u7754cdlpfrmccae92qgzqvzq2ps8pqqqqqqpqqqqq9qqqvpeuqafqxu92d8lr6fvg0r5gv0heeeqgcrqlnm6jhphu9y00rrhy4grqszsvpcgpy9qqqqqqgqqqqq7qqzqhdasnpm2k4ezqfls6ddlurh64lvhpcfmn6h08lledzvgltngggv4y6x4n3j4zvxg6rj32srdheaqxacefryrvj95nkjqhq8jgg3prtgq40rpzu",
 		},
 		{
 			// On simnet
@@ -708,7 +708,7 @@ func TestNewInvoice(t *testing.T) {
 					Destination(testPubKey))
 			},
 			valid:          true,
-			encodedInvoice: "lnbcrt241pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdqqnp4q0n326hr8v9zprg8gsvezcch06gfaqqhde2aj730yg0durunfhv66df5c8pqjjt4z4ymmuaxfx8eh5v7hmzs3wrfas8m2sz5qz56rw2lxy8mmgm4xln0ha26qkw6u3vhu22pss2udugr9g74c3x20slpcqjgq0el4h6",
+			encodedInvoice: "lnbtgrt241pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdqqnp4q0n326hr8v9zprg8gsvezcch06gfaqqhde2aj730yg0durunfhv66e2zzwyg5zmn7jdp67xwp4tmakecnm6u5lw93g3hkw9tvxxdtu3kzx558nkh3pesh2yg8wtghmcpyqh8z93a6slweaapwyxugd0nqa9qpfmlt6y",
 		},
 		{
 			// Create a litecoin testnet invoice
