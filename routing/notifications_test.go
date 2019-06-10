@@ -10,17 +10,17 @@ import (
 
 	prand "math/rand"
 
-	"github.com/btgsuite/btgd/btcec"
-	"github.com/btgsuite/btgd/chaincfg/chainhash"
-	"github.com/btgsuite/btgd/wire"
-	btcutil "github.com/btgsuite/btgutil"
-	"github.com/go-errors/errors"
 	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/input"
 	"github.com/BTCGPU/lnd/lnwallet"
 	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/routing/chainview"
 	"github.com/BTCGPU/lnd/routing/route"
+	"github.com/btgsuite/btgd/btcec"
+	"github.com/btgsuite/btgd/chaincfg/chainhash"
+	"github.com/btgsuite/btgd/wire"
+	btcutil "github.com/btgsuite/btgutil"
+	"github.com/go-errors/errors"
 )
 
 var (
@@ -195,7 +195,7 @@ func (m *mockChain) GetUtxo(op *wire.OutPoint, _ []byte, _ uint32) (*wire.TxOut,
 
 func (m *mockChain) addBlock(block *wire.MsgBlock, height uint32, nonce uint32) {
 	m.Lock()
-	block.Header.Nonce = nonce
+	block.Header.Nonce = wire.Uint256FromUint32(nonce)
 	hash := block.Header.BlockHash()
 	m.blocks[hash] = block
 	m.blockIndex[height] = hash
