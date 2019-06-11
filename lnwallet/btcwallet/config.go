@@ -26,7 +26,7 @@ var (
 	defaultLogDirname  = "logs"
 	defaultLogDir      = filepath.Join(lnwalletHomeDir, defaultLogDirname)
 
-	btcdHomeDir        = btcutil.AppDataDir("btcd", false)
+	btcdHomeDir        = btcutil.AppDataDir("btgd", false)
 	btcdHomedirCAFile  = filepath.Join(btcdHomeDir, "rpc.cert")
 	defaultRPCKeyFile  = filepath.Join(lnwalletHomeDir, "rpc.key")
 	defaultRPCCertFile = filepath.Join(lnwalletHomeDir, "rpc.cert")

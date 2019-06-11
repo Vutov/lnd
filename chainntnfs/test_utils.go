@@ -198,7 +198,7 @@ func NewBitcoindBackend(t *testing.T, minerAddr string,
 
 	t.Helper()
 
-	tempBitcoindDir, err := ioutil.TempDir("", "bitcoind")
+	tempBitcoindDir, err := ioutil.TempDir("", "bgoldd")
 	if err != nil {
 		t.Fatalf("unable to create temp dir: %v", err)
 	}
@@ -222,7 +222,7 @@ func NewBitcoindBackend(t *testing.T, minerAddr string,
 		args = append(args, "-txindex")
 	}
 
-	bitcoind := exec.Command("bitcoind", args...)
+	bitcoind := exec.Command("bgoldd", args...)
 	if err := bitcoind.Start(); err != nil {
 		os.RemoveAll(tempBitcoindDir)
 		t.Fatalf("unable to start bitcoind: %v", err)

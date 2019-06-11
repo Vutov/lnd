@@ -228,7 +228,7 @@ func newChainControlFromConfig(cfg *config, chanDB *channeldb.DB,
 			activeNetParams.Params, neutrinoCS,
 		)
 
-	case "bitcoind", "litecoind":
+	case "bgoldd", "litecoind":
 		var bitcoindMode *bitcoindConfig
 		switch {
 		case cfg.Bitcoin.Active:
@@ -343,7 +343,7 @@ func newChainControlFromConfig(cfg *config, chanDB *channeldb.DB,
 				return nil, err
 			}
 		}
-	case "btcd", "ltcd":
+	case "btgd", "ltcd":
 		// Otherwise, we'll be speaking directly via RPC to a node.
 		//
 		// So first we'll load btcd/ltcd's TLS cert for the RPC

@@ -2665,7 +2665,7 @@ func runTests(t *testing.T, walletDriver *lnwallet.WalletDriver,
 	case "btcwallet":
 		var aliceClient, bobClient chain.Interface
 		switch backEnd {
-		case "btcd":
+		case "btgd":
 			aliceClient, err = chain.NewRPCClient(netParams,
 				rpcConfig.Host, rpcConfig.User, rpcConfig.Pass,
 				rpcConfig.Certificates, false, 20)
@@ -2740,9 +2740,9 @@ func runTests(t *testing.T, walletDriver *lnwallet.WalletDriver,
 				netParams, bobChain,
 			)
 
-		case "bitcoind":
+		case "bgoldd":
 			// Start a bitcoind instance.
-			tempBitcoindDir, err := ioutil.TempDir("", "bitcoind")
+			tempBitcoindDir, err := ioutil.TempDir("", "bgoldd")
 			if err != nil {
 				t.Fatalf("unable to create temp directory: %v", err)
 			}
@@ -2751,7 +2751,7 @@ func runTests(t *testing.T, walletDriver *lnwallet.WalletDriver,
 			defer os.RemoveAll(tempBitcoindDir)
 			rpcPort := rand.Int()%(65536-1024) + 1024
 			bitcoind := exec.Command(
-				"bitcoind",
+				"bgoldd",
 				"-datadir="+tempBitcoindDir,
 				"-regtest",
 				"-connect="+miningNode.P2PAddress(),

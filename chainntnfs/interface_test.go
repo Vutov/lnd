@@ -1910,7 +1910,7 @@ func TestInterfaces(t *testing.T) {
 		)
 
 		switch notifierType {
-		case "bitcoind":
+		case "bgoldd":
 			var bitcoindConn *chain.BitcoindConn
 			bitcoindConn, cleanUp = chainntnfs.NewBitcoindBackend(
 				t, p2pAddr, true,
@@ -1922,7 +1922,7 @@ func TestInterfaces(t *testing.T) {
 				), nil
 			}
 
-		case "btcd":
+		case "btgd":
 			newNotifier = func() (chainntnfs.TestChainNotifier, error) {
 				return btcdnotify.New(
 					&rpcConfig, chainntnfs.NetParams,

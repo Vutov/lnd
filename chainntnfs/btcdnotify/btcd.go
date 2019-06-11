@@ -23,7 +23,7 @@ import (
 const (
 	// notifierType uniquely identifies this concrete implementation of the
 	// ChainNotifier interface.
-	notifierType = "btcd"
+	notifierType = "btgd"
 )
 
 // chainUpdate encapsulates an update to the current main chain. This struct is
