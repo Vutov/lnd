@@ -25,8 +25,8 @@ import (
 	"github.com/btgsuite/btgwallet/walletdb"
 	_ "github.com/btgsuite/btgwallet/walletdb/bdb" // Required to register the boltdb walletdb implementation.
 
-	"github.com/BTCGPU/neutrino"
 	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/neutrino"
 )
 
 var (
@@ -118,7 +118,7 @@ func craftSpendTransaction(outpoint wire.OutPoint, payScript []byte) (*wire.MsgT
 		PkScript: payScript,
 	})
 	sigScript, err := txscript.SignatureScript(spendingTx, 0, payScript,
-		txscript.SigHashAll | txscript.SigHashForkID, privKey, true)
+		txscript.SigHashAll, privKey, true)
 	if err != nil {
 		return nil, err
 	}

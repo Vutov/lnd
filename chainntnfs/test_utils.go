@@ -155,7 +155,7 @@ func CreateSpendTx(t *testing.T, prevOutPoint *wire.OutPoint,
 	spendingTx.AddTxOut(&wire.TxOut{Value: 1e8, PkScript: prevOutput.PkScript})
 
 	sigScript, err := txscript.SignatureScript(
-		spendingTx, 0, prevOutput.PkScript, txscript.SigHashAll | txscript.SigHashForkID,
+		spendingTx, 0, prevOutput.PkScript, txscript.SigHashAll,
 		privKey, true,
 	)
 	if err != nil {

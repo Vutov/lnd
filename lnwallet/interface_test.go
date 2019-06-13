@@ -2666,6 +2666,7 @@ func runTests(t *testing.T, walletDriver *lnwallet.WalletDriver,
 		var aliceClient, bobClient chain.Interface
 		switch backEnd {
 		case "btgd":
+		case "btcd":
 			aliceClient, err = chain.NewRPCClient(netParams,
 				rpcConfig.Host, rpcConfig.User, rpcConfig.Pass,
 				rpcConfig.Certificates, false, 20)
@@ -2741,6 +2742,7 @@ func runTests(t *testing.T, walletDriver *lnwallet.WalletDriver,
 			)
 
 		case "bgoldd":
+		case "bitcoind":
 			// Start a bitcoind instance.
 			tempBitcoindDir, err := ioutil.TempDir("", "bgoldd")
 			if err != nil {
