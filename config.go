@@ -136,7 +136,7 @@ var (
 	defaultLtcdDir         = btcutil.AppDataDir("ltcd", false)
 	defaultLtcdRPCCertFile = filepath.Join(defaultLtcdDir, "rpc.cert")
 
-	defaultBitcoindDir  = btcutil.AppDataDir("bitcoin", false)
+	defaultBitcoindDir  = btcutil.AppDataDir("bitcoingold", false)
 	defaultLitecoindDir = btcutil.AppDataDir("litecoin", false)
 
 	defaultTorSOCKS   = net.JoinHostPort("localhost", strconv.Itoa(defaultTorSOCKSPort))
@@ -263,7 +263,7 @@ type config struct {
 	MaxPendingChannels int    `long:"maxpendingchannels" description:"The maximum number of incoming pending channels permitted per peer."`
 	BackupFilePath     string `long:"backupfilepath" description:"The target location of the channel backup file"`
 
-	Bitcoin      *chainConfig    `group:"Bitcoin" namespace:"bitcoin"`
+	Bitcoin      *chainConfig    `group:"BitcoinGold" namespace:"bitcoingold"`
 	BtcdMode     *btcdConfig     `group:"btgd" namespace:"btgd"`
 	BitcoindMode *bitcoindConfig `group:"bgoldd" namespace:"bgoldd"`
 	NeutrinoMode *neutrinoConfig `group:"neutrino" namespace:"neutrino"`
@@ -626,7 +626,7 @@ func loadConfig() (*config, error) {
 	// Either Bitcoin must be active, or Litecoin must be active.
 	// Otherwise, we don't know which chain we're on.
 	case !cfg.Bitcoin.Active && !cfg.Litecoin.Active:
-		return nil, fmt.Errorf("%s: either bitcoin.active or "+
+		return nil, fmt.Errorf("%s: either bitcoingold.active or "+
 			"litecoin.active must be set to 1 (true)", funcName)
 
 	case cfg.Litecoin.Active:
