@@ -15,7 +15,7 @@ require (
 	github.com/btcsuite/fastsha256 v0.0.0-20160815193821-637e65642941
 	github.com/btgsuite/btgd v0.0.0-20190531030435-40da7cd36fb9
 	github.com/btgsuite/btgutil v0.0.0-20181120193620-526c8484e577
-	github.com/btgsuite/btgwallet v0.0.0-20190604153501-b0f13809ea8f
+	github.com/btgsuite/btgwallet v0.0.0-20190616072837-3ac0c341b6d0
 	github.com/coreos/bbolt v1.3.2
 	github.com/davecgh/go-spew v1.1.1
 	github.com/go-errors/errors v1.0.1

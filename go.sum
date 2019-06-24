@@ -13,6 +13,7 @@ github.com/NebulousLabs/fastrand v0.0.0-20180208210444-3cf7173006a0 h1:g/ETZwHx5
 github.com/NebulousLabs/fastrand v0.0.0-20180208210444-3cf7173006a0/go.mod h1:Bdzq+51GR4/0DIhaICZEOm+OHvXGwwB2trKZ8B4Y6eQ=
 github.com/NebulousLabs/go-upnp v0.0.0-20180202185039-29b680b06c82 h1:MG93+PZYs9PyEsj/n5/haQu2gK0h4tUtSy9ejtMwWa0=
 github.com/NebulousLabs/go-upnp v0.0.0-20180202185039-29b680b06c82/go.mod h1:GbuBk21JqF+driLX3XtJYNZjGa45YDoa9IqCTzNSfEc=
+github.com/Vutov/lnd v0.4.2-beta h1:o9zzDSC5j9xm4shzDIWjS0f6pbxmrRmMRDcv379f0zY=
 github.com/Yawning/aez v0.0.0-20180114000226-4dad034d9db2 h1:2be4ykKKov3M1yISM2E8gnGXZ/N2SsPawfnGiXxaYEU=
 github.com/Yawning/aez v0.0.0-20180114000226-4dad034d9db2/go.mod h1:9pIqrY6SXNL8vjRQE5Hd/OL5GyK/9MrGUWs87z/eFfk=
 github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da h1:KjTM2ks9d14ZYCvmHS9iAKVt9AyzRSqNU1qabPih5BY=
@@ -46,6 +47,8 @@ github.com/btgsuite/btgwallet v0.0.0-20190524073003-f40d33daab5a/go.mod h1:QbL66
 github.com/btgsuite/btgwallet v0.0.0-20190531120221-07000f2be656/go.mod h1:L7yvDqkZSUS6BbnU1WBImA3To0+bgkfVIMBuPWeNX4c=
 github.com/btgsuite/btgwallet v0.0.0-20190604153501-b0f13809ea8f h1:k+x0f05KoZiEpjlzSKh3HLcN4YL+2+ThqKOrk+EYZkg=
 github.com/btgsuite/btgwallet v0.0.0-20190604153501-b0f13809ea8f/go.mod h1:opEhJjGn+lPXV9Dytptko1EoWk0ZgadvER/iYSWJhig=
+github.com/btgsuite/btgwallet v0.0.0-20190616072837-3ac0c341b6d0 h1:88ETR21LmUbd3ERfDTlXUdBfwsx9ASzd4nSrI5JXa7c=
+github.com/btgsuite/btgwallet v0.0.0-20190616072837-3ac0c341b6d0/go.mod h1:opEhJjGn+lPXV9Dytptko1EoWk0ZgadvER/iYSWJhig=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/coreos/bbolt v1.3.2 h1:wZwiHHUieZCquLkDL0B8UhzreNWsPHooDAG3q34zk0s=
 github.com/coreos/bbolt v1.3.2/go.mod h1:iRUV2dpdMOn7Bo10OQBFzIJO9kkE559Wcmn+qkEiiKk=

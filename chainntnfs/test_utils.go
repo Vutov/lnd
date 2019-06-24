@@ -1,6 +1,6 @@
 // +build dev
 
-package chainntnfs
+package chainntnfs_test
 
 import (
 	"errors"
@@ -13,6 +13,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/BTCGPU/neutrino"
 	"github.com/btgsuite/btgd/btcec"
 	"github.com/btgsuite/btgd/btcjson"
 	"github.com/btgsuite/btgd/chaincfg"
@@ -23,7 +24,6 @@ import (
 	btcutil "github.com/btgsuite/btgutil"
 	"github.com/btgsuite/btgwallet/chain"
 	"github.com/btgsuite/btgwallet/walletdb"
-	"github.com/BTCGPU/neutrino"
 )
 
 var (

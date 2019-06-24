@@ -12,12 +12,12 @@ import (
 	"github.com/BTCGPU/lnd/keychain"
 	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/shachain"
-	"github.com/btgsuite/btgd/chaincfg/chainhash"
-	btcutil "github.com/btgsuite/btgutil"
 	"github.com/btgsuite/btgd/btcec"
 	"github.com/btgsuite/btgd/chaincfg"
+	"github.com/btgsuite/btgd/chaincfg/chainhash"
 	"github.com/btgsuite/btgd/txscript"
 	"github.com/btgsuite/btgd/wire"
+	btcutil "github.com/btgsuite/btgutil"
 	"github.com/davecgh/go-spew/spew"
 )
 
@@ -101,7 +101,7 @@ func newTestContext() (tc *testContext, err error) {
 		return
 	}
 
-	const block1Hex = "0000002006226e46111a0b59caaf126043eb5bbf28c34f3a5e332a1fc7b2b73cf188910fadbb20ea41a8423ea937e76e8151636bf6093b70eaff942930d20576600521fdc30f9858ffff7f20000000000101000000010000000000000000000000000000000000000000000000000000000000000000ffffffff03510101ffffffff0100f2052a010000001976a9143ca33c2e4446f4a305f23c80df8ad1afdcf652f988ac00000000"
+	const block1Hex = "0000002006226e46111a0b59caaf126043eb5bbf28c34f3a5e332a1fc7b2b73cf188910fadbb20ea41a8423ea937e76e8151636bf6093b70eaff942930d20576600521fd0000000000000000000000000000000000000000000000000000000000000000c30f9858ffff7f200000000000000000000000000000000000000000000000000000000000000000000101000000010000000000000000000000000000000000000000000000000000000000000000ffffffff03510101ffffffff0100f2052a010000001976a9143ca33c2e4446f4a305f23c80df8ad1afdcf652f988ac00000000"
 	if tc.block1, err = blockFromHex(block1Hex); err != nil {
 		err = fmt.Errorf("Failed to parse serialized block: %v", err)
 		return
@@ -191,7 +191,7 @@ func newTestContext() (tc *testContext, err error) {
 		return
 	}
 
-	const fundingChangeAddressStr = "bcrt1qgyeqfmptyh780dsk32qawsvdffc2g5q5sxamg0"
+	const fundingChangeAddressStr = "btgrt1q8wyx2dya3u7y7e5ufn3fap6srcdanm4qlm3wp8"
 	tc.fundingChangeAddress, err = btcutil.DecodeAddress(
 		fundingChangeAddressStr, tc.netParams)
 	if err != nil {
