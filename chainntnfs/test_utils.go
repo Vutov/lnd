@@ -1,6 +1,6 @@
 // +build dev
 
-package chainntnfs_test
+package chainntnfs
 
 import (
 	"errors"
