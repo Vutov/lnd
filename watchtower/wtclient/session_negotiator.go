@@ -112,7 +112,7 @@ var _ SessionNegotiator = (*sessionNegotiator)(nil)
 // newSessionNegotiator initializes a fresh sessionNegotiator instance.
 func newSessionNegotiator(cfg *NegotiatorConfig) *sessionNegotiator {
 	localInit := wtwire.NewInitMessage(
-		lnwire.NewRawFeatureVector(wtwire.WtSessionsRequired),
+		lnwire.NewRawFeatureVector(wtwire.AltruistSessionsRequired),
 		cfg.ChainHash,
 	)
 
@@ -417,14 +417,15 @@ func (n *sessionNegotiator) tryAddress(privKey *btcec.PrivateKey,
 			privKey.PubKey(),
 		)
 		clientSession := &wtdb.ClientSession{
-			TowerID:        tower.ID,
+			ClientSessionBody: wtdb.ClientSessionBody{
+				TowerID:        tower.ID,
+				KeyIndex:       keyIndex,
+				Policy:         n.cfg.Policy,
+				RewardPkScript: rewardPkScript,
+			},
 			Tower:          tower,
-			KeyIndex:       keyIndex,
 			SessionPrivKey: privKey,
 			ID:             sessionID,
-			Policy:         n.cfg.Policy,
-			SeqNum:         0,
-			RewardPkScript: rewardPkScript,
 		}
 
 		err = n.cfg.DB.CreateClientSession(clientSession)

@@ -6,8 +6,10 @@ import (
 	"encoding/binary"
 	"fmt"
 
+	"github.com/btcsuite/btcd/btcec"
 	"github.com/coreos/bbolt"
 	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/lightningnetwork/lnd/routing/route"
 )
 
 // migrateNodeAndEdgeUpdateIndex is a migration function that will update the
@@ -144,6 +146,11 @@ func migrateInvoiceTimeSeries(tx *bbolt.Tx) error {
 	// Now that we have all the buckets we need, we'll run through each
 	// invoice in the database, and update it to reflect the new format
 	// expected post migration.
+	// NOTE: we store the converted invoices and put them back into the
+	// database after the loop, since modifying the bucket within the
+	// ForEach loop is not safe.
+	var invoicesKeys [][]byte
+	var invoicesValues [][]byte
 	err = invoices.ForEach(func(invoiceNum, invoiceBytes []byte) error {
 		// If this is a sub bucket, then we'll skip it.
 		if invoiceBytes == nil {
@@ -224,10 +231,23 @@ func migrateInvoiceTimeSeries(tx *bbolt.Tx) error {
 			return err
 		}
 
-		return invoices.Put(invoiceNum, b.Bytes())
+		// Save the key and value pending update for after the ForEach
+		// is done.
+		invoicesKeys = append(invoicesKeys, invoiceNum)
+		invoicesValues = append(invoicesValues, b.Bytes())
+		return nil
 	})
 	if err != nil {
 		return err
+	}
+
+	// Now put the converted invoices into the DB.
+	for i := range invoicesKeys {
+		key := invoicesKeys[i]
+		value := invoicesValues[i]
+		if err := invoices.Put(key, value); err != nil {
+			return err
+		}
 	}
 
 	log.Infof("Migration to invoice time series index complete!")
@@ -247,6 +267,10 @@ func migrateInvoiceTimeSeriesOutgoingPayments(tx *bbolt.Tx) error {
 
 	log.Infof("Migrating invoice database to new outgoing payment format")
 
+	// We store the keys and values we want to modify since it is not safe
+	// to modify them directly within the ForEach loop.
+	var paymentKeys [][]byte
+	var paymentValues [][]byte
 	err := payBucket.ForEach(func(payID, paymentBytes []byte) error {
 		log.Tracef("Migrating payment %x", payID[:])
 
@@ -288,15 +312,23 @@ func migrateInvoiceTimeSeriesOutgoingPayments(tx *bbolt.Tx) error {
 		}
 
 		// Now that we know the modifications was successful, we'll
-		// write it back to disk in the new format.
-		if err := payBucket.Put(payID, paymentCopy); err != nil {
-			return err
-		}
-
+		// store it to our slice of keys and values, and write it back
+		// to disk in the new format after the ForEach loop is over.
+		paymentKeys = append(paymentKeys, payID)
+		paymentValues = append(paymentValues, paymentCopy)
 		return nil
 	})
 	if err != nil {
 		return err
+	}
+
+	// Finally store the updated payments to the bucket.
+	for i := range paymentKeys {
+		key := paymentKeys[i]
+		value := paymentValues[i]
+		if err := payBucket.Put(key, value); err != nil {
+			return err
+		}
 	}
 
 	log.Infof("Migration to outgoing payment invoices complete!")
@@ -449,7 +481,7 @@ func paymentStatusesMigration(tx *bbolt.Tx) error {
 		// Update status for current payment to completed. If it fails,
 		// the migration is aborted and the payment bucket is returned
 		// to its previous state.
-		return paymentStatuses.Put(paymentHash[:], StatusCompleted.Bytes())
+		return paymentStatuses.Put(paymentHash[:], StatusSucceeded.Bytes())
 	})
 	if err != nil {
 		return err
@@ -585,6 +617,12 @@ func migrateOptionalChannelCloseSummaryFields(tx *bbolt.Tx) error {
 	}
 
 	log.Info("Migrating to new closed channel format...")
+
+	// We store the converted keys and values and put them back into the
+	// database after the loop, since modifying the bucket within the
+	// ForEach loop is not safe.
+	var closedChansKeys [][]byte
+	var closedChansValues [][]byte
 	err := closedChanBucket.ForEach(func(chanID, summary []byte) error {
 		r := bytes.NewReader(summary)
 
@@ -601,10 +639,24 @@ func migrateOptionalChannelCloseSummaryFields(tx *bbolt.Tx) error {
 			return err
 		}
 
-		return closedChanBucket.Put(chanID, b.Bytes())
+		// Now that we know the modifications was successful, we'll
+		// Store the key and value to our slices, and write it back to
+		// disk in the new format after the ForEach loop is over.
+		closedChansKeys = append(closedChansKeys, chanID)
+		closedChansValues = append(closedChansValues, b.Bytes())
+		return nil
 	})
 	if err != nil {
 		return fmt.Errorf("unable to update closed channels: %v", err)
+	}
+
+	// Now put the new format back into the DB.
+	for i := range closedChansKeys {
+		key := closedChansKeys[i]
+		value := closedChansValues[i]
+		if err := closedChanBucket.Put(key, value); err != nil {
+			return err
+		}
 	}
 
 	log.Info("Migration to new closed channel format complete!")
@@ -681,5 +733,204 @@ func migrateGossipMessageStoreKeys(tx *bbolt.Tx) error {
 
 	log.Info("Migration to the gossip message store new key format complete!")
 
+	return nil
+}
+
+// migrateOutgoingPayments moves the OutgoingPayments into a new bucket format
+// where they all reside in a top-level bucket indexed by the payment hash. In
+// this sub-bucket we store information relevant to this payment, such as the
+// payment status.
+//
+// Since the router cannot handle resumed payments that have the status
+// InFlight (we have no PaymentAttemptInfo available for pre-migration
+// payments) we delete those statuses, so only Completed payments remain in the
+// new bucket structure.
+func migrateOutgoingPayments(tx *bbolt.Tx) error {
+	log.Infof("Migrating outgoing payments to new bucket structure")
+
+	oldPayments := tx.Bucket(paymentBucket)
+
+	// Return early if there are no payments to migrate.
+	if oldPayments == nil {
+		log.Infof("No outgoing payments found, nothing to migrate.")
+		return nil
+	}
+
+	newPayments, err := tx.CreateBucket(paymentsRootBucket)
+	if err != nil {
+		return err
+	}
+
+	// Helper method to get the source pubkey. We define it such that we
+	// only attempt to fetch it if needed.
+	sourcePub := func() ([33]byte, error) {
+		var pub [33]byte
+		nodes := tx.Bucket(nodeBucket)
+		if nodes == nil {
+			return pub, ErrGraphNotFound
+		}
+
+		selfPub := nodes.Get(sourceKey)
+		if selfPub == nil {
+			return pub, ErrSourceNodeNotSet
+		}
+		copy(pub[:], selfPub[:])
+		return pub, nil
+	}
+
+	err = oldPayments.ForEach(func(k, v []byte) error {
+		// Ignores if it is sub-bucket.
+		if v == nil {
+			return nil
+		}
+
+		// Read the old payment format.
+		r := bytes.NewReader(v)
+		payment, err := deserializeOutgoingPayment(r)
+		if err != nil {
+			return err
+		}
+
+		// Calculate payment hash from the payment preimage.
+		paymentHash := sha256.Sum256(payment.PaymentPreimage[:])
+
+		// Now create and add a PaymentCreationInfo to the bucket.
+		c := &PaymentCreationInfo{
+			PaymentHash:    paymentHash,
+			Value:          payment.Terms.Value,
+			CreationDate:   payment.CreationDate,
+			PaymentRequest: payment.PaymentRequest,
+		}
+
+		var infoBuf bytes.Buffer
+		if err := serializePaymentCreationInfo(&infoBuf, c); err != nil {
+			return err
+		}
+
+		sourcePubKey, err := sourcePub()
+		if err != nil {
+			return err
+		}
+
+		// Do the same for the PaymentAttemptInfo.
+		totalAmt := payment.Terms.Value + payment.Fee
+		rt := route.Route{
+			TotalTimeLock: payment.TimeLockLength,
+			TotalAmount:   totalAmt,
+			SourcePubKey:  sourcePubKey,
+			Hops:          []*route.Hop{},
+		}
+		for _, hop := range payment.Path {
+			rt.Hops = append(rt.Hops, &route.Hop{
+				PubKeyBytes:  hop,
+				AmtToForward: totalAmt,
+			})
+		}
+
+		// Since the old format didn't store the fee for individual
+		// hops, we let the last hop eat the whole fee for the total to
+		// add up.
+		if len(rt.Hops) > 0 {
+			rt.Hops[len(rt.Hops)-1].AmtToForward = payment.Terms.Value
+		}
+
+		// Since we don't have the session key for old payments, we
+		// create a random one to be able to serialize the attempt
+		// info.
+		priv, _ := btcec.NewPrivateKey(btcec.S256())
+		s := &PaymentAttemptInfo{
+			PaymentID:  0,    // unknown.
+			SessionKey: priv, // unknown.
+			Route:      rt,
+		}
+
+		var attemptBuf bytes.Buffer
+		if err := serializePaymentAttemptInfo(&attemptBuf, s); err != nil {
+			return err
+		}
+
+		// Reuse the existing payment sequence number.
+		var seqNum [8]byte
+		copy(seqNum[:], k)
+
+		// Create a bucket indexed by the payment hash.
+		bucket, err := newPayments.CreateBucket(paymentHash[:])
+
+		// If the bucket already exists, it means that we are migrating
+		// from a database containing duplicate payments to a payment
+		// hash. To keep this information, we store such duplicate
+		// payments in a sub-bucket.
+		if err == bbolt.ErrBucketExists {
+			pHashBucket := newPayments.Bucket(paymentHash[:])
+
+			// Create a bucket for duplicate payments within this
+			// payment hash's bucket.
+			dup, err := pHashBucket.CreateBucketIfNotExists(
+				paymentDuplicateBucket,
+			)
+			if err != nil {
+				return err
+			}
+
+			// Each duplicate will get its own sub-bucket within
+			// this bucket, so use their sequence number to index
+			// them by.
+			bucket, err = dup.CreateBucket(seqNum[:])
+			if err != nil {
+				return err
+			}
+
+		} else if err != nil {
+			return err
+		}
+
+		// Store the payment's information to the bucket.
+		err = bucket.Put(paymentSequenceKey, seqNum[:])
+		if err != nil {
+			return err
+		}
+
+		err = bucket.Put(paymentCreationInfoKey, infoBuf.Bytes())
+		if err != nil {
+			return err
+		}
+
+		err = bucket.Put(paymentAttemptInfoKey, attemptBuf.Bytes())
+		if err != nil {
+			return err
+		}
+
+		err = bucket.Put(paymentSettleInfoKey, payment.PaymentPreimage[:])
+		if err != nil {
+			return err
+		}
+
+		return nil
+	})
+	if err != nil {
+		return err
+	}
+
+	// To continue producing unique sequence numbers, we set the sequence
+	// of the new bucket to that of the old one.
+	seq := oldPayments.Sequence()
+	if err := newPayments.SetSequence(seq); err != nil {
+		return err
+	}
+
+	// Now we delete the old buckets. Deleting the payment status buckets
+	// deletes all payment statuses other than Complete.
+	err = tx.DeleteBucket(paymentStatusBucket)
+	if err != nil && err != bbolt.ErrBucketNotFound {
+		return err
+	}
+
+	// Finally delete the old payment bucket.
+	err = tx.DeleteBucket(paymentBucket)
+	if err != nil && err != bbolt.ErrBucketNotFound {
+		return err
+	}
+
+	log.Infof("Migration of outgoing payment bucket structure completed!")
 	return nil
 }

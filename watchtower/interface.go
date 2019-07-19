@@ -1,8 +1,8 @@
 package watchtower
 
 import (
-	"github.com/BTCGPU/lnd/watchtower/lookout"
-	"github.com/BTCGPU/lnd/watchtower/wtserver"
+	"net"
+
 )
 
 // DB abstracts the persistent functionality required to run the watchtower
@@ -12,3 +12,8 @@ type DB interface {
 	lookout.DB
 	wtserver.DB
 }
+
+// AddressNormalizer is a function signature that allows the tower to resolve
+// TCP addresses on clear or onion networks.
+type AddressNormalizer func(addrs []string, defaultPort string,
+	resolver func(string, string) (*net.TCPAddr, error)) ([]net.Addr, error)

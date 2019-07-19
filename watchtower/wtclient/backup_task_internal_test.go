@@ -69,7 +69,7 @@ type backupTaskTest struct {
 	expSweepAmt      int64
 	expRewardAmt     int64
 	expRewardScript  []byte
-	session          *wtdb.ClientSession
+	session          *wtdb.ClientSessionBody
 	bindErr          error
 	expSweepScript   []byte
 	signer           input.Signer
@@ -205,11 +205,13 @@ func genTaskTest(
 		expSweepAmt:      expSweepAmt,
 		expRewardAmt:     expRewardAmt,
 		expRewardScript:  rewardScript,
-		session: &wtdb.ClientSession{
+		session: &wtdb.ClientSessionBody{
 			Policy: wtpolicy.Policy{
-				BlobType:     blobType,
-				SweepFeeRate: sweepFeeRate,
-				RewardRate:   10000,
+				TxPolicy: wtpolicy.TxPolicy{
+					BlobType:     blobType,
+					SweepFeeRate: sweepFeeRate,
+					RewardRate:   10000,
+				},
 			},
 			RewardPkScript: rewardScript,
 		},
@@ -516,7 +518,7 @@ func testBackupTask(t *testing.T, test backupTaskTest) {
 
 	// Verify that the breach hint matches the breach txid's prefix.
 	breachTxID := test.breachInfo.BreachTransaction.TxHash()
-	expHint := wtdb.NewBreachHintFromHash(&breachTxID)
+	expHint := blob.NewBreachHintFromHash(&breachTxID)
 	if hint != expHint {
 		t.Fatalf("breach hint mismatch, want: %x, got: %v",
 			expHint, hint)
@@ -524,7 +526,8 @@ func testBackupTask(t *testing.T, test backupTaskTest) {
 
 	// Decrypt the return blob to obtain the JusticeKit containing its
 	// contents.
-	jKit, err := blob.Decrypt(breachTxID[:], encBlob, policy.BlobType)
+	key := blob.NewBreachKeyFromHash(&breachTxID)
+	jKit, err := blob.Decrypt(key, encBlob, policy.BlobType)
 	if err != nil {
 		t.Fatalf("unable to decrypt blob: %v", err)
 	}

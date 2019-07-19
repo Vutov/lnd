@@ -28,7 +28,12 @@ const (
 
 	// DefaultStatInterval specifies the default interval between logging
 	// metrics about the client's operation.
-	DefaultStatInterval = 30 * time.Second
+	DefaultStatInterval = time.Minute
+
+	// DefaultForceQuitDelay specifies the default duration after which the
+	// client should abandon any pending updates or session negotiations
+	// before terminating.
+	DefaultForceQuitDelay = 10 * time.Second
 )
 
 // Client is the primary interface used by the daemon to control a client's
@@ -146,12 +151,14 @@ type TowerClient struct {
 	negotiator        SessionNegotiator
 	candidateSessions map[wtdb.SessionID]*wtdb.ClientSession
 	activeSessions    sessionQueueSet
+	targetTowerIDs    map[wtdb.TowerID]struct{}
 
 	sessionQueue *sessionQueue
 	prevTask     *backupTask
 
-	sweepPkScriptMu sync.RWMutex
-	sweepPkScripts  map[lnwire.ChannelID][]byte
+	backupMu          sync.Mutex
+	summaries         wtdb.ChannelSummaries
+	chanCommitHeights map[lnwire.ChannelID]uint64
 
 	statTicker *time.Ticker
 	stats      clientStats
@@ -192,10 +199,14 @@ func New(config *Config) (*TowerClient, error) {
 	log.Infof("Using private watchtower %s, offering policy %s",
 		cfg.PrivateTower, cfg.Policy)
 
+	candidates := newTowerListIterator(tower)
+	targetTowerIDs := candidates.TowerIDs()
+
 	c := &TowerClient{
 		cfg:            cfg,
 		pipeline:       newTaskPipeline(),
 		activeSessions: make(sessionQueueSet),
+		targetTowerIDs: targetTowerIDs,
 		statTicker:     time.NewTicker(DefaultStatInterval),
 		forceQuit:      make(chan struct{}),
 	}
@@ -207,7 +218,7 @@ func New(config *Config) (*TowerClient, error) {
 		SendMessage:   c.sendMessage,
 		ReadMessage:   c.readMessage,
 		Dial:          c.dial,
-		Candidates:    newTowerListIterator(tower),
+		Candidates:    candidates,
 		MinBackoff:    cfg.MinBackoff,
 		MaxBackoff:    cfg.MaxBackoff,
 	})
@@ -243,14 +254,56 @@ func New(config *Config) (*TowerClient, error) {
 		s.SessionPrivKey = sessionPriv
 	}
 
+	// Reconstruct the highest commit height processed for each channel
+	// under the client's current policy.
+	c.buildHighestCommitHeights()
+
 	// Finally, load the sweep pkscripts that have been generated for all
 	// previously registered channels.
-	c.sweepPkScripts, err = c.cfg.DB.FetchChanPkScripts()
+	c.summaries, err = c.cfg.DB.FetchChanSummaries()
 	if err != nil {
 		return nil, err
 	}
 
 	return c, nil
+}
+
+// buildHighestCommitHeights inspects the full set of candidate client sessions
+// loaded from disk, and determines the highest known commit height for each
+// channel. This allows the client to reject backups that it has already
+// processed for it's active policy.
+func (c *TowerClient) buildHighestCommitHeights() {
+	chanCommitHeights := make(map[lnwire.ChannelID]uint64)
+	for _, s := range c.candidateSessions {
+		// We only want to consider accepted updates that have been
+		// accepted under an identical policy to the client's current
+		// policy.
+		if s.Policy != c.cfg.Policy {
+			continue
+		}
+
+		// Take the highest commit height found in the session's
+		// committed updates.
+		for _, committedUpdate := range s.CommittedUpdates {
+			bid := committedUpdate.BackupID
+
+			height, ok := chanCommitHeights[bid.ChanID]
+			if !ok || bid.CommitHeight > height {
+				chanCommitHeights[bid.ChanID] = bid.CommitHeight
+			}
+		}
+
+		// Take the heights commit height found in the session's acked
+		// updates.
+		for _, bid := range s.AckedUpdates {
+			height, ok := chanCommitHeights[bid.ChanID]
+			if !ok || bid.CommitHeight > height {
+				chanCommitHeights[bid.ChanID] = bid.CommitHeight
+			}
+		}
+	}
+
+	c.chanCommitHeights = chanCommitHeights
 }
 
 // Start initializes the watchtower client by loading or negotiating an active
@@ -388,12 +441,12 @@ func (c *TowerClient) ForceQuit() {
 // within the client. This should be called during link startup to ensure that
 // the client is able to support the link during operation.
 func (c *TowerClient) RegisterChannel(chanID lnwire.ChannelID) error {
-	c.sweepPkScriptMu.Lock()
-	defer c.sweepPkScriptMu.Unlock()
+	c.backupMu.Lock()
+	defer c.backupMu.Unlock()
 
 	// If a pkscript for this channel already exists, the channel has been
 	// previously registered.
-	if _, ok := c.sweepPkScripts[chanID]; ok {
+	if _, ok := c.summaries[chanID]; ok {
 		return nil
 	}
 
@@ -406,14 +459,16 @@ func (c *TowerClient) RegisterChannel(chanID lnwire.ChannelID) error {
 
 	// Persist the sweep pkscript so that restarts will not introduce
 	// address inflation when the channel is reregistered after a restart.
-	err = c.cfg.DB.AddChanPkScript(chanID, pkScript)
+	err = c.cfg.DB.RegisterChannel(chanID, pkScript)
 	if err != nil {
 		return err
 	}
 
 	// Finally, cache the pkscript in our in-memory cache to avoid db
 	// lookups for the remainder of the daemon's execution.
-	c.sweepPkScripts[chanID] = pkScript
+	c.summaries[chanID] = wtdb.ClientChanSummary{
+		SweepPkScript: pkScript,
+	}
 
 	return nil
 }
@@ -429,14 +484,29 @@ func (c *TowerClient) BackupState(chanID *lnwire.ChannelID,
 	breachInfo *lnwallet.BreachRetribution) error {
 
 	// Retrieve the cached sweep pkscript used for this channel.
-	c.sweepPkScriptMu.RLock()
-	sweepPkScript, ok := c.sweepPkScripts[*chanID]
-	c.sweepPkScriptMu.RUnlock()
+	c.backupMu.Lock()
+	summary, ok := c.summaries[*chanID]
 	if !ok {
+		c.backupMu.Unlock()
 		return ErrUnregisteredChannel
 	}
 
-	task := newBackupTask(chanID, breachInfo, sweepPkScript)
+	// Ignore backups that have already been presented to the client.
+	height, ok := c.chanCommitHeights[*chanID]
+	if ok && breachInfo.RevokedStateNum <= height {
+		c.backupMu.Unlock()
+		log.Debugf("Ignoring duplicate backup for chanid=%v at height=%d",
+			chanID, breachInfo.RevokedStateNum)
+		return nil
+	}
+
+	// This backup has a higher commit height than any known backup for this
+	// channel. We'll update our tip so that we won't accept it again if the
+	// link flaps.
+	c.chanCommitHeights[*chanID] = breachInfo.RevokedStateNum
+	c.backupMu.Unlock()
+
+	task := newBackupTask(chanID, breachInfo, summary.SweepPkScript)
 
 	return c.pipeline.QueueBackupTask(task)
 }
@@ -454,9 +524,16 @@ func (c *TowerClient) nextSessionQueue() *sessionQueue {
 		delete(c.candidateSessions, id)
 
 		// Skip any sessions with policies that don't match the current
-		// configuration. These can be used again if the client changes
-		// their configuration back.
-		if sessionInfo.Policy != c.cfg.Policy {
+		// TxPolicy, as they would result in different justice
+		// transactions from what is requested. These can be used again
+		// if the client changes their configuration and restarting.
+		if sessionInfo.Policy.TxPolicy != c.cfg.Policy.TxPolicy {
+			continue
+		}
+
+		// Skip any sessions that are still active, but are not for the
+		// users currently configured tower.
+		if _, ok := c.targetTowerIDs[sessionInfo.TowerID]; !ok {
 			continue
 		}
 
@@ -501,6 +578,7 @@ func (c *TowerClient) backupDispatcher() {
 			// Wait until we receive the newly negotiated session.
 			// All backups sent in the meantime are queued in the
 			// revoke queue, as we cannot process them.
+		awaitSession:
 			select {
 			case session := <-c.negotiator.NewSessions():
 				log.Infof("Acquired new session with id=%s",
@@ -510,6 +588,12 @@ func (c *TowerClient) backupDispatcher() {
 
 			case <-c.statTicker.C:
 				log.Infof("Client stats: %s", c.stats)
+
+				// Instead of looping, we'll jump back into the
+				// select case and await the delivery of the
+				// session to prevent us from re-requesting
+				// additional sessions.
+				goto awaitSession
 
 			case <-c.forceQuit:
 				return
@@ -566,9 +650,7 @@ func (c *TowerClient) backupDispatcher() {
 					return
 				}
 
-				log.Debugf("Processing backup task chanid=%s "+
-					"commit-height=%d", task.id.ChanID,
-					task.id.CommitHeight)
+				log.Debugf("Processing %v", task.id)
 
 				c.stats.taskReceived()
 				c.processTask(task)
@@ -599,8 +681,8 @@ func (c *TowerClient) processTask(task *backupTask) {
 // sessionQueue will be removed if accepting the task left the sessionQueue in
 // an exhausted state.
 func (c *TowerClient) taskAccepted(task *backupTask, newStatus reserveStatus) {
-	log.Infof("Backup chanid=%s commit-height=%d accepted successfully",
-		task.id.ChanID, task.id.CommitHeight)
+	log.Infof("Queued %v successfully for session %v",
+		task.id, c.sessionQueue.ID())
 
 	c.stats.taskAccepted()
 
@@ -641,16 +723,14 @@ func (c *TowerClient) taskRejected(task *backupTask, curStatus reserveStatus) {
 	case reserveAvailable:
 		c.stats.taskIneligible()
 
-		log.Infof("Backup chanid=%s commit-height=%d is ineligible",
-			task.id.ChanID, task.id.CommitHeight)
+		log.Infof("Ignoring ineligible %v", task.id)
 
 		err := c.cfg.DB.MarkBackupIneligible(
 			task.id.ChanID, task.id.CommitHeight,
 		)
 		if err != nil {
-			log.Errorf("Unable to mark task chanid=%s "+
-				"commit-height=%d ineligible: %v",
-				task.id.ChanID, task.id.CommitHeight, err)
+			log.Errorf("Unable to mark %v ineligible: %v",
+				task.id, err)
 
 			// It is safe to not handle this error, even if we could
 			// not persist the result. At worst, this task may be
@@ -669,10 +749,8 @@ func (c *TowerClient) taskRejected(task *backupTask, curStatus reserveStatus) {
 	case reserveExhausted:
 		c.stats.sessionExhausted()
 
-		log.Debugf("Session %s exhausted, backup chanid=%s "+
-			"commit-height=%d queued for next session",
-			c.sessionQueue.ID(), task.id.ChanID,
-			task.id.CommitHeight)
+		log.Debugf("Session %v exhausted, %v queued for next session",
+			c.sessionQueue.ID(), task.id)
 
 		// Cache the task that we pulled off, so that we can process it
 		// once a new session queue is available.

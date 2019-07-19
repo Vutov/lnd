@@ -37,6 +37,7 @@ import (
 
 	"github.com/btgsuite/btgwallet/wallet"
 	"github.com/btgsuite/btgd/btcec"
+	"github.com/btcsuite/btcutil"
 	proxy "github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/BTCGPU/neutrino"
 
@@ -51,6 +52,8 @@ import (
 	"github.com/BTCGPU/lnd/macaroons"
 	"github.com/BTCGPU/lnd/signal"
 	"github.com/BTCGPU/lnd/walletunlocker"
+	"github.com/lightningnetwork/lnd/watchtower"
+	"github.com/lightningnetwork/lnd/watchtower/wtdb"
 )
 
 const (
@@ -313,11 +316,77 @@ func Main() error {
 			"is proxying over Tor as well", cfg.Tor.StreamIsolation)
 	}
 
+	// If the watchtower client should be active, open the client database.
+	// This is done here so that Close always executes when lndMain returns.
+	var towerClientDB *wtdb.ClientDB
+	if cfg.WtClient.IsActive() {
+		var err error
+		towerClientDB, err = wtdb.OpenClientDB(graphDir)
+		if err != nil {
+			ltndLog.Errorf("Unable to open watchtower client db: %v", err)
+		}
+		defer towerClientDB.Close()
+	}
+
+	var tower *watchtower.Standalone
+	if cfg.Watchtower.Active {
+		// Segment the watchtower directory by chain and network.
+		towerDBDir := filepath.Join(
+			cfg.Watchtower.TowerDir,
+			registeredChains.PrimaryChain().String(),
+			normalizeNetwork(activeNetParams.Name),
+		)
+
+		towerDB, err := wtdb.OpenTowerDB(towerDBDir)
+		if err != nil {
+			ltndLog.Errorf("Unable to open watchtower db: %v", err)
+			return err
+		}
+		defer towerDB.Close()
+
+		towerPrivKey, err := activeChainControl.wallet.DerivePrivKey(
+			keychain.KeyDescriptor{
+				KeyLocator: keychain.KeyLocator{
+					Family: keychain.KeyFamilyTowerID,
+					Index:  0,
+				},
+			},
+		)
+		if err != nil {
+			return err
+		}
+
+		wtConfig, err := cfg.Watchtower.Apply(&watchtower.Config{
+			BlockFetcher:   activeChainControl.chainIO,
+			DB:             towerDB,
+			EpochRegistrar: activeChainControl.chainNotifier,
+			Net:            cfg.net,
+			NewAddress: func() (btcutil.Address, error) {
+				return activeChainControl.wallet.NewAddress(
+					lnwallet.WitnessPubKey, false,
+				)
+			},
+			NodePrivKey: towerPrivKey,
+			PublishTx:   activeChainControl.wallet.PublishTransaction,
+			ChainHash:   *activeNetParams.GenesisHash,
+		}, lncfg.NormalizeAddresses)
+		if err != nil {
+			ltndLog.Errorf("Unable to configure watchtower: %v", err)
+			return err
+		}
+
+		tower, err = watchtower.New(wtConfig)
+		if err != nil {
+			ltndLog.Errorf("Unable to create watchtower: %v", err)
+			return err
+		}
+	}
+
 	// Set up the core server which will listen for incoming peer
 	// connections.
 	server, err := newServer(
-		cfg.Listeners, chanDB, activeChainControl, idPrivKey,
-		walletInitParams.ChansToRestore,
+		cfg.Listeners, chanDB, towerClientDB, activeChainControl,
+		idPrivKey, walletInitParams.ChansToRestore,
 	)
 	if err != nil {
 		srvrLog.Errorf("unable to create server: %v\n", err)
@@ -349,7 +418,7 @@ func Main() error {
 	rpcServer, err := newRPCServer(
 		server, macaroonService, cfg.SubRPCServers, serverOpts,
 		restDialOpts, restProxyDest, atplManager, server.invoices,
-		tlsCfg,
+		tower, tlsCfg,
 	)
 	if err != nil {
 		srvrLog.Errorf("unable to start RPC server: %v", err)
@@ -418,6 +487,14 @@ func Main() error {
 		}
 	}
 
+	if cfg.Watchtower.Active {
+		if err := tower.Start(); err != nil {
+			ltndLog.Errorf("Unable to start watchtower: %v", err)
+			return err
+		}
+		defer tower.Stop()
+	}
+
 	// Wait for shutdown signal from either a graceful server stop or from
 	// the interrupt handler.
 	<-signal.ShutdownChannel()
@@ -437,13 +514,39 @@ func getTLSConfig(cfg *config) (*tls.Config, *credentials.TransportCredentials,
 		}
 	}
 
-	cert, err := tls.LoadX509KeyPair(cfg.TLSCertPath, cfg.TLSKeyPath)
+	certData, err := tls.LoadX509KeyPair(cfg.TLSCertPath, cfg.TLSKeyPath)
 	if err != nil {
 		return nil, nil, "", err
 	}
 
+	cert, err := x509.ParseCertificate(certData.Certificate[0])
+	if err != nil {
+		return nil, nil, "", err
+	}
+
+	// If the certificate expired, delete it and the TLS key and generate a new pair
+	if time.Now().After(cert.NotAfter) {
+		ltndLog.Info("TLS certificate is expired, generating a new one")
+
+		err := os.Remove(cfg.TLSCertPath)
+		if err != nil {
+			return nil, nil, "", err
+		}
+
+		err = os.Remove(cfg.TLSKeyPath)
+		if err != nil {
+			return nil, nil, "", err
+		}
+
+		err = genCertPair(cfg.TLSCertPath, cfg.TLSKeyPath)
+		if err != nil {
+			return nil, nil, "", err
+		}
+
+	}
+
 	tlsCfg := &tls.Config{
-		Certificates: []tls.Certificate{cert},
+		Certificates: []tls.Certificate{certData},
 		CipherSuites: tlsCipherSuites,
 		MinVersion:   tls.VersionTLS12,
 	}
@@ -531,10 +634,12 @@ func genCertPair(certFile, keyFile string) error {
 		}
 	}
 
-	// Add extra IP to the slice.
-	ipAddr := net.ParseIP(cfg.TLSExtraIP)
-	if ipAddr != nil {
-		addIP(ipAddr)
+	// Add extra IPs to the slice.
+	for _, ip := range cfg.TLSExtraIPs {
+		ipAddr := net.ParseIP(ip)
+		if ipAddr != nil {
+			addIP(ipAddr)
+		}
 	}
 
 	// Collect the host's names into a slice.
@@ -546,9 +651,7 @@ func genCertPair(certFile, keyFile string) error {
 	if host != "localhost" {
 		dnsNames = append(dnsNames, "localhost")
 	}
-	if cfg.TLSExtraDomain != "" {
-		dnsNames = append(dnsNames, cfg.TLSExtraDomain)
-	}
+	dnsNames = append(dnsNames, cfg.TLSExtraDomains...)
 
 	// Also add fake hostnames for unix sockets, otherwise hostname
 	// verification will fail in the client.

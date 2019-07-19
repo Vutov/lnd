@@ -29,10 +29,12 @@ import (
 	"github.com/BTCGPU/lnd/lnrpc/walletrpc"
 	"github.com/BTCGPU/lnd/lnwallet"
 	"github.com/BTCGPU/lnd/netann"
+	"github.com/lightningnetwork/lnd/monitoring"
 	"github.com/BTCGPU/lnd/routing"
 	"github.com/BTCGPU/lnd/signal"
 	"github.com/BTCGPU/lnd/sweep"
 	"github.com/BTCGPU/lnd/watchtower"
+	"github.com/lightningnetwork/lnd/watchtower/wtclient"
 )
 
 // Loggers per subsystem.  A single backend logger is created and all subsystem
@@ -85,6 +87,8 @@ var (
 	irpcLog = build.NewSubLogger("IRPC", backendLog.Logger)
 	chnfLog = build.NewSubLogger("CHNF", backendLog.Logger)
 	chbuLog = build.NewSubLogger("CHBU", backendLog.Logger)
+	promLog = build.NewSubLogger("PROM", backendLog.Logger)
+	wtclLog = build.NewSubLogger("WTCL", backendLog.Logger)
 )
 
 // Initialize package-global logger variables.
@@ -112,6 +116,8 @@ func init() {
 	invoicesrpc.UseLogger(irpcLog)
 	channelnotifier.UseLogger(chnfLog)
 	chanbackup.UseLogger(chbuLog)
+	monitoring.UseLogger(promLog)
+	wtclient.UseLogger(wtclLog)
 
 	addSubLogger(routerrpc.Subsystem, routerrpc.UseLogger)
 }
@@ -155,6 +161,8 @@ var subsystemLoggers = map[string]btclog.Logger{
 	"IRPC": irpcLog,
 	"CHNF": chnfLog,
 	"CHBU": chbuLog,
+	"PROM": promLog,
+	"WTCL": wtclLog,
 }
 
 // initLogRotator initializes the logging rotator to write logs to logFile and

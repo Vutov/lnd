@@ -16,8 +16,11 @@ import (
 	"github.com/BTCGPU/lnd/lnrpc/signrpc"
 	"github.com/BTCGPU/lnd/lnrpc/walletrpc"
 	"github.com/BTCGPU/lnd/macaroons"
+	"github.com/BTCGPU/lnd/lnrpc/watchtowerrpc"
 	"github.com/BTCGPU/lnd/netann"
 	"github.com/BTCGPU/lnd/routing"
+	"github.com/lightningnetwork/lnd/sweep"
+	"github.com/lightningnetwork/lnd/watchtower"
 )
 
 // subRPCServerConfigs is special sub-config in the main configuration that
@@ -55,6 +58,10 @@ type subRPCServerConfigs struct {
 	// payment related queries such as requests for estimates of off-chain
 	// fees.
 	RouterRPC *routerrpc.Config `group:"routerrpc" namespace:"routerrpc"`
+
+	// WatchtowerRPC is a sub-RPC server that exposes functionality allowing
+	// clients to monitor and control their embedded watchtower.
+	WatchtowerRPC *watchtowerrpc.Config `group:"watchtowerrpc" namespace:"watchtowerrpc"`
 }
 
 // PopulateDependencies attempts to iterate through all the sub-server configs
@@ -72,7 +79,9 @@ func (s *subRPCServerConfigs) PopulateDependencies(cc *chainControl,
 	chanRouter *routing.ChannelRouter,
 	routerBackend *routerrpc.RouterBackend,
 	nodeSigner *netann.NodeSigner,
-	chanDB *channeldb.DB) error {
+	chanDB *channeldb.DB,
+	sweeper *sweep.UtxoSweeper,
+	tower *watchtower.Standalone) error {
 
 	// First, we'll use reflect to obtain a version of the config struct
 	// that allows us to programmatically inspect its fields.
@@ -129,6 +138,9 @@ func (s *subRPCServerConfigs) PopulateDependencies(cc *chainControl,
 			subCfgValue.FieldByName("KeyRing").Set(
 				reflect.ValueOf(cc.keyRing),
 			)
+			subCfgValue.FieldByName("Sweeper").Set(
+				reflect.ValueOf(sweeper),
+			)
 
 		case *autopilotrpc.Config:
 			subCfgValue := extractReflectValue(subCfg)
@@ -172,7 +184,7 @@ func (s *subRPCServerConfigs) PopulateDependencies(cc *chainControl,
 				reflect.ValueOf(nodeSigner),
 			)
 			subCfgValue.FieldByName("MaxPaymentMSat").Set(
-				reflect.ValueOf(maxPaymentMSat),
+				reflect.ValueOf(MaxPaymentMSat),
 			)
 			defaultDelta := cfg.Bitcoin.TimeLockDelta
 			if registeredChains.PrimaryChain() == litecoinChain {
@@ -191,9 +203,6 @@ func (s *subRPCServerConfigs) PopulateDependencies(cc *chainControl,
 			subCfgValue.FieldByName("NetworkDir").Set(
 				reflect.ValueOf(networkDir),
 			)
-			subCfgValue.FieldByName("ActiveNetParams").Set(
-				reflect.ValueOf(activeNetParams),
-			)
 			subCfgValue.FieldByName("MacService").Set(
 				reflect.ValueOf(macService),
 			)
@@ -202,6 +211,13 @@ func (s *subRPCServerConfigs) PopulateDependencies(cc *chainControl,
 			)
 			subCfgValue.FieldByName("RouterBackend").Set(
 				reflect.ValueOf(routerBackend),
+			)
+
+		case *watchtowerrpc.Config:
+			subCfgValue := extractReflectValue(subCfg)
+
+			subCfgValue.FieldByName("Tower").Set(
+				reflect.ValueOf(tower),
 			)
 
 		default:

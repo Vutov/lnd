@@ -12,7 +12,7 @@ RUN apk add --no-cache --update alpine-sdk \
 &&  git clone https://github.com/BTCGPU/lnd /go/src/github.com/BTCGPU/lnd \
 &&  cd /go/src/github.com/BTCGPU/lnd \
 &&  make \
-&&  make install
+&&  make install tags="signrpc walletrpc chainrpc invoicesrpc routerrpc"
 
 # Start a new, final image.
 FROM alpine as final

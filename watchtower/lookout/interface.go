@@ -5,6 +5,7 @@ import (
 	"github.com/btgsuite/btgd/wire"
 	"github.com/BTCGPU/lnd/chainntnfs"
 	"github.com/BTCGPU/lnd/watchtower/wtdb"
+	"github.com/BTCGPU/lnd/watchtower/blob"
 )
 
 // Service abstracts the lookout functionality, supporting the ability to start
@@ -37,7 +38,7 @@ type DB interface {
 	// QueryMatches searches its database for any state updates matching the
 	// provided breach hints. If any matches are found, they will be
 	// returned along with encrypted blobs so that justice can be exacted.
-	QueryMatches([]wtdb.BreachHint) ([]wtdb.Match, error)
+	QueryMatches([]blob.BreachHint) ([]wtdb.Match, error)
 
 	// SetLookoutTip writes the best epoch for which the watchtower has
 	// queried for breach hints.
