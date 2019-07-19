@@ -10,11 +10,11 @@ import (
 	"github.com/btgsuite/btgd/btcec"
 	"github.com/btgsuite/btgd/chaincfg/chainhash"
 	"github.com/btgsuite/btgd/wire"
-	"github.com/btcsuite/btcutil"
+	btcutil "github.com/btgsuite/btgutil"
 	"github.com/BTCGPU/lnd/build"
 	"github.com/BTCGPU/lnd/input"
 	"github.com/BTCGPU/lnd/keychain"
-	"github.com/lightningnetwork/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/lnwallet"
 )
 
 var (

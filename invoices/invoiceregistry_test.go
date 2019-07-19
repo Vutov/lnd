@@ -7,10 +7,8 @@ import (
 	"time"
 
 	"github.com/BTCGPU/lnd/channeldb"
-	"github.com/btgsuite/btgd/chaincfg"
 	"github.com/BTCGPU/lnd/lntypes"
 	"github.com/BTCGPU/lnd/lnwire"
-	"github.com/BTCGPU/lnd/zpay32"
 )
 
 var (
@@ -25,8 +23,8 @@ var (
 
 	testInvoiceExpiry = uint32(3)
 
-	testCurrentHeight = int32(0)
-	testPayReq = "lnbtg2500u1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdq5xysxxatsyp3k7enxv4jscqzysnp4q0n326hr8v9zprg8gsvezcch06gfaqqhde2aj730yg0durunfhv66p544fn6zxdrf67vya89qm5r8xkevvlpce4epx8hsygdgmc082s09gww0yl5x6exavtj5ly95zx4ljwqramujusmel2wax8nu86z80tsqf9ylwq"
+	testCurrentHeight        = int32(0)
+	testPayReq               = "lnbtg2500u1pvjluezpp5qqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqqqsyqcyq5rqwzqfqypqdq5xysxxatsyp3k7enxv4jscqzysnp4q0n326hr8v9zprg8gsvezcch06gfaqqhde2aj730yg0durunfhv66p544fn6zxdrf67vya89qm5r8xkevvlpce4epx8hsygdgmc082s09gww0yl5x6exavtj5ly95zx4ljwqramujusmel2wax8nu86z80tsqf9ylwq"
 	testFinalCltvRejectDelta = int32(3)
 )
 

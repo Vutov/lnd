@@ -17,7 +17,7 @@ import (
 
 	"github.com/BTCGPU/lnd/lnrpc/routerrpc"
 	"github.com/BTCGPU/lnd/routing/route"
-	"github.com/lightningnetwork/lnd/watchtower"
+	"github.com/BTCGPU/lnd/watchtower"
 
 	"github.com/btgsuite/btgd/blockchain"
 	"github.com/btgsuite/btgd/btcec"

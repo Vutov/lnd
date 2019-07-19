@@ -5,14 +5,13 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/btgsuite/btgd/wire"
-	"github.com/davecgh/go-spew/spew"
-	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/input"
 	"github.com/BTCGPU/lnd/lntypes"
 	"github.com/BTCGPU/lnd/lnwallet"
 	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/sweep"
+	"github.com/btgsuite/btgd/wire"
+	"github.com/davecgh/go-spew/spew"
 )
 
 // htlcSuccessResolver is a resolver that's capable of sweeping an incoming

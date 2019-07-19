@@ -5,7 +5,7 @@ import (
 	"sync/atomic"
 
 	"github.com/BTCGPU/lnd/brontide"
-	"github.com/btcsuite/btcd/btcec"
+	"github.com/btgsuite/btgd/btcec"
 	"github.com/BTCGPU/lnd/watchtower/lookout"
 	"github.com/BTCGPU/lnd/watchtower/wtserver"
 )

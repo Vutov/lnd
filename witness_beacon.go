@@ -5,9 +5,7 @@ import (
 
 	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/contractcourt"
-	"github.com/BTCGPU/lnd/invoices"
 	"github.com/BTCGPU/lnd/lntypes"
-	"github.com/BTCGPU/lnd/lnwallet"
 )
 
 // preimageSubscriber reprints an active subscription to be notified once the

@@ -12,12 +12,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/btgsuite/btgd/btcec"
-	"github.com/btgsuite/btgutil/bech32"
-	"github.com/davecgh/go-spew/spew"
 	"github.com/BTCGPU/lnd/autopilot"
 	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/tor"
+	"github.com/btgsuite/btgd/btcec"
+	"github.com/btgsuite/btgutil/bech32"
+	"github.com/davecgh/go-spew/spew"
 	"github.com/miekg/dns"
 )
 

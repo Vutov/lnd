@@ -3,7 +3,6 @@ package discovery
 import (
 	"sync"
 
-	"github.com/btgsuite/btgd/btcec"
 	"github.com/BTCGPU/lnd/lnpeer"
 	"github.com/BTCGPU/lnd/lnwire"
 )

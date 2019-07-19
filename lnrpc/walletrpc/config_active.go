@@ -6,7 +6,7 @@ import (
 	"github.com/BTCGPU/lnd/keychain"
 	"github.com/BTCGPU/lnd/lnwallet"
 	"github.com/BTCGPU/lnd/macaroons"
-	"github.com/lightningnetwork/lnd/sweep"
+	"github.com/BTCGPU/lnd/sweep"
 )
 
 // Config is the primary configuration struct for the WalletKit RPC server. It

@@ -7,8 +7,8 @@ import (
 	"fmt"
 
 	"github.com/coreos/bbolt"
-	"github.com/lightningnetwork/lnd/lntypes"
-	"github.com/lightningnetwork/lnd/routing/route"
+	"github.com/BTCGPU/lnd/lntypes"
+	"github.com/BTCGPU/lnd/routing/route"
 )
 
 var (

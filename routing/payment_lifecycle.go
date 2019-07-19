@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"time"
 
+	sphinx "github.com/BTCGPU/lightning-onion"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/htlcswitch"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/lnd/routing/route"
 	"github.com/davecgh/go-spew/spew"
-	sphinx "github.com/lightningnetwork/lightning-onion"
-	"github.com/lightningnetwork/lnd/channeldb"
-	"github.com/lightningnetwork/lnd/htlcswitch"
-	"github.com/lightningnetwork/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/routing/route"
 )
 
 // errNoRoute is returned when all routes from the payment session have been

@@ -19,8 +19,8 @@ import (
 	"github.com/BTCGPU/lnd/lnrpc/watchtowerrpc"
 	"github.com/BTCGPU/lnd/netann"
 	"github.com/BTCGPU/lnd/routing"
-	"github.com/lightningnetwork/lnd/sweep"
-	"github.com/lightningnetwork/lnd/watchtower"
+	"github.com/BTCGPU/lnd/sweep"
+	"github.com/BTCGPU/lnd/watchtower"
 )
 
 // subRPCServerConfigs is special sub-config in the main configuration that

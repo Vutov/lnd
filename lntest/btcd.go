@@ -8,7 +8,7 @@ import (
 	"os"
 
 	"github.com/btgsuite/btgd/chaincfg"
-	"github.com/btcsuite/btcd/btcjson"
+	"github.com/btgsuite/btgd/btcjson"
 	"github.com/btgsuite/btgd/integration/rpctest"
 	"github.com/btgsuite/btgd/rpcclient"
 )

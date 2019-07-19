@@ -1,11 +1,11 @@
 package lookout
 
 import (
+	"github.com/BTCGPU/lnd/chainntnfs"
+	"github.com/BTCGPU/lnd/watchtower/blob"
+	"github.com/BTCGPU/lnd/watchtower/wtdb"
 	"github.com/btgsuite/btgd/chaincfg/chainhash"
 	"github.com/btgsuite/btgd/wire"
-	"github.com/BTCGPU/lnd/chainntnfs"
-	"github.com/BTCGPU/lnd/watchtower/wtdb"
-	"github.com/BTCGPU/lnd/watchtower/blob"
 )
 
 // Service abstracts the lookout functionality, supporting the ability to start

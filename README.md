@@ -1,6 +1,6 @@
 ## Lightning Network Daemon
 
-[![Build Status](https://img.shields.io/travis/lightningnetwork/lnd.svg)](https://travis-ci.org/lightningnetwork/lnd)
+[![Build Status](https://img.shields.io/travis/BTCGPU/lnd.svg)](https://travis-ci.org/BTCGPU/lnd)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/BTCGPU/lnd/blob/master/LICENSE)
 [![Irc](https://img.shields.io/badge/chat-on%20freenode-brightgreen.svg)](https://webchat.freenode.net/?channels=lnd)
 [![Godoc](https://godoc.org/github.com/BTCGPU/lnd?status.svg)](https://godoc.org/github.com/BTCGPU/lnd)

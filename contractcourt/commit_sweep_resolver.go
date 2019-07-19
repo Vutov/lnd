@@ -6,9 +6,9 @@ import (
 	"io"
 
 	"github.com/BTCGPU/lnd/input"
-	"github.com/btgsuite/btgd/wire"
 	"github.com/BTCGPU/lnd/lnwallet"
-	"github.com/lightningnetwork/lnd/sweep"
+	"github.com/BTCGPU/lnd/sweep"
+	"github.com/btgsuite/btgd/wire"
 )
 
 const (

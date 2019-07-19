@@ -29,12 +29,12 @@ import (
 	"github.com/BTCGPU/lnd/lnrpc/walletrpc"
 	"github.com/BTCGPU/lnd/lnwallet"
 	"github.com/BTCGPU/lnd/netann"
-	"github.com/lightningnetwork/lnd/monitoring"
+	"github.com/BTCGPU/lnd/monitoring"
 	"github.com/BTCGPU/lnd/routing"
 	"github.com/BTCGPU/lnd/signal"
 	"github.com/BTCGPU/lnd/sweep"
 	"github.com/BTCGPU/lnd/watchtower"
-	"github.com/lightningnetwork/lnd/watchtower/wtclient"
+	"github.com/BTCGPU/lnd/watchtower/wtclient"
 )
 
 // Loggers per subsystem.  A single backend logger is created and all subsystem

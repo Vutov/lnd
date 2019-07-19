@@ -3,7 +3,7 @@ package route
 import (
 	"testing"
 
-	"github.com/lightningnetwork/lnd/lnwire"
+	"github.com/BTCGPU/lnd/lnwire"
 )
 
 // TestRouteTotalFees checks that a route reports the expected total fee.

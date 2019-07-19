@@ -31,9 +31,9 @@ import (
 	"github.com/BTCGPU/lnd/tor"
 	btcutil "github.com/btgsuite/btgutil"
 	flags "github.com/jessevdk/go-flags"
-	"github.com/lightningnetwork/lnd/autopilot"
-	"github.com/lightningnetwork/lnd/lnrpc/routerrpc"
-	"github.com/lightningnetwork/lnd/watchtower"
+	"github.com/BTCGPU/lnd/autopilot"
+	"github.com/BTCGPU/lnd/lnrpc/routerrpc"
+	"github.com/BTCGPU/lnd/watchtower"
 )
 
 const (

@@ -5,7 +5,7 @@ import (
 	"io"
 
 	"github.com/BTCGPU/lnd/watchtower/wtpolicy"
-	"github.com/lightningnetwork/lnd/watchtower/blob"
+	"github.com/BTCGPU/lnd/watchtower/blob"
 )
 
 var (

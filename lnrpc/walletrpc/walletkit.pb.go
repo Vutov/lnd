@@ -3,15 +3,15 @@
 
 package walletrpc // import "github.com/BTCGPU/lnd/lnrpc/walletrpc"
 
-import signrpc "github.com/BTCGPU/lnd/lnrpc/signrpc"
 import (
 	context "context"
 	fmt "fmt"
-	proto "github.com/golang/protobuf/proto"
-	lnrpc "github.com/lightningnetwork/lnd/lnrpc"
-	signrpc "github.com/lightningnetwork/lnd/lnrpc/signrpc"
-	grpc "google.golang.org/grpc"
 	math "math"
+
+	lnrpc "github.com/BTCGPU/lnd/lnrpc"
+	signrpc "github.com/BTCGPU/lnd/lnrpc/signrpc"
+	proto "github.com/golang/protobuf/proto"
+	grpc "google.golang.org/grpc"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

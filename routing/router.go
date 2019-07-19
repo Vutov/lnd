@@ -20,13 +20,13 @@ import (
 	"github.com/BTCGPU/lnd/htlcswitch"
 	"github.com/BTCGPU/lnd/input"
 	"github.com/BTCGPU/lnd/lnwallet"
-	"github.com/lightningnetwork/lnd/lntypes"
+	"github.com/BTCGPU/lnd/lntypes"
 	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/multimutex"
 	"github.com/BTCGPU/lnd/routing/chainview"
 	"github.com/BTCGPU/lnd/routing/route"
 	"github.com/BTCGPU/lnd/zpay32"
-	"github.com/lightningnetwork/lnd/ticker"
+	"github.com/BTCGPU/lnd/ticker"
 )
 
 const (

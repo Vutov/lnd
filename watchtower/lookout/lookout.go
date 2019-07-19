@@ -4,10 +4,9 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/btgsuite/btgd/wire"
 	"github.com/BTCGPU/lnd/chainntnfs"
 	"github.com/BTCGPU/lnd/watchtower/blob"
-	"github.com/BTCGPU/lnd/watchtower/wtdb"
+	"github.com/btgsuite/btgd/wire"
 )
 
 // Config houses the Lookout's required resources to properly fulfill it's duty,

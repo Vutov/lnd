@@ -3,6 +3,8 @@ package watchtower
 import (
 	"net"
 
+	"github.com/BTCGPU/lnd/watchtower/lookout"
+	"github.com/BTCGPU/lnd/watchtower/wtserver"
 )
 
 // DB abstracts the persistent functionality required to run the watchtower

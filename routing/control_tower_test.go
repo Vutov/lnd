@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/btcsuite/btcd/btcec"
-	"github.com/lightningnetwork/lnd/channeldb"
-	"github.com/lightningnetwork/lnd/routing/route"
+	"github.com/btgsuite/btgd/btcec"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/routing/route"
 
-	"github.com/lightningnetwork/lnd/lntypes"
+	"github.com/BTCGPU/lnd/lntypes"
 )
 
 var (

@@ -16,11 +16,10 @@ import (
 	btcutil "github.com/btgsuite/btgutil"
 	"github.com/davecgh/go-spew/spew"
 
-	sphinx "github.com/BTCGPU/lightning-onion"
 	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/htlcswitch"
-	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/lntypes"
+	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/routing/route"
 	"github.com/BTCGPU/lnd/zpay32"
 )

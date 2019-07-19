@@ -3,15 +3,15 @@
 
 package invoicesrpc // import "github.com/BTCGPU/lnd/lnrpc/invoicesrpc"
 
-import lnrpc "github.com/BTCGPU/lnd/lnrpc"
 import (
 	context "context"
 	fmt "fmt"
+	math "math"
+
+	lnrpc "github.com/BTCGPU/lnd/lnrpc"
 	proto "github.com/golang/protobuf/proto"
-	lnrpc "github.com/lightningnetwork/lnd/lnrpc"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	grpc "google.golang.org/grpc"
-	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

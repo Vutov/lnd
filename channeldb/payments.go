@@ -9,7 +9,7 @@ import (
 	"sort"
 	"time"
 
-	"github.com/btcsuite/btcd/btcec"
+	"github.com/btgsuite/btgd/btcec"
 	"github.com/coreos/bbolt"
 	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/lntypes"

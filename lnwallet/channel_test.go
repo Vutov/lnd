@@ -13,7 +13,6 @@ import (
 	"github.com/BTCGPU/lnd/chainntnfs"
 	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/input"
-	"github.com/BTCGPU/lnd/lntypes"
 	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/btgsuite/btgd/blockchain"
 	"github.com/btgsuite/btgd/btcec"

@@ -37,7 +37,7 @@ import (
 
 	"github.com/btgsuite/btgwallet/wallet"
 	"github.com/btgsuite/btgd/btcec"
-	"github.com/btcsuite/btcutil"
+	btcutil "github.com/btgsuite/btgutil"
 	proxy "github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/BTCGPU/neutrino"
 
@@ -52,8 +52,8 @@ import (
 	"github.com/BTCGPU/lnd/macaroons"
 	"github.com/BTCGPU/lnd/signal"
 	"github.com/BTCGPU/lnd/walletunlocker"
-	"github.com/lightningnetwork/lnd/watchtower"
-	"github.com/lightningnetwork/lnd/watchtower/wtdb"
+	"github.com/BTCGPU/lnd/watchtower"
+	"github.com/BTCGPU/lnd/watchtower/wtdb"
 )
 
 const (

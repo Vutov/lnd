@@ -12,7 +12,7 @@ import (
 	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/routing"
 	"github.com/BTCGPU/lnd/routing/route"
-	"github.com/lightningnetwork/lnd/zpay32"
+	"github.com/BTCGPU/lnd/zpay32"
 	context "golang.org/x/net/context"
 )
 
