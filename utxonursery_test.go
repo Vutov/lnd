@@ -138,7 +138,7 @@ var (
 					0xac, // OP_CHECKSIG
 				},
 			},
-			HashType: txscript.SigHashAll,
+			HashType: txscript.SigHashAll|txscript.SigHashForkID,
 		},
 		{
 			SingleTweak: []byte{
@@ -168,7 +168,7 @@ var (
 					0xac, // OP_CHECKSIG
 				},
 			},
-			HashType: txscript.SigHashAll,
+			HashType: txscript.SigHashAll|txscript.SigHashForkID,
 		},
 		{
 			SingleTweak: []byte{
@@ -198,7 +198,7 @@ var (
 					0xac, // OP_CHECKSIG
 				},
 			},
-			HashType: txscript.SigHashAll,
+			HashType: txscript.SigHashAll|txscript.SigHashForkID,
 		},
 	}
 

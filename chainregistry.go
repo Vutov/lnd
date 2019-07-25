@@ -12,14 +12,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/btgsuite/btgd/chaincfg/chainhash"
-	"github.com/btgsuite/btgd/rpcclient"
-	btcutil "github.com/btgsuite/btgutil"
-	"github.com/btgsuite/btgwallet/chain"
-	"github.com/btgsuite/btgwallet/wallet"
-	"github.com/btgsuite/btgwallet/walletdb"
-	"github.com/BTCGPU/neutrino"
-	"github.com/BTCGPU/neutrino/headerfs"
 	"github.com/BTCGPU/lnd/chainntnfs"
 	"github.com/BTCGPU/lnd/chainntnfs/bitcoindnotify"
 	"github.com/BTCGPU/lnd/chainntnfs/btcdnotify"
@@ -32,6 +24,14 @@ import (
 	"github.com/BTCGPU/lnd/lnwallet/btcwallet"
 	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/routing/chainview"
+	"github.com/BTCGPU/neutrino"
+	"github.com/BTCGPU/neutrino/headerfs"
+	"github.com/btgsuite/btgd/chaincfg/chainhash"
+	"github.com/btgsuite/btgd/rpcclient"
+	btcutil "github.com/btgsuite/btgutil"
+	"github.com/btgsuite/btgwallet/chain"
+	"github.com/btgsuite/btgwallet/wallet"
+	"github.com/btgsuite/btgwallet/walletdb"
 )
 
 const (
@@ -236,7 +236,7 @@ func newChainControlFromConfig(cfg *config, chanDB *channeldb.DB,
 			activeNetParams.Params, neutrinoCS,
 		)
 
-	case "bitcoind", "litecoind":
+	case "bgoldd", "litecoind":
 		var bitcoindMode *bitcoindConfig
 		switch {
 		case cfg.Bitcoin.Active:
@@ -351,7 +351,7 @@ func newChainControlFromConfig(cfg *config, chanDB *channeldb.DB,
 				return nil, err
 			}
 		}
-	case "btcd", "ltcd":
+	case "btgd", "ltcd":
 		// Otherwise, we'll be speaking directly via RPC to a node.
 		//
 		// So first we'll load btcd/ltcd's TLS cert for the RPC

@@ -222,7 +222,7 @@ func testJusticeDescriptor(t *testing.T, blobType blob.Type) {
 		Output:        breachTxn.TxOut[0],
 		SigHashes:     hashCache,
 		InputIndex:    0,
-		HashType:      txscript.SigHashAll,
+		HashType:      txscript.SigHashAll|txscript.SigHashForkID,
 	}
 
 	// Create the sign descriptor used to sign for the to-remote input.
@@ -235,7 +235,7 @@ func testJusticeDescriptor(t *testing.T, blobType blob.Type) {
 		Output:        breachTxn.TxOut[1],
 		SigHashes:     hashCache,
 		InputIndex:    1,
-		HashType:      txscript.SigHashAll,
+		HashType:      txscript.SigHashAll|txscript.SigHashForkID,
 	}
 
 	// Verify that our test justice transaction is sane.
@@ -311,14 +311,14 @@ func testJusticeDescriptor(t *testing.T, blobType blob.Type) {
 	// Construct the test's to-local witness.
 	justiceTxn.TxIn[0].Witness = make([][]byte, 3)
 	justiceTxn.TxIn[0].Witness[0] = append(toLocalSigRaw,
-		byte(txscript.SigHashAll))
+		byte(txscript.SigHashAll|txscript.SigHashForkID))
 	justiceTxn.TxIn[0].Witness[1] = []byte{1}
 	justiceTxn.TxIn[0].Witness[2] = toLocalScript
 
 	// Construct the test's to-remote witness.
 	justiceTxn.TxIn[1].Witness = make([][]byte, 2)
 	justiceTxn.TxIn[1].Witness[0] = append(toRemoteSigRaw,
-		byte(txscript.SigHashAll))
+		byte(txscript.SigHashAll|txscript.SigHashForkID))
 	justiceTxn.TxIn[1].Witness[1] = toRemotePK.SerializeCompressed()
 
 	// Assert that the watchtower derives the same justice txn.

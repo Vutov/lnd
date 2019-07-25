@@ -61,7 +61,7 @@ func (b BtcdBackendConfig) DisconnectMiner() error {
 
 // Name returns the name of the backend type.
 func (b BtcdBackendConfig) Name() string {
-	return "btcd"
+	return "btgd"
 }
 
 // NewBackend starts a new rpctest.Harness and returns a BtcdBackendConfig for

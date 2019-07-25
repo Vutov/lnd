@@ -41,7 +41,7 @@ topology, and send a payment from `Alice` to `Bob`.
                  |
         + --------------- +
         | Bitcoin network |  <---  In the current scenario for simplicity we create only one  
-        + --------------- +        "btcd" node which represents the Bitcoin network, in a 
+        + --------------- +        "btgd" node which represents the Bitcoin network, in a 
                                     real situation Alice and Bob will likely be 
                                     connected to different Bitcoin nodes.
 ```
@@ -70,7 +70,7 @@ $ docker exec -i -t alice bash
 # Generate a new backward compatible nested p2sh address for Alice:
 alice$ lncli --network=simnet newaddress np2wkh 
 
-# Recreate "btcd" node and set Alice's address as mining address:
+# Recreate "btgd" node and set Alice's address as mining address:
 $ MINING_ADDRESS=<alice_address> docker-compose up -d btcd
 
 # Generate 400 blocks (we need at least "100 >=" blocks because of coinbase 
@@ -288,7 +288,7 @@ bitcoins. The schema will be following:
  
  (3) In current scenario "Alice" and "Faucet" lightning network nodes 
  connect to different Bitcoin nodes. If you decide to connect "Bob"
- to "Faucet" then the already created "btcd" node would be sufficient.
+ to "Faucet" then the already created "btgd" node would be sufficient.
 ```
 
 First of all you need to run `btcd` node in `testnet` and wait for it to be 
@@ -297,8 +297,8 @@ synced with test network (`May the Force and Patience be with you`).
 # Init bitcoin network env variable:
 $ export NETWORK="testnet"
 
-# Run "btcd" node:
-$ docker-compose up -d "btcd"
+# Run "btgd" node:
+$ docker-compose up -d "btgd"
 ```
 
 After `btcd` synced, connect `Alice` to the `Faucet` node.

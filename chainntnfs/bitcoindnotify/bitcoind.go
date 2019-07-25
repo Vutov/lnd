@@ -19,7 +19,7 @@ import (
 const (
 	// notifierType uniquely identifies this concrete implementation of the
 	// ChainNotifier interface.
-	notifierType = "bitcoind"
+	notifierType = "bgoldd"
 )
 
 // chainUpdate encapsulates an update to the current main chain. This struct is

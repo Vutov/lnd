@@ -5,10 +5,10 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/BTCGPU/lnd/keychain"
 	"github.com/btgsuite/btgd/btcec"
 	"github.com/btgsuite/btgd/txscript"
 	"github.com/btgsuite/btgd/wire"
-	"github.com/BTCGPU/lnd/keychain"
 )
 
 func TestSignDescriptorSerialization(t *testing.T) {
@@ -62,7 +62,7 @@ func TestSignDescriptorSerialization(t *testing.T) {
 					0xac, // OP_CHECKSIG
 				},
 			},
-			HashType: txscript.SigHashAll,
+			HashType: txscript.SigHashAll | txscript.SigHashForkID,
 		},
 
 		// Test serializing a SignDescriptor with a nil-valued PrivateTweak
@@ -89,7 +89,7 @@ func TestSignDescriptorSerialization(t *testing.T) {
 					0xac, // OP_CHECKSIG
 				},
 			},
-			HashType: txscript.SigHashAll,
+			HashType: txscript.SigHashAll | txscript.SigHashForkID,
 		},
 	}
 

@@ -19,8 +19,6 @@ import (
 	"strings"
 	"time"
 
-	btcutil "github.com/btgsuite/btgutil"
-	flags "github.com/jessevdk/go-flags"
 	"github.com/BTCGPU/lnd/autopilot"
 	"github.com/BTCGPU/lnd/build"
 	"github.com/BTCGPU/lnd/chanbackup"
@@ -34,6 +32,8 @@ import (
 	"github.com/BTCGPU/lnd/routing"
 	"github.com/BTCGPU/lnd/tor"
 	"github.com/BTCGPU/lnd/watchtower"
+	btcutil "github.com/btgsuite/btgutil"
+	flags "github.com/jessevdk/go-flags"
 )
 
 const (
@@ -70,7 +70,7 @@ const (
 	defaultMaxBackoff               = time.Hour
 
 	defaultTorSOCKSPort            = 9050
-	defaultTorDNSHost              = "soa.nodes.lightning.directory"
+	defaultTorDNSHost              = "soa.bitcoingold.org"
 	defaultTorDNSPort              = 53
 	defaultTorControlPort          = 9051
 	defaultTorV2PrivateKeyFilename = "v2_onion_private_key"
@@ -140,13 +140,13 @@ var (
 	defaultTLSCertPath = filepath.Join(defaultLndDir, defaultTLSCertFilename)
 	defaultTLSKeyPath  = filepath.Join(defaultLndDir, defaultTLSKeyFilename)
 
-	defaultBtcdDir         = btcutil.AppDataDir("btcd", false)
+	defaultBtcdDir         = btcutil.AppDataDir("btgd", false)
 	defaultBtcdRPCCertFile = filepath.Join(defaultBtcdDir, "rpc.cert")
 
 	defaultLtcdDir         = btcutil.AppDataDir("ltcd", false)
 	defaultLtcdRPCCertFile = filepath.Join(defaultLtcdDir, "rpc.cert")
 
-	defaultBitcoindDir  = btcutil.AppDataDir("bitcoin", false)
+	defaultBitcoindDir  = btcutil.AppDataDir("bitcoingold", false)
 	defaultLitecoindDir = btcutil.AppDataDir("litecoin", false)
 
 	defaultTorSOCKS   = net.JoinHostPort("localhost", strconv.Itoa(defaultTorSOCKSPort))
@@ -158,7 +158,7 @@ type chainConfig struct {
 	Active   bool   `long:"active" description:"If the chain should be active or not."`
 	ChainDir string `long:"chaindir" description:"The directory to store the chain's data within."`
 
-	Node string `long:"node" description:"The blockchain interface to use." choice:"btcd" choice:"bitcoind" choice:"neutrino" choice:"ltcd" choice:"litecoind"`
+	Node string `long:"node" description:"The blockchain interface to use." choice:"btgd" choice:"bgoldd" choice:"neutrino" choice:"ltcd" choice:"litecoind"`
 
 	MainNet  bool `long:"mainnet" description:"Use the main network"`
 	TestNet3 bool `long:"testnet" description:"Use the test network"`
@@ -275,9 +275,9 @@ type config struct {
 	MaxPendingChannels int    `long:"maxpendingchannels" description:"The maximum number of incoming pending channels permitted per peer."`
 	BackupFilePath     string `long:"backupfilepath" description:"The target location of the channel backup file"`
 
-	Bitcoin      *chainConfig    `group:"Bitcoin" namespace:"bitcoin"`
-	BtcdMode     *btcdConfig     `group:"btcd" namespace:"btcd"`
-	BitcoindMode *bitcoindConfig `group:"bitcoind" namespace:"bitcoind"`
+	Bitcoin      *chainConfig    `group:"BitcoinGold" namespace:"bitcoingold"`
+	BtcdMode     *btcdConfig     `group:"btgd" namespace:"btgd"`
+	BitcoindMode *bitcoindConfig `group:"bgoldd" namespace:"bgoldd"`
 	NeutrinoMode *neutrinoConfig `group:"neutrino" namespace:"neutrino"`
 
 	Litecoin      *chainConfig    `group:"Litecoin" namespace:"litecoin"`
@@ -351,7 +351,7 @@ func loadConfig() (*config, error) {
 			BaseFee:       DefaultBitcoinBaseFeeMSat,
 			FeeRate:       DefaultBitcoinFeeRate,
 			TimeLockDelta: DefaultBitcoinTimeLockDelta,
-			Node:          "btcd",
+			Node:          "btgd",
 		},
 		BtcdMode: &btcdConfig{
 			Dir:     defaultBtcdDir,
@@ -665,7 +665,7 @@ func loadConfig() (*config, error) {
 	// Either Bitcoin must be active, or Litecoin must be active.
 	// Otherwise, we don't know which chain we're on.
 	case !cfg.Bitcoin.Active && !cfg.Litecoin.Active:
-		return nil, fmt.Errorf("%s: either bitcoin.active or "+
+		return nil, fmt.Errorf("%s: either bitcoingold.active or "+
 			"litecoin.active must be set to 1 (true)", funcName)
 
 	case cfg.Litecoin.Active:
@@ -821,7 +821,7 @@ func loadConfig() (*config, error) {
 		}
 
 		switch cfg.Bitcoin.Node {
-		case "btcd":
+		case "btgd":
 			err := parseRPCParams(
 				cfg.Bitcoin, cfg.BtcdMode, bitcoinChain, funcName,
 			)
@@ -830,7 +830,7 @@ func loadConfig() (*config, error) {
 					"credentials for btcd: %v", err)
 				return nil, err
 			}
-		case "bitcoind":
+		case "bgoldd":
 			if cfg.Bitcoin.SimNet {
 				return nil, fmt.Errorf("%s: bitcoind does not "+
 					"support simnet", funcName)
@@ -1249,9 +1249,9 @@ func parseRPCParams(cConfig *chainConfig, nodeConfig interface{}, net chainCode,
 		// Get the daemon name for displaying proper errors.
 		switch net {
 		case bitcoinChain:
-			daemonName = "btcd"
+			daemonName = "btgd"
 			confDir = conf.Dir
-			confFile = "btcd"
+			confFile = "btgd"
 		case litecoinChain:
 			daemonName = "ltcd"
 			confDir = conf.Dir
@@ -1287,9 +1287,9 @@ func parseRPCParams(cConfig *chainConfig, nodeConfig interface{}, net chainCode,
 		// Get the daemon name for displaying proper errors.
 		switch net {
 		case bitcoinChain:
-			daemonName = "bitcoind"
+			daemonName = "bgoldd"
 			confDir = conf.Dir
-			confFile = "bitcoin"
+			confFile = "bitcoingold"
 		case litecoinChain:
 			daemonName = "litecoind"
 			confDir = conf.Dir
@@ -1321,7 +1321,7 @@ func parseRPCParams(cConfig *chainConfig, nodeConfig interface{}, net chainCode,
 
 	confFile = filepath.Join(confDir, fmt.Sprintf("%v.conf", confFile))
 	switch cConfig.Node {
-	case "btcd", "ltcd":
+	case "btgd", "ltcd":
 		nConf := nodeConfig.(*btcdConfig)
 		rpcUser, rpcPass, err := extractBtcdRPCParams(confFile)
 		if err != nil {
@@ -1330,7 +1330,7 @@ func parseRPCParams(cConfig *chainConfig, nodeConfig interface{}, net chainCode,
 				err)
 		}
 		nConf.RPCUser, nConf.RPCPass = rpcUser, rpcPass
-	case "bitcoind", "litecoind":
+	case "bgoldd", "litecoind":
 		nConf := nodeConfig.(*bitcoindConfig)
 		rpcUser, rpcPass, zmqBlockHost, zmqTxHost, err :=
 			extractBitcoindRPCParams(confFile)

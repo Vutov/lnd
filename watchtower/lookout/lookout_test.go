@@ -193,7 +193,7 @@ func TestLookoutBreachMatching(t *testing.T) {
 	// block should match the first state update's breach hint.
 	block := &wire.MsgBlock{
 		Header: wire.BlockHeader{
-			Nonce: 1,
+			Nonce: wire.Uint256FromUint32(1),
 		},
 		Transactions: []*wire.MsgTx{tx},
 	}
@@ -229,7 +229,7 @@ func TestLookoutBreachMatching(t *testing.T) {
 	// transaction.
 	block2 := &wire.MsgBlock{
 		Header: wire.BlockHeader{
-			Nonce: 2,
+			Nonce: wire.Uint256FromUint32(2),
 		},
 		Transactions: []*wire.MsgTx{tx2},
 	}

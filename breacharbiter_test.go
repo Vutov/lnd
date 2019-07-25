@@ -133,7 +133,7 @@ var (
 						0xac, // OP_CHECKSIG
 					},
 				},
-				HashType: txscript.SigHashAll,
+				HashType: txscript.SigHashAll|txscript.SigHashForkID,
 			},
 			secondLevelWitnessScript: breachKeys[0],
 		},
@@ -177,7 +177,7 @@ var (
 						0xac, // OP_CHECKSIG
 					},
 				},
-				HashType: txscript.SigHashAll,
+				HashType: txscript.SigHashAll|txscript.SigHashForkID,
 			},
 			secondLevelWitnessScript: breachKeys[0],
 		},
@@ -221,7 +221,7 @@ var (
 						0xac, // OP_CHECKSIG
 					},
 				},
-				HashType: txscript.SigHashAll,
+				HashType: txscript.SigHashAll|txscript.SigHashForkID,
 			},
 			secondLevelWitnessScript: breachKeys[0],
 		},

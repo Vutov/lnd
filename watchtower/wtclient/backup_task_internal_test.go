@@ -140,7 +140,7 @@ func genTaskTest(
 			Output: &wire.TxOut{
 				Value: toLocalAmt,
 			},
-			HashType: txscript.SigHashAll,
+			HashType: txscript.SigHashAll|txscript.SigHashForkID,
 		}
 		breachInfo.RemoteOutputSignDesc = toLocalSignDesc
 		breachTxn.AddTxOut(toLocalSignDesc.Output)
@@ -154,7 +154,7 @@ func genTaskTest(
 			Output: &wire.TxOut{
 				Value: toRemoteAmt,
 			},
-			HashType: txscript.SigHashAll,
+			HashType: txscript.SigHashAll|txscript.SigHashForkID,
 		}
 		breachInfo.LocalOutputSignDesc = toRemoteSignDesc
 		breachTxn.AddTxOut(toRemoteSignDesc.Output)

@@ -155,7 +155,7 @@ func CreateSpendTx(t *testing.T, prevOutPoint *wire.OutPoint,
 	spendingTx.AddTxOut(&wire.TxOut{Value: 1e8, PkScript: prevOutput.PkScript})
 
 	sigScript, err := txscript.SignatureScript(
-		spendingTx, 0, prevOutput.PkScript, txscript.SigHashAll,
+		spendingTx, 0, prevOutput.PkScript, txscript.SigHashAll|txscript.SigHashForkID,
 		privKey, true,
 	)
 	if err != nil {
@@ -198,7 +198,7 @@ func NewBitcoindBackend(t *testing.T, minerAddr string,
 
 	t.Helper()
 
-	tempBitcoindDir, err := ioutil.TempDir("", "bitcoind")
+	tempBitcoindDir, err := ioutil.TempDir("", "bgoldd")
 	if err != nil {
 		t.Fatalf("unable to create temp dir: %v", err)
 	}
@@ -222,7 +222,7 @@ func NewBitcoindBackend(t *testing.T, minerAddr string,
 		args = append(args, "-txindex")
 	}
 
-	bitcoind := exec.Command("bitcoind", args...)
+	bitcoind := exec.Command("bgoldd", args...)
 	if err := bitcoind.Start(); err != nil {
 		os.RemoveAll(tempBitcoindDir)
 		t.Fatalf("unable to start bitcoind: %v", err)

@@ -513,7 +513,7 @@ func (w *WalletKit) BumpFee(ctx context.Context,
 
 	signDesc := &input.SignDescriptor{
 		Output:   txOut,
-		HashType: txscript.SigHashAll,
+		HashType: txscript.SigHashAll|txscript.SigHashForkID,
 	}
 
 	input := input.NewBaseInput(op, witnessType, signDesc, 0)

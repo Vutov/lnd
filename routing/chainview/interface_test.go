@@ -118,7 +118,7 @@ func craftSpendTransaction(outpoint wire.OutPoint, payScript []byte) (*wire.MsgT
 		PkScript: payScript,
 	})
 	sigScript, err := txscript.SignatureScript(spendingTx, 0, payScript,
-		txscript.SigHashAll, privKey, true)
+		txscript.SigHashAll|txscript.SigHashForkID, privKey, true)
 	if err != nil {
 		return nil, err
 	}
@@ -773,7 +773,7 @@ var interfaceImpls = []struct {
 		name: "bitcoind_zmq",
 		chainViewInit: func(_ rpcclient.ConnConfig, p2pAddr string) (func(), FilteredChainView, error) {
 			// Start a bitcoind instance.
-			tempBitcoindDir, err := ioutil.TempDir("", "bitcoind")
+			tempBitcoindDir, err := ioutil.TempDir("", "bgoldd")
 			if err != nil {
 				return nil, nil, err
 			}
@@ -784,7 +784,7 @@ var interfaceImpls = []struct {
 			}
 			rpcPort := rand.Int()%(65536-1024) + 1024
 			bitcoind := exec.Command(
-				"bitcoind",
+				"bgoldd",
 				"-datadir="+tempBitcoindDir,
 				"-regtest",
 				"-connect="+p2pAddr,
