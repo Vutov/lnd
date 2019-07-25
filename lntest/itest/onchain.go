@@ -7,12 +7,12 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/btcsuite/btcd/txscript"
-	"github.com/btcsuite/btcutil"
-	"github.com/lightningnetwork/lnd/lnrpc"
-	"github.com/lightningnetwork/lnd/lnrpc/walletrpc"
-	"github.com/lightningnetwork/lnd/lntest"
-	"github.com/lightningnetwork/lnd/sweep"
+	"github.com/btgsuite/btgd/txscript"
+	btcutil "github.com/btgsuite/btgutil"
+	"github.com/BTCGPU/lnd/lnrpc"
+	"github.com/BTCGPU/lnd/lnrpc/walletrpc"
+	"github.com/BTCGPU/lnd/lntest"
+	"github.com/BTCGPU/lnd/sweep"
 )
 
 // testCPFP ensures that the daemon can bump an unconfirmed  transaction's fee

@@ -20,7 +20,7 @@
 # Installation
 
 ### Preliminaries
-  In order to work with [`lnd`](https://github.com/lightningnetwork/lnd), the
+  In order to work with [`lnd`](https://github.com/BTCGPU/lnd), the
   following build dependencies are required:
 
   * **Go:** `lnd` is written in Go. To install, run one of the following commands:
@@ -103,8 +103,8 @@
 With the preliminary steps completed, to install `lnd`, `lncli`, and all
 related dependencies run the following commands:
 ```
-go get -d github.com/lightningnetwork/lnd
-cd $GOPATH/src/github.com/lightningnetwork/lnd
+go get -d github.com/BTCGPU/lnd
+cd $GOPATH/src/github.com/BTCGPU/lnd
 make && make install
 ```
 
@@ -135,7 +135,7 @@ GO111MODULE=on go install -v ./...
 To update your version of `lnd` to the latest version run the following
 commands:
 ```
-cd $GOPATH/src/github.com/lightningnetwork/lnd
+cd $GOPATH/src/github.com/BTCGPU/lnd
 git pull
 make clean && make && make install
 ```
@@ -145,7 +145,7 @@ On FreeBSD, use gmake instead of make.
 Alternatively, if one doesn't wish to use `make`, then the `go` commands can be
 used directly:
 ```
-cd $GOPATH/src/github.com/lightningnetwork/lnd
+cd $GOPATH/src/github.com/BTCGPU/lnd
 git pull
 GO111MODULE=on go install -v ./...
 ```
@@ -220,7 +220,7 @@ make btcd
 ```
 
 Alternatively, you can install [`btcd` directly from its
-repo](https://github.com/btcsuite/btcd).
+repo](https://github.com/btgsuite/btgd).
 
 ### Starting btcd
 
@@ -369,7 +369,7 @@ lnd --bitcoin.active --bitcoin.testnet --debuglevel=debug --bitcoin.node=bitcoin
 `lnd`'s authentication system is called **macaroons**, which are decentralized
 bearer credentials allowing for delegation, attenuation, and other cool
 features. You can learn more about them in Alex Akselrod's [writeup on
-Github](https://github.com/lightningnetwork/lnd/issues/20).
+Github](https://github.com/BTCGPU/lnd/issues/20).
 
 Running `lnd` for the first time will by default generate the `admin.macaroon`,
 `read_only.macaroon`, and `macaroons.db` files that are used to authenticate
@@ -409,7 +409,7 @@ of your `sendpayment` commands.
 
 There are currently two primary ways to run `lnd`: one requires a local `btcd`
 instance with the RPC service exposed, and the other uses a fully integrated
-light client powered by [neutrino](https://github.com/lightninglabs/neutrino).
+light client powered by [neutrino](https://github.com/BTCGPU/neutrino).
 
 # Creating an lnd.conf (Optional)
 
@@ -437,7 +437,7 @@ Notice the `[Bitcoin]` section. This section houses the parameters for the
 Bitcoin chain. `lnd` also supports Litecoin testnet4 (but not both BTC and LTC
 at the same time), so when working with Litecoin be sure to set to parameters
 for Litecoin accordingly. See a more detailed sample config file available
-[here](https://github.com/lightningnetwork/lnd/blob/master/sample-lnd.conf)
+[here](https://github.com/BTCGPU/lnd/blob/master/sample-lnd.conf)
 and explore the other sections for node configuration, including `[Btcd]`,
 `[Bitcoind]`, `[Neutrino]`, `[Ltcd]`, and `[Litecoind]` depending on which
 chain and node type you're using.

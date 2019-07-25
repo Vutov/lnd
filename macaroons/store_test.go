@@ -9,9 +9,9 @@ import (
 
 	"github.com/coreos/bbolt"
 
-	"github.com/lightningnetwork/lnd/macaroons"
+	"github.com/BTCGPU/lnd/macaroons"
 
-	"github.com/btcsuite/btcwallet/snacl"
+	"github.com/btgsuite/btgwallet/snacl"
 )
 
 func TestStore(t *testing.T) {

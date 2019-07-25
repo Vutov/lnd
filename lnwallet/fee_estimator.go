@@ -10,9 +10,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/btcsuite/btcd/blockchain"
-	"github.com/btcsuite/btcd/rpcclient"
-	"github.com/btcsuite/btcutil"
+	"github.com/btgsuite/btgd/blockchain"
+	"github.com/btgsuite/btgd/rpcclient"
+	btcutil "github.com/btgsuite/btgutil"
 )
 
 const (

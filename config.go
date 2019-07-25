@@ -19,21 +19,21 @@ import (
 	"strings"
 	"time"
 
-	"github.com/btcsuite/btcutil"
+	btcutil "github.com/btgsuite/btgutil"
 	flags "github.com/jessevdk/go-flags"
-	"github.com/lightningnetwork/lnd/autopilot"
-	"github.com/lightningnetwork/lnd/build"
-	"github.com/lightningnetwork/lnd/chanbackup"
-	"github.com/lightningnetwork/lnd/channeldb"
-	"github.com/lightningnetwork/lnd/discovery"
-	"github.com/lightningnetwork/lnd/htlcswitch/hodl"
-	"github.com/lightningnetwork/lnd/lncfg"
-	"github.com/lightningnetwork/lnd/lnrpc/routerrpc"
-	"github.com/lightningnetwork/lnd/lnrpc/signrpc"
-	"github.com/lightningnetwork/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/routing"
-	"github.com/lightningnetwork/lnd/tor"
-	"github.com/lightningnetwork/lnd/watchtower"
+	"github.com/BTCGPU/lnd/autopilot"
+	"github.com/BTCGPU/lnd/build"
+	"github.com/BTCGPU/lnd/chanbackup"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/discovery"
+	"github.com/BTCGPU/lnd/htlcswitch/hodl"
+	"github.com/BTCGPU/lnd/lncfg"
+	"github.com/BTCGPU/lnd/lnrpc/routerrpc"
+	"github.com/BTCGPU/lnd/lnrpc/signrpc"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/lnd/routing"
+	"github.com/BTCGPU/lnd/tor"
+	"github.com/BTCGPU/lnd/watchtower"
 )
 
 const (
@@ -1121,7 +1121,7 @@ func loadConfig() (*config, error) {
 
 // cleanAndExpandPath expands environment variables and leading ~ in the
 // passed path, cleans the result, and returns it.
-// This function is taken from https://github.com/btcsuite/btcd
+// This function is taken from https://github.com/btgsuite/btgd
 func cleanAndExpandPath(path string) string {
 	if path == "" {
 		return ""

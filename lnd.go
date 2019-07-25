@@ -35,25 +35,25 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
-	"github.com/btcsuite/btcd/btcec"
-	"github.com/btcsuite/btcutil"
-	"github.com/btcsuite/btcwallet/wallet"
+	"github.com/btgsuite/btgd/btcec"
+	btcutil "github.com/btgsuite/btgutil"
+	"github.com/btgsuite/btgwallet/wallet"
 	proxy "github.com/grpc-ecosystem/grpc-gateway/runtime"
-	"github.com/lightninglabs/neutrino"
+	"github.com/BTCGPU/neutrino"
 
-	"github.com/lightningnetwork/lnd/autopilot"
-	"github.com/lightningnetwork/lnd/build"
-	"github.com/lightningnetwork/lnd/channeldb"
-	"github.com/lightningnetwork/lnd/keychain"
-	"github.com/lightningnetwork/lnd/lncfg"
-	"github.com/lightningnetwork/lnd/lnrpc"
-	"github.com/lightningnetwork/lnd/lnwallet"
-	"github.com/lightningnetwork/lnd/lnwallet/btcwallet"
-	"github.com/lightningnetwork/lnd/macaroons"
-	"github.com/lightningnetwork/lnd/signal"
-	"github.com/lightningnetwork/lnd/walletunlocker"
-	"github.com/lightningnetwork/lnd/watchtower"
-	"github.com/lightningnetwork/lnd/watchtower/wtdb"
+	"github.com/BTCGPU/lnd/autopilot"
+	"github.com/BTCGPU/lnd/build"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/keychain"
+	"github.com/BTCGPU/lnd/lncfg"
+	"github.com/BTCGPU/lnd/lnrpc"
+	"github.com/BTCGPU/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/lnwallet/btcwallet"
+	"github.com/BTCGPU/lnd/macaroons"
+	"github.com/BTCGPU/lnd/signal"
+	"github.com/BTCGPU/lnd/walletunlocker"
+	"github.com/BTCGPU/lnd/watchtower"
+	"github.com/BTCGPU/lnd/watchtower/wtdb"
 )
 
 const (
@@ -573,7 +573,7 @@ func getTLSConfig(cfg *config) (*tls.Config, *credentials.TransportCredentials,
 }
 
 // fileExists reports whether the named file or directory exists.
-// This function is taken from https://github.com/btcsuite/btcd
+// This function is taken from https://github.com/btgsuite/btgd
 func fileExists(name string) bool {
 	if _, err := os.Stat(name); err != nil {
 		if os.IsNotExist(err) {
@@ -589,8 +589,8 @@ func fileExists(name string) bool {
 // desired hostnames for the service. For production/public use, consider a
 // real PKI.
 //
-// This function is adapted from https://github.com/btcsuite/btcd and
-// https://github.com/btcsuite/btcutil
+// This function is adapted from https://github.com/btgsuite/btgd and
+// https://github.com/btgsuite/btgutil
 func genCertPair(certFile, keyFile string) error {
 	rpcsLog.Infof("Generating TLS certificates...")
 

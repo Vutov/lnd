@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/btcsuite/btcd/chaincfg/chainhash"
-	"github.com/btcsuite/btcd/rpcclient"
-	"github.com/lightninglabs/neutrino"
-	"github.com/lightningnetwork/lnd/chainntnfs"
+	"github.com/btgsuite/btgd/chaincfg/chainhash"
+	"github.com/btgsuite/btgd/rpcclient"
+	"github.com/BTCGPU/neutrino"
+	"github.com/BTCGPU/lnd/chainntnfs"
 )
 
 // UnsafeStart starts the notifier with a specified best height and optional

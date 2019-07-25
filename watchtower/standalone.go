@@ -4,10 +4,10 @@ import (
 	"net"
 	"sync/atomic"
 
-	"github.com/btcsuite/btcd/btcec"
-	"github.com/lightningnetwork/lnd/brontide"
-	"github.com/lightningnetwork/lnd/watchtower/lookout"
-	"github.com/lightningnetwork/lnd/watchtower/wtserver"
+	"github.com/btgsuite/btgd/btcec"
+	"github.com/BTCGPU/lnd/brontide"
+	"github.com/BTCGPU/lnd/watchtower/lookout"
+	"github.com/BTCGPU/lnd/watchtower/wtserver"
 )
 
 // Standalone encapsulates the server-side functionality required by watchtower

@@ -8,9 +8,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/btcsuite/btcutil"
+	btcutil "github.com/btgsuite/btgutil"
 
-	"github.com/lightningnetwork/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/lnwallet"
 )
 
 type mockSparseConfFeeSource struct {

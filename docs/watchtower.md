@@ -155,7 +155,7 @@ applied to all new updates after the daemon has been restarted.
 For now, no information regarding the operation of the watchtower client is
 exposed over the RPC interface. We are working to expose this information in a
 later release, progress on this can be tracked [in this
-PR](https://github.com/lightningnetwork/lnd/pull/3184). Users will be reliant on
+PR](https://github.com/BTCGPU/lnd/pull/3184). Users will be reliant on
 WTCL logs for observing the behavior of the client. We also plan to expand on
 the initial feature set by permitting multiple active towers for redundancy, as
 well as modifying the chosen set of towers dynamically without restarting the

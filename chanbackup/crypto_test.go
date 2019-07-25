@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/btcsuite/btcd/btcec"
-	"github.com/lightningnetwork/lnd/keychain"
+	"github.com/btgsuite/btgd/btcec"
+	"github.com/BTCGPU/lnd/keychain"
 )
 
 var (

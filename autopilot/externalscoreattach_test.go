@@ -3,9 +3,9 @@ package autopilot_test
 import (
 	"testing"
 
-	"github.com/btcsuite/btcd/btcec"
-	"github.com/btcsuite/btcutil"
-	"github.com/lightningnetwork/lnd/autopilot"
+	"github.com/btgsuite/btgd/btcec"
+	btcutil "github.com/btgsuite/btgutil"
+	"github.com/BTCGPU/lnd/autopilot"
 )
 
 // randKey returns a random public key.

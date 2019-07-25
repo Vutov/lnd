@@ -6,9 +6,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/btcsuite/btcd/btcec"
-	sphinx "github.com/lightningnetwork/lightning-onion"
-	"github.com/lightningnetwork/lnd/lnwire"
+	"github.com/btgsuite/btgd/btcec"
+	sphinx "github.com/BTCGPU/lightning-onion"
+	"github.com/BTCGPU/lnd/lnwire"
 )
 
 // ErrNoRouteHopsProvided is returned when a caller attempts to construct a new

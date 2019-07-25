@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/lightningnetwork/lnd/lnrpc/walletrpc"
+	"github.com/BTCGPU/lnd/lnrpc/walletrpc"
 	"github.com/urfave/cli"
 )
 

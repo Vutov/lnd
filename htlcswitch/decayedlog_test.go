@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/lightningnetwork/lightning-onion"
-	"github.com/lightningnetwork/lnd/chainntnfs"
+	"github.com/BTCGPU/lightning-onion"
+	"github.com/BTCGPU/lnd/chainntnfs"
 )
 
 const (

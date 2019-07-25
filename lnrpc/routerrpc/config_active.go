@@ -5,10 +5,10 @@ package routerrpc
 import (
 	"time"
 
-	"github.com/btcsuite/btcutil"
-	"github.com/lightningnetwork/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/macaroons"
-	"github.com/lightningnetwork/lnd/routing"
+	btcutil "github.com/btgsuite/btgutil"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/lnd/macaroons"
+	"github.com/BTCGPU/lnd/routing"
 )
 
 // Config is the main configuration file for the router RPC server. It contains
