@@ -1,7 +1,7 @@
 This document is written for people who are eager to do something with 
 the Lightning Network Daemon (`lnd`). This folder uses `docker-compose` to
-package `lnd` and `btcd` together to make deploying the two daemons as easy as
-typing a few commands. All configuration between `lnd` and `btcd` are handled
+package `lnd` and `btgd` together to make deploying the two daemons as easy as
+typing a few commands. All configuration between `lnd` and `btgd` are handled
 automatically by their `docker-compose` config file.
 
 ### Prerequisites
@@ -26,7 +26,7 @@ create a mini development cluster. All state is saved between instances using a
 shared value.
 
 Current workflow is big because we recreate the whole network by ourselves,
-next versions will use the started `btcd` bitcoin node in `testnet` and
+next versions will use the started `btgd` bitcoin node in `testnet` and
 `faucet` wallet from which you will get the bitcoins.
 
 In the workflow below, we describe the steps required to recreate the following
@@ -41,14 +41,14 @@ topology, and send a payment from `Alice` to `Bob`.
                  |
         + --------------- +
         | Bitcoin network |  <---  In the current scenario for simplicity we create only one  
-        + --------------- +        "btcd" node which represents the Bitcoin network, in a 
+        + --------------- +        "btgd" node which represents the Bitcoin network, in a 
                                     real situation Alice and Bob will likely be 
                                     connected to different Bitcoin nodes.
 ```
 
 **General workflow is the following:** 
 
- * Create a `btcd` node running on a private `simnet`.
+ * Create a `btgd` node running on a private `simnet`.
  * Create `Alice`, one of the `lnd` nodes in our simulation network.
  * Create `Bob`, the other `lnd` node in our simulation network.
  * Mine some blocks to send `Alice` some bitcoins.
@@ -57,21 +57,21 @@ topology, and send a payment from `Alice` to `Bob`.
  * Close the channel between `Alice` and `Bob`.
  * Check that on-chain `Bob` balance was changed.
 
-Start `btcd`, and then create an address for `Alice` that we'll directly mine
+Start `btgd`, and then create an address for `Alice` that we'll directly mine
 bitcoin into.
 ```bash
 # Init bitcoin network env variable:
 $ export NETWORK="simnet" 
 
 # Run the "Alice" container and log into it:
-$ docker-compose run -d --name alice lnd_btc
+$ docker-compose run -d --name alice lnd_btg
 $ docker exec -i -t alice bash
 
 # Generate a new backward compatible nested p2sh address for Alice:
 alice$ lncli --network=simnet newaddress np2wkh 
 
-# Recreate "btcd" node and set Alice's address as mining address:
-$ MINING_ADDRESS=<alice_address> docker-compose up -d btcd
+# Recreate "btgd" node and set Alice's address as mining address:
+$ MINING_ADDRESS=<alice_address> docker-compose up -d btcg
 
 # Generate 400 blocks (we need at least "100 >=" blocks because of coinbase 
 # block maturity and "300 ~=" in order to activate segwit):
@@ -90,7 +90,7 @@ Connect `Bob` node to `Alice` node.
 
 ```bash
 # Run "Bob" node and log into it:
-$ docker-compose run -d --name bob lnd_btc
+$ docker-compose run -d --name bob lnd_btg
 $ docker exec -i -t bob bash
 
 # Get the identity pubkey of "Bob" node:
@@ -288,20 +288,20 @@ bitcoins. The schema will be following:
  
  (3) In current scenario "Alice" and "Faucet" lightning network nodes 
  connect to different Bitcoin nodes. If you decide to connect "Bob"
- to "Faucet" then the already created "btcd" node would be sufficient.
+ to "Faucet" then the already created "btgd" node would be sufficient.
 ```
 
-First of all you need to run `btcd` node in `testnet` and wait for it to be 
+First of all you need to run `btgd` node in `testnet` and wait for it to be 
 synced with test network (`May the Force and Patience be with you`).
 ```bash 
 # Init bitcoin network env variable:
 $ export NETWORK="testnet"
 
-# Run "btcd" node:
-$ docker-compose up -d "btcd"
+# Run "btgd" node:
+$ docker-compose up -d "btgd"
 ```
 
-After `btcd` synced, connect `Alice` to the `Faucet` node.
+After `btgd` synced, connect `Alice` to the `Faucet` node.
 
 The `Faucet` node address can be found at the [Faucet Lightning Community webpage](https://faucet.lightning.community).
 
@@ -324,7 +324,7 @@ and send some amount of bitcoins to `Alice`.
 ### Questions
 [![Irc](https://img.shields.io/badge/chat-on%20freenode-brightgreen.svg)](https://webchat.freenode.net/?channels=lnd)
 
-* How to see `alice` | `bob` | `btcd` logs?
+* How to see `alice` | `bob` | `btgd` logs?
 ```bash
-docker-compose logs <alice|bob|btcd>
+docker-compose logs <alice|bob|btgd>
 ```

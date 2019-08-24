@@ -43,7 +43,7 @@ RPCUSER=$(set_default "$RPCUSER" "devuser")
 RPCPASS=$(set_default "$RPCPASS" "devpass")
 DEBUG=$(set_default "$DEBUG" "debug")
 NETWORK=$(set_default "$NETWORK" "simnet")
-CHAIN=$(set_default "$CHAIN" "bitcoin")
+CHAIN=$(set_default "$CHAIN" "bitcoingold")
 BACKEND="btgd"
 if [[ "$CHAIN" == "litecoin" ]]; then
     BACKEND="ltcd"

@@ -29,20 +29,20 @@ EXPOSE 28901 28902
 # Copy the compiled binaries from the builder image.
 COPY --from=builder /go/bin/addblock /bin/
 COPY --from=builder /go/bin/btcctl /bin/
-COPY --from=builder /go/bin/btcd /bin/
+COPY --from=builder /go/bin/btgd /bin/
 COPY --from=builder /go/bin/findcheckpoint /bin/
 COPY --from=builder /go/bin/gencerts /bin/
 
 COPY "start-btcctl.sh" .
-COPY "start-btcd.sh" .
+COPY "start-btgd.sh" .
 
 RUN apk add --no-cache \
     bash \
     ca-certificates \
-&&  mkdir "/rpc" "/root/.btcd" "/root/.btcctl" \
-&&  touch "/root/.btcd/btcd.conf" \
+&&  mkdir "/rpc" "/root/.btgd" "/root/.btcctl" \
+&&  touch "/root/.btgd/btgd.conf" \
 &&  chmod +x start-btcctl.sh \
-&&  chmod +x start-btcd.sh \
+&&  chmod +x start-btgd.sh \
 # Manually generate certificate and add all domains, it is needed to connect
 # "btcctl" and "lnd" to "btcd" over docker links.
 && "/bin/gencerts" --host="*" --directory="/rpc" --force

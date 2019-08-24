@@ -4,10 +4,10 @@ services:
     # btc is an image of bitcoin node which used as base image for btcd and
     # btccli. The environment variables default values determined on stage of
     # container start within starting script.
-    btc:
-      image: btcd
+    btg:
+      image: btgd
       build:
-        context: btcd/
+        context: btgd/
       volumes:
             - shared:/rpc
             - bitcoin:/data
@@ -16,20 +16,20 @@ services:
         - RPCPASS
         - NETWORK
 
-    btcd:
-        extends: btc
-        container_name: btcd
+    btgd:
+        extends: btg
+        container_name: btgd
         environment:
           - DEBUG
           - MINING_ADDRESS
           - NETWORK
-        entrypoint: ["./start-btcd.sh"]
+        entrypoint: ["./start-btgd.sh"]
 
     btcctl:
-        extends: btc
+        extends: btg
         container_name: btcctl
         links:
-            - "btcd:rpcserver"
+            - "btgd:rpcserver"
         entrypoint: ["./start-btcctl.sh"]
 
 
@@ -85,11 +85,11 @@ services:
       links:
           - "ltcd:blockchain"
 
-    lnd_btc:
+    lnd_btg:
       extends: lnd
-      container_name: lnd_btc
+      container_name: lnd_btg
       links:
-          - "btcd:blockchain"
+          - "btgd:blockchain"
 
 volumes:
   # shared volume is need to store the btcd rpc certificates and use it within
