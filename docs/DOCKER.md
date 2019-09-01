@@ -2,7 +2,7 @@
 
 ## Development/testing
 
-For development or testing, or to spin up a `btcd` backend alongside `lnd`,
+For development or testing, or to spin up a `btgd` backend alongside `lnd`,
 check out the documentation at [docker/README.md](../docker/README.md).
 
 ## Production
@@ -28,7 +28,7 @@ persist through container restarts.
 You can also optionally manually specify a local folder to be used as a volume:
 
 ```
-$ docker create --name=lnd -v /media/lnd-docker/:/root/.lnd BTCGPU/lnd [command-line options]
+$ docker create --name=lnd -v /media/lnd-docker/:/root/.lnd btcgpu/lnd [command-line options]
 ```
 
 ## Example
@@ -36,7 +36,7 @@ $ docker create --name=lnd -v /media/lnd-docker/:/root/.lnd BTCGPU/lnd [command-
 Here is an example testnet `lnd` that uses Neutrino:
 
 ```
-$ docker create --name lnd-testnet BTCGPU/lnd --bitcoin.active --bitcoin.testnet --bitcoin.node=neutrino --neutrino.connect=faucet.lightning.community
+$ docker create --name lnd-testnet btcgpu/lnd --bitcoingold.active --bitcoingold.testnet --bitcoingold.node=neutrino --neutrino.connect=faucet.lightning.community
 ```
 
 Start the container:
@@ -64,4 +64,4 @@ $ docker logs lnd-testnet
 ```
 
 This is a simple example, it is possible to use any command-line options necessary
-to expose RPC ports, use `btcd` or `bitcoind`, or add additional chains.
+to expose RPC ports, use `btgd` or `bgoldd`, or add additional chains.
