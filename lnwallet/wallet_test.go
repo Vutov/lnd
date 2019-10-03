@@ -3,8 +3,8 @@ package lnwallet
 import (
 	"testing"
 
-	"github.com/btcsuite/btcutil"
-	"github.com/lightningnetwork/lnd/input"
+	"github.com/BTCGPU/lnd/input"
+	btcutil "github.com/btgsuite/btgutil"
 )
 
 // fundingFee is a helper method that returns the fee estimate used for a tx

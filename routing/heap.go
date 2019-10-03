@@ -1,11 +1,12 @@
 package routing
 
 import (
-	"github.com/BTCGPU/lnd/channeldb"
-	"github.com/BTCGPU/lnd/lnwire"
 	"container/heap"
 
-	"github.com/lightningnetwork/lnd/routing/route"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/lnwire"
+
+	"github.com/BTCGPU/lnd/routing/route"
 )
 
 // nodeWithDist is a helper struct that couples the distance from the current

@@ -3,7 +3,7 @@ package routerrpc
 import (
 	"time"
 
-	"github.com/lightningnetwork/lnd/lnwire"
+	"github.com/BTCGPU/lnd/lnwire"
 )
 
 // RoutingConfig contains the configurable parameters that control routing.

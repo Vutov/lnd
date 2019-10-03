@@ -9,18 +9,17 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/btgsuite/btgd/btcec"
+	"github.com/BTCGPU/lnd/chainntnfs"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/contractcourt"
+	"github.com/BTCGPU/lnd/lntypes"
+	"github.com/BTCGPU/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/lnd/ticker"
 	"github.com/btgsuite/btgd/wire"
 	btcutil "github.com/btgsuite/btgutil"
 	"github.com/coreos/bbolt"
 	"github.com/davecgh/go-spew/spew"
-	"github.com/BTCGPU/lnd/chainntnfs"
-	"github.com/BTCGPU/lnd/channeldb"
-	"github.com/BTCGPU/lnd/contractcourt"
-	"github.com/BTCGPU/lnd/lnwallet"
-	"github.com/BTCGPU/lnd/lntypes"
-	"github.com/BTCGPU/lnd/lnwire"
-	"github.com/BTCGPU/lnd/ticker"
 )
 
 const (
