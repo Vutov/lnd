@@ -9,6 +9,7 @@ import (
 	"github.com/davecgh/go-spew/spew"
 	"github.com/BTCGPU/lnd/lnpeer"
 	"github.com/BTCGPU/lnd/lntest"
+	"github.com/lightningnetwork/lnd/lntest/wait"
 	"github.com/BTCGPU/lnd/lnwire"
 )
 
@@ -244,7 +245,7 @@ func TestReliableSenderStaleMessages(t *testing.T) {
 	// message store since it is seen as stale and has been sent at least
 	// once. Once the message is removed, the peerHandler should be torn
 	// down as there are no longer any pending messages within the store.
-	err := lntest.WaitNoError(func() error {
+	err := wait.NoError(func() error {
 		msgs, err := reliableSender.cfg.MessageStore.MessagesForPeer(
 			peerPubKey,
 		)

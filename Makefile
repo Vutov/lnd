@@ -1,21 +1,27 @@
-PKG := github.com/BTCGPU/lnd
-ESCPKG := github.com\/BTCGPU\/lnd
+PKG := github.com/lightningnetwork/lnd
+ESCPKG := github.com\/lightningnetwork\/lnd
+MOBILE_PKG := $(PKG)/mobile
 
-BTCD_PKG := github.com/btgsuite/btgd
+BTCD_PKG := github.com/btcsuite/btcd
 GOVERALLS_PKG := github.com/mattn/goveralls
-LINT_PKG := gopkg.in/alecthomas/gometalinter.v2
+LINT_PKG := github.com/golangci/golangci-lint/cmd/golangci-lint
 GOACC_PKG := github.com/ory/go-acc
 
 GO_BIN := ${GOPATH}/bin
-BTCD_BIN := $(GO_BIN)/btgd
+BTCD_BIN := $(GO_BIN)/btcd
+GOMOBILE_BIN := GO111MODULE=off $(GO_BIN)/gomobile
 GOVERALLS_BIN := $(GO_BIN)/goveralls
-LINT_BIN := $(GO_BIN)/gometalinter.v2
+LINT_BIN := $(GO_BIN)/golangci-lint
 GOACC_BIN := $(GO_BIN)/go-acc
 
 BTCD_DIR :=${GOPATH}/src/$(BTCD_PKG)
+MOBILE_BUILD_DIR :=${GOPATH}/src/$(MOBILE_PKG)/build
+IOS_BUILD_DIR := $(MOBILE_BUILD_DIR)/ios
+IOS_BUILD := $(IOS_BUILD_DIR)/Lndmobile.framework
+ANDROID_BUILD_DIR := $(MOBILE_BUILD_DIR)/android
+ANDROID_BUILD := $(ANDROID_BUILD_DIR)/Lndmobile.aar
 
-#COMMIT := $(shell git describe --abbrev=40 --dirty)
-COMMIT := $(shell git rev-parse HEAD)
+COMMIT := $(shell git describe --abbrev=40 --dirty)
 LDFLAGS := -ldflags "-X $(PKG)/build.Commit=$(COMMIT)"
 
 BTCD_COMMIT := $(shell cat go.mod | \
@@ -24,16 +30,17 @@ BTCD_COMMIT := $(shell cat go.mod | \
 		awk -F " " '{ print $$2 }' | \
 		awk -F "/" '{ print $$1 }')
 
+LINT_COMMIT := v1.18.0
 GOACC_COMMIT := ddc355013f90fea78d83d3a6c71f1d37ac07ecd5
 
+DEPGET := cd /tmp && GO111MODULE=on go get -v
 GOBUILD := GO111MODULE=on go build -v
 GOINSTALL := GO111MODULE=on go install -v
 GOTEST := GO111MODULE=on go test -v
 
 GOFILES_NOVENDOR = $(shell find . -type f -name '*.go' -not -path "./vendor/*")
-GOLIST := go list $(PKG)/... | grep -v '/vendor/'
-GOLISTCOVER := $(shell go list -f '{{.ImportPath}}' ./... | sed -e 's/^$(ESCPKG)/./')
-GOLISTLINT := $(shell go list -f '{{.Dir}}' ./... | grep -v 'lnrpc')
+GOLIST := go list -deps $(PKG)/... | grep '$(PKG)'| grep -v '/vendor/'
+GOLISTCOVER := $(shell go list -deps -f '{{.ImportPath}}' ./... | grep '$(PKG)' | sed -e 's/^$(ESCPKG)/./')
 
 RM := rm -f
 CP := cp
@@ -44,15 +51,7 @@ include make/testing_flags.mk
 
 DEV_TAGS := $(if ${tags},$(DEV_TAGS) ${tags},$(DEV_TAGS))
 
-LINT = $(LINT_BIN) \
-	--disable-all \
-	--enable=gofmt \
-	--enable=vet \
-	--enable=golint \
-	--line-length=72 \
-	--deadline=4m $(GOLISTLINT) 2>&1 | \
-	grep -v 'ALL_CAPS\|OP_' 2>&1 | \
-	tee /dev/stderr
+LINT = $(LINT_BIN) run -v
 
 GREEN := "\\033[0;32m"
 NC := "\\033[0m"
@@ -73,19 +72,16 @@ $(GOVERALLS_BIN):
 	go get -u $(GOVERALLS_PKG)
 
 $(LINT_BIN):
-	@$(call print, "Fetching gometalinter.v2")
-	GO111MODULE=off go get -u $(LINT_PKG)
+	@$(call print, "Fetching linter")
+	$(DEPGET) $(LINT_PKG)@$(LINT_COMMIT)
 
 $(GOACC_BIN):
 	@$(call print, "Fetching go-acc")
-	go get -u -v $(GOACC_PKG)@$(GOACC_COMMIT)
-	$(GOINSTALL) $(GOACC_PKG)
+	$(DEPGET) $(GOACC_PKG)@$(GOACC_COMMIT)
 
-btgd:
-	@$(call print, "Installing btgd.")
-	GO111MODULE=on go get -v $(BTCD_PKG)@$(BTCD_COMMIT)
-	$(GOINSTALL) $(BTCD_PKG)
-	$(GOINSTALL) $(BTCD_PKG)/cmd/btcctl
+btcd:
+	@$(call print, "Installing btcd.")
+	$(DEPGET) $(BTCD_PKG)@$(BTCD_COMMIT)
 
 # ============
 # INSTALLATION
@@ -119,9 +115,9 @@ itest-only:
 	@$(call print, "Running integration tests with ${backend} backend.")
 	$(ITEST)
 
-itest: btgd build-itest itest-only
+itest: btcd build-itest itest-only
 
-unit: btgd
+unit: btcd
 	@$(call print, "Running unit tests.")
 	$(UNIT)
 
@@ -139,9 +135,9 @@ goveralls: $(GOVERALLS_BIN)
 	$(GOVERALLS_BIN) -coverprofile=coverage.txt -service=travis-ci
 
 
-travis-race: lint btgd unit-race
+travis-race: lint btcd unit-race
 
-travis-cover: lint btgd unit-cover goveralls
+travis-cover: lint btcd unit-cover goveralls
 
 travis-itest: lint itest
 
@@ -167,8 +163,7 @@ fmt:
 
 lint: $(LINT_BIN)
 	@$(call print, "Linting source.")
-	GO111MODULE=off $(LINT_BIN) --install 1> /dev/null
-	test -z "$$($(LINT))"
+	$(LINT)
 
 list:
 	@$(call print, "Listing commands.")
@@ -181,6 +176,26 @@ rpc:
 	@$(call print, "Compiling protos.")
 	cd ./lnrpc; ./gen_protos.sh
 
+mobile-rpc:
+	@$(call print, "Creating mobile RPC from protos.")
+	cd ./mobile; ./gen_bindings.sh
+
+vendor:
+	@$(call print, "Re-creating vendor directory.")
+	rm -r vendor/; GO111MODULE=on go mod vendor
+
+ios: vendor mobile-rpc
+	@$(call print, "Building iOS framework ($(IOS_BUILD)).")
+	mkdir -p $(IOS_BUILD_DIR)
+	$(GOMOBILE_BIN) bind -target=ios -tags="ios $(DEV_TAGS) autopilotrpc experimental" $(LDFLAGS) -v -o $(IOS_BUILD) $(MOBILE_PKG)
+
+android: vendor mobile-rpc
+	@$(call print, "Building Android library ($(ANDROID_BUILD)).")
+	mkdir -p $(ANDROID_BUILD_DIR)
+	$(GOMOBILE_BIN) bind -target=android -tags="android $(DEV_TAGS) autopilotrpc experimental" $(LDFLAGS) -v -o $(ANDROID_BUILD) $(MOBILE_PKG)
+
+mobile: ios android
+
 clean:
 	@$(call print, "Cleaning source.$(NC)")
 	$(RM) ./lnd-debug ./lncli-debug
@@ -189,7 +204,7 @@ clean:
 
 
 .PHONY: all \
-	btgd \
+	btcd \
 	default \
 	build \
 	install \
@@ -210,4 +225,9 @@ clean:
 	lint \
 	list \
 	rpc \
+	mobile-rpc \
+	vendor \
+	ios \
+	android \
+	mobile \
 	clean

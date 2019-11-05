@@ -13,6 +13,7 @@ import (
 	"github.com/btgsuite/btgwallet/waddrmgr"
 	"github.com/BTCGPU/neutrino"
 	"github.com/BTCGPU/lnd/lnwallet"
+	"github.com/lightninglabs/neutrino/headerfs"
 )
 
 var (
@@ -48,7 +49,7 @@ func (b *BtcWallet) GetUtxo(op *wire.OutPoint, pkScript []byte,
 				OutPoint: *op,
 				PkScript: pkScript,
 			}),
-			neutrino.StartBlock(&waddrmgr.BlockStamp{
+			neutrino.StartBlock(&headerfs.BlockStamp{
 				Height: int32(heightHint),
 			}),
 			neutrino.QuitChan(cancel),

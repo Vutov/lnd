@@ -19,25 +19,11 @@ import (
 )
 
 var (
-	lnwalletHomeDir = btcutil.AppDataDir("lnwallet", false)
-	defaultDataDir  = lnwalletHomeDir
-
-	defaultLogFilename = "lnwallet.log"
-	defaultLogDirname  = "logs"
-	defaultLogDir      = filepath.Join(lnwalletHomeDir, defaultLogDirname)
-
-	btcdHomeDir        = btcutil.AppDataDir("btgd", false)
-	btcdHomedirCAFile  = filepath.Join(btcdHomeDir, "rpc.cert")
-	defaultRPCKeyFile  = filepath.Join(lnwalletHomeDir, "rpc.key")
-	defaultRPCCertFile = filepath.Join(lnwalletHomeDir, "rpc.cert")
-
 	// defaultPubPassphrase is the default public wallet passphrase which is
 	// used when the user indicates they do not want additional protection
 	// provided by having all public data in the wallet encrypted by a
 	// passphrase only known to them.
 	defaultPubPassphrase = []byte("public")
-
-	walletDbName = "lnwallet.db"
 )
 
 // Config is a struct which houses configuration parameters which modify the
@@ -90,6 +76,11 @@ type Config struct {
 	// encrypted at all, in which case it should be attempted to be loaded
 	// normally when creating the BtcWallet.
 	Wallet *wallet.Wallet
+
+	// NoFreelistSync, if true, prevents the database from syncing its
+	// freelist to disk, resulting in improved performance at the expense of
+	// increased startup time.
+	NoFreelistSync bool
 }
 
 // NetworkDir returns the directory name of a network directory to hold wallet
