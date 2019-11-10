@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/lightningnetwork/lightning-onion"
-	"github.com/lightningnetwork/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/record"
-	"github.com/lightningnetwork/lnd/tlv"
+	"github.com/BTCGPU/lightning-onion"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/lnd/record"
+	"github.com/BTCGPU/lnd/tlv"
 )
 
 // ErrInvalidPayload is an error returned when a parsed onion payload either

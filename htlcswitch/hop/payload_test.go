@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/lightningnetwork/lnd/htlcswitch/hop"
-	"github.com/lightningnetwork/lnd/record"
+	"github.com/BTCGPU/lnd/htlcswitch/hop"
+	"github.com/BTCGPU/lnd/record"
 )
 
 type decodePayloadTest struct {

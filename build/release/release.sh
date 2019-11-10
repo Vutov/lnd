@@ -73,7 +73,7 @@ SYS=${LNDBUILDSYS:-"
 
 # Use the first element of $GOPATH in the case where GOPATH is a list
 # (something that is totally allowed).
-PKG="github.com/lightningnetwork/lnd"
+PKG="github.com/BTCGPU/lnd"
 COMMIT=$(git describe --abbrev=40 --dirty)
 COMMITFLAGS="-X $PKG/build.Commit=$COMMIT"
 
@@ -94,8 +94,8 @@ for i in $SYS; do
     cd $PACKAGE-$i-$TAG
 
     echo "Building:" $OS $ARCH $ARM
-    env CGO_ENABLED=0 GOOS=$OS GOARCH=$ARCH GOARM=$ARM go build -v -trimpath -ldflags="-s -w -buildid= $COMMITFLAGS" -tags="autopilotrpc signrpc walletrpc chainrpc invoicesrpc routerrpc watchtowerrpc" github.com/lightningnetwork/lnd/cmd/lnd
-    env CGO_ENABLED=0 GOOS=$OS GOARCH=$ARCH GOARM=$ARM go build -v -trimpath -ldflags="-s -w -buildid= $COMMITFLAGS" -tags="autopilotrpc invoicesrpc walletrpc routerrpc watchtowerrpc" github.com/lightningnetwork/lnd/cmd/lncli
+    env CGO_ENABLED=0 GOOS=$OS GOARCH=$ARCH GOARM=$ARM go build -v -trimpath -ldflags="-s -w -buildid= $COMMITFLAGS" -tags="autopilotrpc signrpc walletrpc chainrpc invoicesrpc routerrpc watchtowerrpc" github.com/BTCGPU/lnd/cmd/lnd
+    env CGO_ENABLED=0 GOOS=$OS GOARCH=$ARCH GOARM=$ARM go build -v -trimpath -ldflags="-s -w -buildid= $COMMITFLAGS" -tags="autopilotrpc invoicesrpc walletrpc routerrpc watchtowerrpc" github.com/BTCGPU/lnd/cmd/lncli
     cd ..
 
     if [[ $OS = "windows" ]]; then

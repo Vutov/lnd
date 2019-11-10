@@ -6,10 +6,10 @@ import (
 	"io/ioutil"
 	"testing"
 
-	"github.com/lightningnetwork/lnd/lnwallet"
-	"github.com/lightningnetwork/lnd/tlv"
-	"github.com/lightningnetwork/lnd/watchtower/blob"
-	"github.com/lightningnetwork/lnd/watchtower/wtwire"
+	"github.com/BTCGPU/lnd/lnwallet"
+	"github.com/BTCGPU/lnd/tlv"
+	"github.com/BTCGPU/lnd/watchtower/blob"
+	"github.com/BTCGPU/lnd/watchtower/wtwire"
 )
 
 // CreateSessionTLV mirrors the wtwire.CreateSession message, but uses TLV for

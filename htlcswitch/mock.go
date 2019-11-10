@@ -24,7 +24,7 @@ import (
 	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/contractcourt"
 	"github.com/BTCGPU/lnd/input"
-	"github.com/lightningnetwork/lnd/htlcswitch/hop"
+	"github.com/BTCGPU/lnd/htlcswitch/hop"
 	"github.com/BTCGPU/lnd/invoices"
 	"github.com/BTCGPU/lnd/lnpeer"
 	"github.com/BTCGPU/lnd/lntypes"

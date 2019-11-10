@@ -15,7 +15,7 @@ import (
 	"github.com/BTCGPU/lnd/lnrpc/invoicesrpc"
 	"github.com/BTCGPU/lnd/lntest"
 	"github.com/BTCGPU/lnd/lntypes"
-	"github.com/lightningnetwork/lnd/lntest/wait"
+	"github.com/BTCGPU/lnd/lntest/wait"
 )
 
 // testMultiHopReceiverChainClaim tests that in the multi-hop setting, if the

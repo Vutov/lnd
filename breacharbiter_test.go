@@ -23,7 +23,7 @@ import (
 	"github.com/BTCGPU/lnd/htlcswitch"
 	"github.com/BTCGPU/lnd/input"
 	"github.com/BTCGPU/lnd/keychain"
-	"github.com/BTCGPU/lnd/lntest"
+	"github.com/BTCGPU/lnd/lntest/wait"
 	"github.com/BTCGPU/lnd/lnwallet"
 	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/shachain"

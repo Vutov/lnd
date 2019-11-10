@@ -43,7 +43,7 @@ import (
 	"github.com/BTCGPU/lnd/autopilot"
 	"github.com/BTCGPU/lnd/build"
 	"github.com/BTCGPU/lnd/channeldb"
-	"github.com/lightningnetwork/lnd/chanacceptor"
+	"github.com/BTCGPU/lnd/chanacceptor"
 	"github.com/BTCGPU/lnd/keychain"
 	"github.com/BTCGPU/lnd/lncfg"
 	"github.com/BTCGPU/lnd/lnrpc"

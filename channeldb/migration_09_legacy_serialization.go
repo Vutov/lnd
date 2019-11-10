@@ -7,9 +7,10 @@ import (
 	"io"
 	"sort"
 
-	"github.com/coreos/bbolt"
+	"github.com/BTCGPU/lnd/lntypes"
 	"github.com/BTCGPU/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/routing/route"
+	"github.com/BTCGPU/lnd/routing/route"
+	"github.com/coreos/bbolt"
 )
 
 var (
@@ -24,7 +25,7 @@ var (
 	paymentBucket = []byte("payments")
 
 	// paymentStatusBucket is the name of the bucket within the database
-	// that stores the status of a payment indexed by the payment's
+	// that stores the status of a payment indexed by the payment'slntypes.Hash
 	// preimage.
 	//
 	// NOTE: Deprecated. Kept around for migration purposes.

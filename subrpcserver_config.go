@@ -10,7 +10,7 @@ import (
 	"github.com/BTCGPU/lnd/htlcswitch"
 	"github.com/BTCGPU/lnd/invoices"
 	"github.com/BTCGPU/lnd/lnrpc/autopilotrpc"
-	"github.com/lightningnetwork/lnd/lncfg"
+	"github.com/BTCGPU/lnd/lncfg"
 	"github.com/BTCGPU/lnd/lnrpc/chainrpc"
 	"github.com/BTCGPU/lnd/lnrpc/invoicesrpc"
 	"github.com/BTCGPU/lnd/lnrpc/routerrpc"
@@ -19,11 +19,11 @@ import (
 	"github.com/BTCGPU/lnd/macaroons"
 	"github.com/BTCGPU/lnd/lnrpc/watchtowerrpc"
 	"github.com/BTCGPU/lnd/netann"
-	"github.com/lightningnetwork/lnd/lnrpc/wtclientrpc"
+	"github.com/BTCGPU/lnd/lnrpc/wtclientrpc"
 	"github.com/BTCGPU/lnd/routing"
 	"github.com/BTCGPU/lnd/sweep"
 	"github.com/BTCGPU/lnd/watchtower"
-	"github.com/lightningnetwork/lnd/watchtower/wtclient"
+	"github.com/BTCGPU/lnd/watchtower/wtclient"
 )
 
 // subRPCServerConfigs is special sub-config in the main configuration that

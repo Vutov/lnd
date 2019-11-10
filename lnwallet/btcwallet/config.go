@@ -6,7 +6,6 @@ import (
 
 	"github.com/btgsuite/btgd/chaincfg"
 	"github.com/btgsuite/btgd/wire"
-	btcutil "github.com/btgsuite/btgutil"
 
 	"github.com/btgsuite/btgwallet/chain"
 	"github.com/btgsuite/btgwallet/wallet"

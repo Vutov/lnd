@@ -6,10 +6,10 @@ import (
 	"testing"
 
 	"github.com/davecgh/go-spew/spew"
-	sphinx "github.com/lightningnetwork/lightning-onion"
-	"github.com/lightningnetwork/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/record"
-	"github.com/lightningnetwork/lnd/tlv"
+	sphinx "github.com/BTCGPU/lightning-onion"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/lnd/record"
+	"github.com/BTCGPU/lnd/tlv"
 )
 
 // TestSphinxHopIteratorForwardingInstructions tests that we're able to

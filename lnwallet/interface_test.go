@@ -22,7 +22,7 @@ import (
 	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/input"
 	"github.com/BTCGPU/lnd/keychain"
-	"github.com/btcsuite/btcd/mempool"
+	"github.com/btgsuite/btgd/mempool"
 	"github.com/BTCGPU/lnd/lnwallet"
 	"github.com/BTCGPU/lnd/lnwallet/btcwallet"
 	"github.com/BTCGPU/lnd/lnwire"

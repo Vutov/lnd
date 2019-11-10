@@ -1,14 +1,14 @@
-PKG := github.com/lightningnetwork/lnd
-ESCPKG := github.com\/lightningnetwork\/lnd
+PKG := github.com/BTCGPU/lnd
+ESCPKG := github.com\/BTCGPU\/lnd
 MOBILE_PKG := $(PKG)/mobile
 
-BTCD_PKG := github.com/btcsuite/btcd
+BTCD_PKG := github.com/btgsuite/btgd
 GOVERALLS_PKG := github.com/mattn/goveralls
 LINT_PKG := github.com/golangci/golangci-lint/cmd/golangci-lint
 GOACC_PKG := github.com/ory/go-acc
 
 GO_BIN := ${GOPATH}/bin
-BTCD_BIN := $(GO_BIN)/btcd
+BTCD_BIN := $(GO_BIN)/btgd
 GOMOBILE_BIN := GO111MODULE=off $(GO_BIN)/gomobile
 GOVERALLS_BIN := $(GO_BIN)/goveralls
 LINT_BIN := $(GO_BIN)/golangci-lint
@@ -79,7 +79,7 @@ $(GOACC_BIN):
 	@$(call print, "Fetching go-acc")
 	$(DEPGET) $(GOACC_PKG)@$(GOACC_COMMIT)
 
-btcd:
+btgd:
 	@$(call print, "Installing btcd.")
 	$(DEPGET) $(BTCD_PKG)@$(BTCD_COMMIT)
 
@@ -115,9 +115,9 @@ itest-only:
 	@$(call print, "Running integration tests with ${backend} backend.")
 	$(ITEST)
 
-itest: btcd build-itest itest-only
+itest: btgd build-itest itest-only
 
-unit: btcd
+unit: btgd
 	@$(call print, "Running unit tests.")
 	$(UNIT)
 
@@ -135,9 +135,9 @@ goveralls: $(GOVERALLS_BIN)
 	$(GOVERALLS_BIN) -coverprofile=coverage.txt -service=travis-ci
 
 
-travis-race: lint btcd unit-race
+travis-race: lint btgd unit-race
 
-travis-cover: lint btcd unit-cover goveralls
+travis-cover: lint btgd unit-cover goveralls
 
 travis-itest: lint itest
 
@@ -204,7 +204,7 @@ clean:
 
 
 .PHONY: all \
-	btcd \
+	btgd \
 	default \
 	build \
 	install \

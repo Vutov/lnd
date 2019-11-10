@@ -27,7 +27,7 @@ import (
 	"github.com/BTCGPU/lnd/contractcourt"
 	"github.com/BTCGPU/lnd/htlcswitch/hodl"
 	"github.com/BTCGPU/lnd/input"
-	"github.com/lightningnetwork/lnd/htlcswitch/hop"
+	"github.com/BTCGPU/lnd/htlcswitch/hop"
 	"github.com/BTCGPU/lnd/lnpeer"
 	"github.com/BTCGPU/lnd/lntypes"
 	"github.com/BTCGPU/lnd/lnwallet"

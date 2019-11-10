@@ -9,11 +9,10 @@ import (
 	"github.com/btgsuite/btgd/wire"
 	btcutil "github.com/btgsuite/btgutil"
 
-	"github.com/btgsuite/btgwallet/chain"
-	"github.com/btgsuite/btgwallet/waddrmgr"
-	"github.com/BTCGPU/neutrino"
 	"github.com/BTCGPU/lnd/lnwallet"
-	"github.com/lightninglabs/neutrino/headerfs"
+	"github.com/BTCGPU/neutrino"
+	"github.com/BTCGPU/neutrino/headerfs"
+	"github.com/btgsuite/btgwallet/chain"
 )
 
 var (

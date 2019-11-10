@@ -12,7 +12,7 @@ import (
 	"github.com/coreos/bbolt"
 	"github.com/BTCGPU/lnd/lntypes"
 	"github.com/BTCGPU/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/tlv"
+	"github.com/BTCGPU/lnd/tlv"
 )
 
 var (

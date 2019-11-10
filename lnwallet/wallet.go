@@ -23,7 +23,7 @@ import (
 	btcutil "github.com/btgsuite/btgutil"
 	"github.com/btgsuite/btgutil/txsort"
 	"github.com/davecgh/go-spew/spew"
-	"github.com/lightningnetwork/lnd/lnwallet/chanvalidate"
+	"github.com/BTCGPU/lnd/lnwallet/chanvalidate"
 )
 
 const (

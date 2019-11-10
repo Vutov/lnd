@@ -16,7 +16,6 @@ import (
 	"github.com/BTCGPU/lnd/chainntnfs"
 	"github.com/BTCGPU/lnd/input"
 	"github.com/BTCGPU/lnd/keychain"
-	"github.com/BTCGPU/lnd/lntypes"
 	"github.com/BTCGPU/lnd/lnwallet"
 )
 

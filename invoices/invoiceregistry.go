@@ -5,12 +5,11 @@ import (
 	"sync"
 	"sync/atomic"
 
-	btcutil "github.com/btgsuite/btgutil"
-	"github.com/davecgh/go-spew/spew"
 	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/lntypes"
 	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/queue"
+	"github.com/davecgh/go-spew/spew"
 )
 
 var (

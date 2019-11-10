@@ -17,7 +17,7 @@ import (
 	btcutil "github.com/btgsuite/btgutil"
 	"github.com/coreos/bbolt"
 	"github.com/BTCGPU/lnd/keychain"
-	"github.com/lightningnetwork/lnd/input"
+	"github.com/BTCGPU/lnd/input"
 	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/shachain"
 )

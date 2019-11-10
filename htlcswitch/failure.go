@@ -4,8 +4,9 @@ import (
 	"bytes"
 	"fmt"
 
-	"github.com/BTCGPU/lightning-onion"
-	"github.com/lightningnetwork/lnd/htlcswitch/hop"
+	sphinx "github.com/BTCGPU/lightning-onion"
+	"github.com/BTCGPU/lnd/htlcswitch/hop"
+	"github.com/BTCGPU/lnd/lnwire"
 )
 
 // ForwardingError wraps an lnwire.FailureMessage in a struct that also

@@ -11,7 +11,7 @@ import (
 	"testing"
 
 	"github.com/BTCGPU/lnd/lnwire"
-	"github.com/btcsuite/btcd/btcec"
+	"github.com/btgsuite/btgd/btcec"
 	"github.com/BTCGPU/lnd/watchtower/blob"
 	"github.com/BTCGPU/lnd/watchtower/wtclient"
 	"github.com/BTCGPU/lnd/watchtower/wtdb"

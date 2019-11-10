@@ -3,16 +3,16 @@ package localchans
 import (
 	"testing"
 
-	"github.com/lightningnetwork/lnd/lnwire"
+	"github.com/BTCGPU/lnd/lnwire"
 
-	"github.com/btcsuite/btcd/chaincfg/chainhash"
-	"github.com/btcsuite/btcutil"
+	"github.com/btgsuite/btgd/chaincfg/chainhash"
+	btcutil "github.com/btgsuite/btgutil"
 
-	"github.com/btcsuite/btcd/wire"
-	"github.com/lightningnetwork/lnd/channeldb"
-	"github.com/lightningnetwork/lnd/discovery"
-	"github.com/lightningnetwork/lnd/htlcswitch"
-	"github.com/lightningnetwork/lnd/routing"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/discovery"
+	"github.com/BTCGPU/lnd/htlcswitch"
+	"github.com/BTCGPU/lnd/routing"
+	"github.com/btgsuite/btgd/wire"
 )
 
 // TestManager tests that the local channel manager properly propagates fee

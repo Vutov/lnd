@@ -6,15 +6,14 @@ import (
 	"reflect"
 	"testing"
 
+	sphinx "github.com/BTCGPU/lightning-onion"
+	"github.com/BTCGPU/lnd/channeldb"
+	"github.com/BTCGPU/lnd/htlcswitch"
+	"github.com/BTCGPU/lnd/htlcswitch/hop"
+	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/btgsuite/btgd/btcec"
 	bitcoinCfg "github.com/btgsuite/btgd/chaincfg"
 	btcutil "github.com/btgsuite/btgutil"
-	"github.com/BTCGPU/lightning-onion"
-	sphinx "github.com/lightningnetwork/lightning-onion"
-	"github.com/BTCGPU/lnd/channeldb"
-	"github.com/BTCGPU/lnd/htlcswitch"
-	"github.com/BTCGPU/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/htlcswitch/hop"
 )
 
 var (

@@ -12,8 +12,8 @@ import (
 	"github.com/btgsuite/btgd/btcec"
 	sphinx "github.com/BTCGPU/lightning-onion"
 	"github.com/BTCGPU/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/record"
-	"github.com/lightningnetwork/lnd/tlv"
+	"github.com/BTCGPU/lnd/record"
+	"github.com/BTCGPU/lnd/tlv"
 )
 
 // VertexSize is the size of the array to store a vertex.

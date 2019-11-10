@@ -19,22 +19,21 @@ import (
 	"strings"
 	"time"
 
+	"github.com/BTCGPU/lnd/autopilot"
 	"github.com/BTCGPU/lnd/build"
 	"github.com/BTCGPU/lnd/chanbackup"
 	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/discovery"
+	"github.com/BTCGPU/lnd/htlcswitch"
 	"github.com/BTCGPU/lnd/htlcswitch/hodl"
 	"github.com/BTCGPU/lnd/lncfg"
+	"github.com/BTCGPU/lnd/lnrpc/routerrpc"
 	"github.com/BTCGPU/lnd/lnrpc/signrpc"
 	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/routing"
 	"github.com/BTCGPU/lnd/tor"
 	btcutil "github.com/btgsuite/btgutil"
 	flags "github.com/jessevdk/go-flags"
-	"github.com/BTCGPU/lnd/autopilot"
-	"github.com/BTCGPU/lnd/lnrpc/routerrpc"
-	"github.com/BTCGPU/lnd/watchtower"
-	"github.com/lightningnetwork/lnd/htlcswitch"
 )
 
 const (

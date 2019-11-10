@@ -10,12 +10,13 @@ import (
 	"testing"
 	"time"
 
+	"github.com/BTCGPU/lnd/lntypes"
+	"github.com/BTCGPU/lnd/lnwire"
+	"github.com/BTCGPU/lnd/routing/route"
 	btcutil "github.com/btgsuite/btgutil"
 	"github.com/coreos/bbolt"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/go-errors/errors"
-	"github.com/BTCGPU/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/routing/route"
 )
 
 // TestPaymentStatusesMigration checks that already completed payments will have

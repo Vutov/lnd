@@ -24,7 +24,7 @@ import (
 
 	"github.com/BTCGPU/lnd/chainntnfs"
 	"github.com/BTCGPU/lnd/channeldb"
-	"github.com/lightningnetwork/lnd/chanacceptor"
+	"github.com/BTCGPU/lnd/chanacceptor"
 	"github.com/BTCGPU/lnd/discovery"
 	"github.com/BTCGPU/lnd/htlcswitch"
 	"github.com/BTCGPU/lnd/input"

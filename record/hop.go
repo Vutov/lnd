@@ -1,7 +1,7 @@
 package record
 
 import (
-	"github.com/lightningnetwork/lnd/tlv"
+	"github.com/BTCGPU/lnd/tlv"
 )
 
 const (

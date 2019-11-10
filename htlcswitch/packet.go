@@ -3,7 +3,7 @@ package htlcswitch
 import (
 	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/htlcswitch/hop"
+	"github.com/BTCGPU/lnd/htlcswitch/hop"
 )
 
 // htlcPacket is a wrapper around htlc lnwire update, which adds additional

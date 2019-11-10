@@ -12,7 +12,7 @@ import (
 	"github.com/btgsuite/btgd/chaincfg/chainhash"
 	"github.com/btgsuite/btgd/rpcclient"
 	"github.com/btgsuite/btgd/wire"
-	"github.com/btcsuite/btcd/txscript"
+	"github.com/btgsuite/btgd/txscript"
 	btcutil "github.com/btgsuite/btgutil"
 	"github.com/BTCGPU/lnd/chainntnfs"
 	"github.com/BTCGPU/lnd/queue"

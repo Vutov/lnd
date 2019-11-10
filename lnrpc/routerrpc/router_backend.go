@@ -17,7 +17,7 @@ import (
 	"github.com/BTCGPU/lnd/routing"
 	"github.com/BTCGPU/lnd/routing/route"
 	"github.com/BTCGPU/lnd/zpay32"
-	"github.com/lightningnetwork/lnd/tlv"
+	"github.com/BTCGPU/lnd/tlv"
 )
 
 // RouterBackend contains the backend implementation of the router rpc sub

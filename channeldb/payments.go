@@ -10,12 +10,12 @@ import (
 	"time"
 
 	"github.com/btgsuite/btgd/btcec"
-	"github.com/btcsuite/btcd/wire"
+	"github.com/btgsuite/btgd/wire"
 	"github.com/coreos/bbolt"
 	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/lntypes"
 	"github.com/BTCGPU/lnd/routing/route"
-	"github.com/lightningnetwork/lnd/tlv"
+	"github.com/BTCGPU/lnd/tlv"
 )
 
 var (

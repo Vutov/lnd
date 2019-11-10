@@ -6,7 +6,7 @@ import (
 	"io"
 
 	"github.com/btgsuite/btgd/btcec"
-	sphinx "github.com/lightningnetwork/lightning-onion"
+	sphinx "github.com/BTCGPU/lightning-onion"
 	"github.com/BTCGPU/lnd/lnwire"
 )
 

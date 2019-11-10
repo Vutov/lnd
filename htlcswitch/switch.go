@@ -19,7 +19,7 @@ import (
 	btcutil "github.com/btgsuite/btgutil"
 	"github.com/coreos/bbolt"
 	"github.com/davecgh/go-spew/spew"
-	"github.com/lightningnetwork/lnd/htlcswitch/hop"
+	"github.com/BTCGPU/lnd/htlcswitch/hop"
 )
 
 const (

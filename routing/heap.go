@@ -3,7 +3,6 @@ package routing
 import (
 	"container/heap"
 
-	"github.com/BTCGPU/lnd/channeldb"
 	"github.com/BTCGPU/lnd/lnwire"
 
 	"github.com/BTCGPU/lnd/routing/route"

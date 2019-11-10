@@ -23,7 +23,7 @@ import (
 	btcutil "github.com/btgsuite/btgutil"
 	"github.com/BTCGPU/lnd/lnrpc"
 	"github.com/BTCGPU/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/lntest/wait"
+	"github.com/BTCGPU/lnd/lntest/wait"
 )
 
 // DefaultCSV is the CSV delay (remotedelay) we will start our test nodes with.

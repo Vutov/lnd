@@ -22,13 +22,13 @@ import (
 	"github.com/BTCGPU/lnd/lnwallet"
 	"github.com/BTCGPU/lnd/lntypes"
 	"github.com/BTCGPU/lnd/lnwire"
-	"github.com/lightningnetwork/lnd/lnwallet/chanvalidate"
+	"github.com/BTCGPU/lnd/lnwallet/chanvalidate"
 	"github.com/BTCGPU/lnd/multimutex"
 	"github.com/BTCGPU/lnd/routing/chainview"
 	"github.com/BTCGPU/lnd/routing/route"
 	"github.com/BTCGPU/lnd/zpay32"
 	"github.com/BTCGPU/lnd/ticker"
-	"github.com/lightningnetwork/lnd/tlv"
+	"github.com/BTCGPU/lnd/tlv"
 )
 
 const (

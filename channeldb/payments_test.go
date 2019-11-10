@@ -14,7 +14,7 @@ import (
 	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/lntypes"
 	"github.com/BTCGPU/lnd/routing/route"
-	"github.com/lightningnetwork/lnd/tlv"
+	"github.com/BTCGPU/lnd/tlv"
 )
 
 var (

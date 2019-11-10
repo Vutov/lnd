@@ -8,6 +8,10 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/BTCGPU/lnd/chainntnfs"
+	"github.com/BTCGPU/lnd/queue"
+	"github.com/BTCGPU/neutrino"
+	"github.com/BTCGPU/neutrino/headerfs"
 	"github.com/btgsuite/btgd/btcjson"
 	"github.com/btgsuite/btgd/chaincfg/chainhash"
 	"github.com/btgsuite/btgd/rpcclient"
@@ -15,9 +19,6 @@ import (
 	"github.com/btgsuite/btgd/wire"
 	btcutil "github.com/btgsuite/btgutil"
 	"github.com/btgsuite/btgutil/gcs/builder"
-	"github.com/BTCGPU/neutrino"
-	"github.com/lightninglabs/neutrino/headerfs"
-	"github.com/BTCGPU/lnd/queue"
 )
 
 const (

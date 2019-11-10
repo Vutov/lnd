@@ -9,7 +9,7 @@ import (
 	"sync/atomic"
 
 	"github.com/coreos/bbolt"
-	sphinx "github.com/lightningnetwork/lightning-onion"
+	sphinx "github.com/BTCGPU/lightning-onion"
 	"github.com/BTCGPU/lnd/chainntnfs"
 )
 

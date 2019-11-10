@@ -8,11 +8,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/davecgh/go-spew/spew"
-	"github.com/BTCGPU/lnd/lntest"
-	"github.com/lightningnetwork/lnd/lntest/wait"
+	"github.com/BTCGPU/lnd/lntest/wait"
 	"github.com/BTCGPU/lnd/lnwire"
 	"github.com/BTCGPU/lnd/ticker"
+	"github.com/davecgh/go-spew/spew"
 )
 
 // randPeer creates a random peer.

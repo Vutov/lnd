@@ -13,7 +13,7 @@ import (
 	"github.com/BTCGPU/lnd/lnrpc/walletrpc"
 	"github.com/BTCGPU/lnd/lntest"
 	"github.com/BTCGPU/lnd/sweep"
-	"github.com/lightningnetwork/lnd/lntest/wait"
+	"github.com/BTCGPU/lnd/lntest/wait"
 )
 
 // testCPFP ensures that the daemon can bump an unconfirmed  transaction's fee

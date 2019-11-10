@@ -5,7 +5,7 @@ import (
 	"io"
 
 	"github.com/coreos/bbolt"
-	"github.com/lightningnetwork/lnd/routing/route"
+	"github.com/BTCGPU/lnd/routing/route"
 )
 
 // migrateRouteSerialization migrates the way we serialize routes across the

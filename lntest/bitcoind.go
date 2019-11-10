@@ -11,8 +11,8 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/btcsuite/btcd/chaincfg"
-	"github.com/btcsuite/btcd/rpcclient"
+	"github.com/btgsuite/btgd/chaincfg"
+	"github.com/btgsuite/btgd/rpcclient"
 )
 
 // logDir is the name of the temporary log directory.

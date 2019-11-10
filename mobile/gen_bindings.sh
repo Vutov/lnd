@@ -20,7 +20,7 @@ else
 fi
 
 pkg="lndmobile"
-target_pkg="github.com/lightningnetwork/lnd/lnrpc"
+target_pkg="github.com/BTCGPU/lnd/lnrpc"
 
 # Generate APIs by passing the parsed protos to the falafel plugin.
 opts="package_name=$pkg,target_package=$target_pkg,listeners=lightning=lightningLis walletunlocker=walletUnlockerLis,mem_rpc=1"

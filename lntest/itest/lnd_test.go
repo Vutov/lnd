@@ -40,8 +40,8 @@ import (
 	btcutil "github.com/btgsuite/btgutil"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/go-errors/errors"
-	"github.com/lightningnetwork/lnd/lnrpc/wtclientrpc"
-	"github.com/lightningnetwork/lnd/lntest/wait"
+	"github.com/BTCGPU/lnd/lnrpc/wtclientrpc"
+	"github.com/BTCGPU/lnd/lntest/wait"
 )
 
 var (

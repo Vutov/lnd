@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/lightningnetwork/lnd/tlv"
+	"github.com/BTCGPU/lnd/tlv"
 )
 
 // TestParsedTypes asserts that a Stream will properly return the set of types

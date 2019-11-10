@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/hex"
 
-	"github.com/lightningnetwork/lnd/lnrpc/wtclientrpc"
+	"github.com/BTCGPU/lnd/lnrpc/wtclientrpc"
 )
 
 // TowerSession encompasses information about a tower session.

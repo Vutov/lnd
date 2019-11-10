@@ -8,9 +8,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/lightningnetwork/lnd"
-	"github.com/lightningnetwork/lnd/lnrpc/routerrpc"
-	"github.com/lightningnetwork/lnd/routing/route"
+	"github.com/BTCGPU/lnd"
+	"github.com/BTCGPU/lnd/lnrpc/routerrpc"
+	"github.com/BTCGPU/lnd/routing/route"
 	"github.com/urfave/cli"
 )
 
