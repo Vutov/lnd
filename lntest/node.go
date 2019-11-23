@@ -179,20 +179,20 @@ func (cfg nodeConfig) genArgs() []string {
 
 	switch cfg.NetParams {
 	case &chaincfg.TestNet3Params:
-		args = append(args, "--bitcoin.testnet")
+		args = append(args, "--bitcoingold.testnet")
 	case &chaincfg.SimNetParams:
-		args = append(args, "--bitcoin.simnet")
+		args = append(args, "--bitcoingold.simnet")
 	case &chaincfg.RegressionNetParams:
-		args = append(args, "--bitcoin.regtest")
+		args = append(args, "--bitcoingold.regtest")
 	}
 
 	backendArgs := cfg.BackendCfg.GenArgs()
 	args = append(args, backendArgs...)
-	args = append(args, "--bitcoin.active")
+	args = append(args, "--bitcoingold.active")
 	args = append(args, "--nobootstrap")
 	args = append(args, "--debuglevel=debug")
-	args = append(args, "--bitcoin.defaultchanconfs=1")
-	args = append(args, fmt.Sprintf("--bitcoin.defaultremotedelay=%v", DefaultCSV))
+	args = append(args, "--bitcoingold.defaultchanconfs=1")
+	args = append(args, fmt.Sprintf("--bitcoingold.defaultremotedelay=%v", DefaultCSV))
 	args = append(args, fmt.Sprintf("--rpclisten=%v", cfg.RPCAddr()))
 	args = append(args, fmt.Sprintf("--restlisten=%v", cfg.RESTAddr()))
 	args = append(args, fmt.Sprintf("--listen=%v", cfg.P2PAddr()))
